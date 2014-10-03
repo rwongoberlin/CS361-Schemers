@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/tileModel.js">
+    <Files>
+      <File FileName="Assets/Scripts/gameManagaer.js" Line="52" Column="11" />
+      <File FileName="Assets/Scripts/tile.js" Line="39" Column="1" />
+      <File FileName="Assets/Scripts/tileModel.js" Line="42" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
