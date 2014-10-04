@@ -1,4 +1,4 @@
-﻿var owner : character;
+var owner : character;
 
 var x : float;
 var y : float;
@@ -46,48 +46,71 @@ function init(o : character, row : float, column : float, r : float, Tile : tile
 	
 }
 
+function legalMove(pos : int) {
+	if (currentTile.neighborsList[pos].type == 1) {
+		return false;
+	}
+	else return true;
+}
+
 function Update() {
 	if (type == 0) {
 		if (Input.GetKeyDown("right")) {
-			currentTile = currentTile.neighborsList[0];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(0)) {
+				currentTile = currentTile.neighborsList[0];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 		if (Input.GetKeyDown("down")) {
-			currentTile = currentTile.neighborsList[1];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(1)) {
+				currentTile = currentTile.neighborsList[1];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 		if (Input.GetKeyDown("left")) {
-			currentTile = currentTile.neighborsList[2];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(2)) {
+				currentTile = currentTile.neighborsList[2];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 		if (Input.GetKeyDown("up")) {
-			currentTile = currentTile.neighborsList[3];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(3)) {
+				currentTile = currentTile.neighborsList[3];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 	} else {
 		if (Input.GetKeyDown("left")) {
-			currentTile = currentTile.neighborsList[0];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(0)) {
+				currentTile = currentTile.neighborsList[0];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 		if (Input.GetKeyDown("up")) {
-			currentTile = currentTile.neighborsList[1];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(1)) {
+				currentTile = currentTile.neighborsList[1];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 		if (Input.GetKeyDown("right")) {
-			currentTile = currentTile.neighborsList[2];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(2)) {
+				currentTile = currentTile.neighborsList[2];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 		if (Input.GetKeyDown("down")) {
-			currentTile = currentTile.neighborsList[3];
-			transform.position.x = currentTile.x;
-			transform.position.y = currentTile.y;
+			if (legalMove(3)) {
+				currentTile = currentTile.neighborsList[3];
+				transform.position.x = currentTile.x;
+				transform.position.y = currentTile.y;
+			}
 		}
 	
 	}
