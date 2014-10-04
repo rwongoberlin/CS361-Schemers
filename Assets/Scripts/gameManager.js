@@ -1,4 +1,4 @@
-﻿var tileFolder : GameObject;
+var tileFolder : GameObject;
 var tiles : Array;
 public var tiles2 : Array;
 
@@ -88,7 +88,7 @@ function generateBoard(columns : float, rows : float) {
 	for(var i : int=0; i < columns; i++) {
 		var columnNum = new Array();
 		for(var j : int=0; j < rows; j++) {
-			var currentT = addTile(i, j);
+			var currentT = addTile(i, j, 0);
 			columnNum.Add(currentT);		
 		}
 		tiles2.Add(columnNum);
@@ -99,14 +99,14 @@ function tileAt(x : float, y : float) {
 	return tiles2[x][y];
 }
 
-function addTile(x : float, y : float) { 
+function addTile(x : float, y : float, t : int) { 
 	var tileObject = new GameObject();
 	var tileScript = tileObject.AddComponent("tile");
 	
 	tileScript.transform.parent = tileFolder.transform;
 	tileScript.transform.position = Vector3(x, y, 0);
 	
-	tileScript.init(x, y);
+	tileScript.init(x, y, t);
 	
 	tiles.Add(tileScript);
 	tileScript.name = "Tile " + tiles.length;
