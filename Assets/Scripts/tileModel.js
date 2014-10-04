@@ -1,4 +1,4 @@
-﻿var click;
+var click;
 var tiles;
 var tileType;
 
@@ -7,7 +7,12 @@ function init(T : tile) {
 	transform.localPosition = Vector3(0,0,0);	
 	name = "Tile Model";							
 	
-	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);	
+	if (T.type == 0) {
+		renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);
+	}
+	else {
+		renderer.material.mainTexture = Resources.Load("Textures/wall", Texture2D);
+	}
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");	
 

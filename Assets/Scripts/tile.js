@@ -1,11 +1,13 @@
-﻿var neighborsList : Array;
+var neighborsList : Array;
 var x : float;
 var y : float;
+var type : int;
 
-function init(xS : float, yS : float) {
+function init(xS : float, yS : float, t : int) {
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
 	x = xS;
 	y = yS;
+	type = t;
 	neighborsList = new Array();
 	model = modelObject.AddComponent("tileModel");	
 	//model = modelObject.AddComponent("BoxCollider");			 		
