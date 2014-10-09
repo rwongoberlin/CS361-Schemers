@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{4B4FE61D-F5F4-3CFB-C882-4F6DDF98F338}</ProjectGuid>
+	<ProjectGuid>{A9418DCC-7FC4-F52F-15C3-AA9783A95222}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,11 +46,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\character.js" />
-     <Compile Include="Assets\Scripts\characterModel.js" />
-     <Compile Include="Assets\Scripts\gameManager.js" />
-     <Compile Include="Assets\Scripts\tile.js" />
-     <Compile Include="Assets\Scripts\tileModel.js" />
+     <Compile Include="Assets\Resources\Scripts\character.js" />
+     <Compile Include="Assets\Resources\Scripts\characterModel.js" />
+     <Compile Include="Assets\Resources\Scripts\gameManager.js" />
+     <Compile Include="Assets\Resources\Scripts\target.js" />
+     <Compile Include="Assets\Resources\Scripts\targetModel.js" />
+     <Compile Include="Assets\Resources\Scripts\tile.js" />
+     <Compile Include="Assets\Resources\Scripts\tileModel.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
