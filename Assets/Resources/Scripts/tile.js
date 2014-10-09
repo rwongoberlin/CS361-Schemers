@@ -3,7 +3,9 @@ var x : float;
 var y : float;
 var t : target;
 var charOn : int; // if 0, nothing on, if 1, character is on tile
+var type: int;
 
+//keeping it in for now
 function init(xS : float, yS : float) {
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
 	x = xS;
@@ -12,8 +14,28 @@ function init(xS : float, yS : float) {
 	t = null;
 	charOn = 0;
 	model = modelObject.AddComponent("tileModel");			 		
-	model.init(this);	
+	model.init(this,0);	
 }	
+
+function init(xS : float, yS : float, t: String) {
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
+	x = xS;
+	y = yS;
+	if (t == '_') {
+		type = 0;
+	} else if (t == 'x') {
+		type = 1;
+	} else if (t == 'o') {
+		type = 2;
+	}
+	else type = 0;
+	neighborsList = new Array();	
+	model = modelObject.AddComponent("tileModel");	
+	//model = modelObject.AddComponent("BoxCollider");		
+	model.init(this, type);	
+	 	
+}
+
 
 function addChar() { //we can change this to simply hold the character later, rather than an int
 	charOn = 1;

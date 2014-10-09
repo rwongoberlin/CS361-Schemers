@@ -12,7 +12,7 @@ var speed : float;
 var tiles : Array;
 
 function init(row : float, column : float, r : float, Tile : tile, tileList : Array, typeL : int, targets : Array) {
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the marble texture.
-	model = modelObject.AddComponent("characterModel");					// Add a marbleModel script to control visuals of the marble.
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the character texture.
+	model = modelObject.AddComponent("characterModel");					// Add a characterModel script to control visuals of the character.
 	model.init(this, row, column, r, Tile, tileList, typeL, targets);													// Initialize the model.   
 }

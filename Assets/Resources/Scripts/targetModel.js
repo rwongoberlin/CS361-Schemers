@@ -11,8 +11,9 @@ function init(o : target, typeS : int, countS : int) {
 	transform.localPosition = Vector3(0,0, -0.001);	
 	name = "Target Model";							
 	
+	
 	renderer.material.mainTexture = Resources.Load("Textures/gem" + type, Texture2D);	
-	renderer.material.color = Color(1,1,1);										
+	renderer.material.color = Color(1+count,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");	
 }
 //
