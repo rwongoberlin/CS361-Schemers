@@ -53,6 +53,11 @@
      <Compile Include="Assets\Resources\Scripts\targetModel.js" />
      <Compile Include="Assets\Resources\Scripts\tile.js" />
      <Compile Include="Assets\Resources\Scripts\tileModel.js" />
+     <Compile Include="Assets\Scripts\character.js" />
+     <Compile Include="Assets\Scripts\characterModel.js" />
+     <Compile Include="Assets\Scripts\gameManager.js" />
+     <Compile Include="Assets\Scripts\tile.js" />
+     <Compile Include="Assets\Scripts\tileModel.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
