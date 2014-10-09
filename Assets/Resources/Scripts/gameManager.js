@@ -41,18 +41,7 @@ function Start () {
 	
 	generateBoard(boardsize, boardsize);
 	setNeighbors();
-	//about to be deleted
-	//addCharacter(0, 1, 1, 0);
-	//addCharacter(2, 2, 3, 1);
-	
-	//addTarget(0, 0, 1, 1);
-	//addTarget(0, 4, 1, 2);
 
-	//addTarget(4, 4, 2, 1);
-	//addTarget(3, 2, 2, 2);
-	
-
-		//print(maincCount);
 	buildMap(level);
 	addCounter();
 }
@@ -196,7 +185,8 @@ function addTile(x : float, y : float) {
 	tileScript.init(x, y);
 	
 	tiles.Add(tileScript);
-	tileScript.name = "Tile " + tiles.length;
+	tileScript.name = "Tile " +x+","+y;
+	// tiles.length;
 	return tileScript;	 
 }
 

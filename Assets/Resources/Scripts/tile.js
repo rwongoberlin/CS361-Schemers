@@ -14,7 +14,7 @@ function init(xS : float, yS : float) {
 	t = null;
 	charOn = 0;
 	model = modelObject.AddComponent("tileModel");			 		
-	model.init(this,0);	
+	model.init(this,4);	
 }	
 
 function init(xS : float, yS : float, t: String) {

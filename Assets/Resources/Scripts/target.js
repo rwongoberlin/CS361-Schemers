@@ -11,6 +11,7 @@ function init(xS : int, yS : int, typeS : int, countS : int) {
 	count = countS;
 	model = modelObject.AddComponent("targetModel");
 	model.init(this, type, count);
+	
 }
 
 function getCount() {
