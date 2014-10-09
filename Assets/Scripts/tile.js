@@ -10,7 +10,13 @@ function init(xS : float, yS : float) {
 	model = modelObject.AddComponent("tileModel");	
 	//model = modelObject.AddComponent("BoxCollider");			 		
 	model.init(this);	
-}	
+}
+
+/*
+TODO must take a tileTYpe
+*/
+function init(xS : float, yS : float, type : String) {
+}
 
 function getX() {
 	return x;
