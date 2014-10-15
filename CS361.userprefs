@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/characterModel.js">
+    <Files>
+      <File FileName="Assets/Resources/Scripts/characterModel.js" Line="115" Column="59" />
+      <File FileName="Assets/Resources/Scripts/characterModel.js" Line="143" Column="1" />
+      <File FileName="Assets/Resources/Scripts/gameManager.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/targetModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/tile.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/target.js" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
