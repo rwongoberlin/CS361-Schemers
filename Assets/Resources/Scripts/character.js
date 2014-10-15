@@ -12,6 +12,7 @@ var speed : float;
 var model;
 
 var tiles : Array;
+var numtargets : int;
 
 function init(row : float, column : float, r : float, Tile : tile, tileList : Array, typeL : int, targets : Array, characters : Array) {
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the marble texture.
