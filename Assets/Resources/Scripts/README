@@ -1,0 +1,8 @@
+removed target class and incorporated into tiles
+removed associated target methods
+changed tile names to show up as x,y instead of length numbers
+
+character 1 is blue
+2 is red
+
+first number is target type, second is target number

@@ -15,22 +15,29 @@ function Start () {
 	characterFolder = new GameObject();
 	characterFolder.name = "characters";
 	characters = new Array();
-	var boardsize : int = 8;
+	var boardsize : int = 7;
 	
 	generateBoard(boardsize, boardsize);
 	setNeighbors();
 	
-	addcharacter(0, 1, 1, 1);
-	addcharacter(2, 2, 3, 2);
+	addcharacter(0, 0, 1, 2);
+	addcharacter(6, 2, 1, 1);
 	
-	tiles2[0][0].makeTarget(11); //1 is blue 
-	tiles2[0][4].makeTarget(12); 
+	tiles2[3][1].makeTarget(11); //1 is blue 
+	tiles2[0][2].makeTarget(12); 
 
-	tiles2[4][4].makeTarget(21); //2 is red
-	tiles2[3][2].makeTarget(22);
+	tiles2[2][0].makeTarget(21); //2 is red
+	tiles2[5][0].makeTarget(22);
 
-	tiles2[4][3].makeWall();
-	tiles2[4][2].makePit();
+	tiles2[1][0].makeWall();
+	tiles2[2][1].makeWall();
+
+	tiles2[1][1].makePit();
+	tiles2[4][1].makePit();
+	for(var k: int =0;k<7;k++) {
+		tiles2[k][3].makeWall();
+	}
+
 }
 
 // Called every frame.
@@ -42,7 +49,7 @@ function Update () {
 	}*/
 	characters[0].model.setTile();
 	characters[1].model.setTile();
-	if (!characters[0].model.currentTile.isPit && !characters[1].model.currentTile.isPit) {
+	if (!characters[0].model.currentTile.isPit && !characters[1].model.currentTile.isPit && characters[0].model.currentTile!=characters[1].model.currentTile) {
 		characters[0].model.move();
 		characters[1].model.move();
 	}

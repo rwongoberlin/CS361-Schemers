@@ -1,10 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/tileModel.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/characterModel.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/tileModel.js" Line="33" Column="25" />
-      <File FileName="Assets/Resources/Scripts/characterModel.js" Line="50" Column="72" />
-      <File FileName="Assets/Resources/Scripts/targetModel.js" Line="23" Column="3" />
+      <File FileName="Assets/Resources/Scripts/tile.js" Line="82" Column="1" />
+      <File FileName="Assets/Resources/Scripts/tileModel.js" Line="59" Column="1" />
+      <File FileName="Assets/Resources/Scripts/characterModel.js" Line="21" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
