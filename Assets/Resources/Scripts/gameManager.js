@@ -51,10 +51,20 @@ function Start () {
 
 // Called every frame.
 function Update () {
-	if (Input.GetMouseButtonUp(0)) { // If the user releases the mouse button, figure out where the mouse is and spawn a gem.
+	/*if (Input.GetMouseButtonUp(0)) { // If the user releases the mouse button, figure out where the mouse is and spawn a gem.
 		var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		var mouseX = worldPos.x;
 		var mouseY = worldPos.y;	
+	}*/
+	characters[0].model.setTile();
+	characters[1].model.setTile();
+	if (!characters[0].model.currentTile.isPit && !characters[1].model.currentTile.isPit) {
+		characters[0].model.move();
+		characters[1].model.move();
+	}
+	else {
+		characters[0].model.pitReset();
+		characters[1].model.pitReset();
 	}
 } 
 

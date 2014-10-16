@@ -3,7 +3,8 @@
 var x : float;
 var y : float;
 
-var currentTile : tile; 
+var currentTile : tile;
+var prevTile : tile;
 var speed : float;
 
 var type : int;
@@ -43,11 +44,10 @@ function init(o : character, row : float, column : float, r : float, Tile : tile
 	transform.localPosition = Vector3(0,0, -0.001);		// Center the model on the parent.
 	name = "Character Model";							// Name the object.
 	
-	renderer.material.mainTexture = Resources.Load("Textures/char1", Texture2D);		// Set the texture.  Must be in Resources folder.
 	if (type == 0) {
-		renderer.material.color = Color.red;	
+	renderer.material.mainTexture = Resources.Load("Textures/character_blue", Texture2D);		// Set the texture.  Must be in Resources folder.
 	} else {
-		renderer.material.color = Color(1,1,1);		
+	renderer.material.mainTexture = Resources.Load("Textures/character_red", Texture2D);		// Set the texture.  Must be in Resources folder.
 	}																					// Set the color (easy way to tint things).
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	
@@ -57,9 +57,9 @@ function init(o : character, row : float, column : float, r : float, Tile : tile
 	
 }
 
-function Update() {
+function setTile() {
 	// will be able to remove setNeighbors and replace with a simple movement scheme
-	var prevTile = currentTile;
+	prevTile = currentTile;
 	var moved = false;
 	if (type == 0) {
 		if (Input.GetKeyDown("right")) {
@@ -98,20 +98,14 @@ function Update() {
 		}
 		
 	}
+}
 	
 	/*So I've done some testing and I don't get the Null Reference exception in other cases where I try to check something about the other tile.
 	I'm thinking it's a problem with using currentTile to check - I think the first character does all of this stuff before the second character tries to move
 	(ie before it has a current tile).
 	Not sure how we can solve this cleanly with the movement model we're using.
 	*/
-	/*if (currentTile.charOn == 0 && currentTile.isWall == 0 && currentTile.isPit == 0 && characters[(type + 1) % 2].currentTile.isPit == 0) {}
-		prevTile.remChar();
-		currentTile.addChar();
-		transform.position.x = currentTile.x;
-		transform.position.y = currentTile.y;
-		moved = true;
-	} else {
-	*/
+	function move() {
 	if (currentTile.charOn == 0 && currentTile.isWall == 0) {
 		prevTile.remChar();
 		currentTile.addChar();
@@ -130,7 +124,11 @@ function Update() {
 			print("hit a target!");
 		}
 	}
-}  
+}
+
+function pitReset() {
+	currentTile = prevTile;
+}
 
 
 
