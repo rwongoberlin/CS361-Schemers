@@ -5,13 +5,6 @@ public var tiles2 : Array;
 var characterFolder : GameObject;
 var characters : Array;
 
-var mainTargets : Array;
-var mirrorTargets : Array;
-var targetFolder : GameObject;
-
-var mainCount : int;
-var mirrorCount : int;
-
 // Called once when the script is created.
 function Start () {
 	tileFolder = new GameObject();
@@ -24,27 +17,18 @@ function Start () {
 	characters = new Array();
 	var boardsize : int = 8;
 	
-	mainTargets = new Array();
-	mirrorTargets = new Array();
-	targetFolder = new GameObject();
-	targetFolder.name = "Targets";
-	
-	mainCount = 0;
-	mirrorCount = 0;
-	
 	generateBoard(boardsize, boardsize);
 	setNeighbors();
 	
-	addcharacter(0, 1, 1, 0);
-	addcharacter(2, 2, 3, 1);
-	//linkCharacters();
+	addcharacter(0, 1, 1, 1);
+	addcharacter(2, 2, 3, 2);
 	
-	addTarget(0, 0, 0, 1);
-	addTarget(0, 4, 0, 2);
-	
-	addTarget(4, 4, 1, 1);
-	addTarget(3, 2, 1, 2);
-	
+	tiles2[0][0].makeTarget(11); //1 is blue 
+	tiles2[0][4].makeTarget(12); 
+
+	tiles2[4][4].makeTarget(21); //2 is red
+	tiles2[3][2].makeTarget(22);
+
 	tiles2[4][3].makeWall();
 	tiles2[4][2].makePit();
 }
@@ -111,9 +95,9 @@ function addcharacter(x : float, y : float, rotation : float, typeL : int) {
 
 	var myTile = tiles2[x][y];
 	if (typeL == 0) {
-		characterScript.init(x, y, rotation, myTile, tiles2, typeL, mainTargets, characters);
+		characterScript.init(x, y, rotation, myTile, tiles2, typeL, characters);
 	} else {
-		characterScript.init(x, y, rotation, myTile, tiles2, typeL, mirrorTargets, characters);
+		characterScript.init(x, y, rotation, myTile, tiles2, typeL, characters);
 	}
 
 	characters.Add(characterScript);
@@ -142,27 +126,6 @@ function tileAt(x : float, y : float) {
 	return tiles2[x][y];
 }
 
-function addTarget(x : int, y : int, type : int, number : int) {
-	var target = new GameObject();
-	var targetScript = 	target.AddComponent("target");
-	
-	targetScript.transform.parent = targetFolder.transform;
-	targetScript.transform.position = Vector3(x, y, 0);
-	
-	targetScript.init(x, y, type, number);
-	
-	var curTile = tiles2[x][y];
-	curTile.addTarget(targetScript);
-	
-	if (type == 1) {
-		mainTargets.Add(target);
-		targetScript.name = "Target " + mainTargets.length;
-	} else if (type == 2) {
-		mirrorTargets.Add(target);
-		targetScript.name = "Target " + mirrorTargets.length;
-	}
-}
-
 function addTile(x : float, y : float) { 
 	var tileObject = new GameObject();
 	var tileScript = tileObject.AddComponent("tile");
@@ -173,6 +136,6 @@ function addTile(x : float, y : float) {
 	tileScript.init(x, y);
 	
 	tiles.Add(tileScript);
-	tileScript.name = "Tile " + tiles.length;
+	tileScript.name = "Tile " + x+","+y;
 	return tileScript;	 
 }

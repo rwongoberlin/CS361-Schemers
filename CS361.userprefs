@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/tileModel.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/tileModel.js" Line="30" Column="55" />
+      <File FileName="Assets/Resources/Scripts/tileModel.js" Line="33" Column="25" />
       <File FileName="Assets/Resources/Scripts/characterModel.js" Line="50" Column="72" />
       <File FileName="Assets/Resources/Scripts/targetModel.js" Line="23" Column="3" />
     </Files>

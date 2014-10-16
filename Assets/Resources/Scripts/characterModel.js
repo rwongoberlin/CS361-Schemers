@@ -15,12 +15,12 @@ var rotation : float;
 
 var tiles : Array;
 var targetCount : int;
-var targets : Array;
-var curTar : target;
+var curTar : int; //now is an int for the number of the target we are supposed to collect
 var tCount : int;
 var characters : Array;
 
-function init(o : character, row : float, column : float, r : float, Tile : tile, tileList : Array, typeL : int, targetsS : Array, characters : Array) {
+
+function init(o : character, row : float, column : float, r : float, Tile : tile, tileList : Array, typeL : int, characters : Array) {
 	owner = o;										
 	
 	type = typeL;
@@ -33,10 +33,9 @@ function init(o : character, row : float, column : float, r : float, Tile : tile
 	speed = 1.0;
 	xLen = tiles.length-1;
 	yLen = tiles[0].length-1;
-	targets = targetsS;
 	targetCount = 1;
 	tCount = 0;
-	curTar = null;
+	curTar = 1; 
 	this.characters = characters;
 	
 	
@@ -44,7 +43,7 @@ function init(o : character, row : float, column : float, r : float, Tile : tile
 	transform.localPosition = Vector3(0,0, -0.001);		// Center the model on the parent.
 	name = "Character Model";							// Name the object.
 	
-	if (type == 0) {
+	if (type == 1) {
 	renderer.material.mainTexture = Resources.Load("Textures/character_blue", Texture2D);		// Set the texture.  Must be in Resources folder.
 	} else {
 	renderer.material.mainTexture = Resources.Load("Textures/character_red", Texture2D);		// Set the texture.  Must be in Resources folder.
@@ -61,7 +60,7 @@ function setTile() {
 	// will be able to remove setNeighbors and replace with a simple movement scheme
 	prevTile = currentTile;
 	var moved = false;
-	if (type == 0) {
+	if (type == 1) {
 		if (Input.GetKeyDown("right")) {
 			currentTile = currentTile.neighborsList[0];
 			transform.eulerAngles = Vector3(0, 0, -90);
@@ -115,13 +114,16 @@ function setTile() {
 	} else {
 		currentTile = prevTile;
 	}
-	if (moved && currentTile.t) {
-		curTar = currentTile.getTarget();
-		if (curTar.getCount() == targetCount && curTar.type == type) {
-			currentTile.remTargets();
-			curTar.destroy();
+
+	//if we have moved, and we're actually stepping on a target
+		curTar = currentTile.getTargetNum();
+		//print(curTar);
+	if (moved && (curTar!=0)) {
+		if (curTar%10 == targetCount && curTar/10 == type) { //integer division since char 1's targets are type 11-19, 2's 21-29
+			//currentTile.remTargets();
+			currentTile.collect();
 			targetCount++;
-			print("hit a target!");
+			//print("hit a target!");
 		}
 	}
 }
