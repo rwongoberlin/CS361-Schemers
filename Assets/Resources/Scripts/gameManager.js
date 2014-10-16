@@ -47,15 +47,15 @@ function Update () {
 		var mouseX = worldPos.x;
 		var mouseY = worldPos.y;	
 	}*/
-	characters[0].model.setTile();
-	characters[1].model.setTile();
-	if (!characters[0].model.currentTile.isPit && !characters[1].model.currentTile.isPit && characters[0].model.currentTile!=characters[1].model.currentTile) {
-		characters[0].model.move();
-		characters[1].model.move();
+	characters[0].setTile();
+	characters[1].setTile();
+	if (!characters[0].currentTile.isPit && !characters[1].currentTile.isPit && characters[0].currentTile!=characters[1].currentTile) {
+		characters[0].move();
+		characters[1].move();
 	}
 	else {
-		characters[0].model.pitReset();
-		characters[1].model.pitReset();
+		characters[0].pitReset();
+		characters[1].pitReset();
 	}
 } 
 
@@ -93,32 +93,46 @@ function setNeighbors() {
 	} 
 }
 
-function addcharacter(x : float, y : float, rotation : float, typeL : int) {
-	var characterObject = new GameObject();
+function addcharacter(x : int, y : int, rotation : int, typeL : int) {
+	var characterObject = GameObject.CreatePrimitive(PrimitiveType.Quad); //new empty game object
+	characterObject=addcharacterModel(characterObject,rotation ,typeL); //set that object to be character textured
 	var characterScript = characterObject.AddComponent("character");
 	
 	characterScript.transform.parent = characterFolder.transform;
 	characterScript.transform.position = Vector3(x, y, 0);
 
 	var myTile = tiles2[x][y];
-	if (typeL == 0) {
+	if (typeL == 1) {
 		characterScript.init(x, y, rotation, myTile, tiles2, typeL, characters);
 	} else {
 		characterScript.init(x, y, rotation, myTile, tiles2, typeL, characters);
 	}
-
+	
 	characters.Add(characterScript);
 	
 	characterScript.name = "character " + characters.length;
 }
 
-/*function linkCharacters() {
-	characters[0].model.otherchar = characters[1];
-	characters[1].model.otherchar = characters[0];
-}*/
+function addcharacterModel(characterObject : GameObject, rotation: int, typeL: int) {
+
+
+	if (typeL == 1) {
+	characterObject.renderer.material.mainTexture = Resources.Load("Textures/character_blue", Texture2D);		// Set the texture.  Must be in Resources folder.
+	} else {
+	characterObject.renderer.material.mainTexture = Resources.Load("Textures/character_red", Texture2D);		// Set the texture.  Must be in Resources folder.
+	}																					// Set the color (easy way to tint things).		renderer.material.color = Color(1,1,1);										
+	characterObject.renderer.material.color = Color(1,1,1);										
+
+	characterObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+	if (rotation == 2) { transform.eulerAngles = Vector3(0, 0, 90); }  
+	else if (rotation == 1) { transform.eulerAngles = Vector3(0, 0, 180); }  
+	else if (rotation == 0) { transform.eulerAngles = Vector3(0, 0,  -90); } 
+
+return characterObject;
+}
 
 // Generates a board randomly (rows is num of rows, columns is the same, turnDensity is num of turn tiles)
-function generateBoard(columns : float, rows : float) {	 
+function generateBoard(columns : int, rows : int) {	 
 	for(var i : int=0; i < columns; i++) {
 		var columnNum = new Array();
 		for(var j : int=0; j < rows; j++) {
@@ -129,11 +143,11 @@ function generateBoard(columns : float, rows : float) {
 	}
 }
 
-function tileAt(x : float, y : float) {
+function tileAt(x : int, y : int) {
 	return tiles2[x][y];
 }
 
-function addTile(x : float, y : float) { 
+function addTile(x : int, y : int) { 
 	var tileObject = new GameObject();
 	var tileScript = tileObject.AddComponent("tile");
 	
