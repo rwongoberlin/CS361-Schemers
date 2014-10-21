@@ -17,10 +17,9 @@ var rotation : int;
 
 var tiles : Array;
 var targetCount : int;
-var curTar : int; //now is an int for the number of the target we are supposed to collect
+//var curTar : int; //now is an int for the number of the target we are supposed to collect
 var tCount : int;
 var characters : Array;
-
 
 function init(row : int, column : int, r : int, Tile : tile, tileList : Array, typeL : int,  characters : Array) {
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the texture.
@@ -87,12 +86,7 @@ function setTile() {
 		
 	}
 }
-	
-	/*So I've done some testing and I don't get the Null Reference exception in other cases where I try to check something about the other tile.
-	I'm thinking it's a problem with using currentTile to check - I think the first character does all of this stuff before the second character tries to move
-	(ie before it has a current tile).
-	Not sure how we can solve this cleanly with the movement model we're using.
-	*/
+
 	function move() {
 	if (currentTile.charOn == 0 && currentTile.isWall == 0) {
 		prevTile.remChar();
@@ -104,29 +98,9 @@ function setTile() {
 		currentTile = prevTile;
 	}
 
-	//if we have moved, and we're actually stepping on a target
-		curTar = currentTile.getTargetNum();
-		//print(curTar);
-	if (moved && (curTar!=0)) {
-		if (curTar%10 == targetCount && curTar/10 == type) { //integer division since char 1's targets are type 11-19, 2's 21-29
-			//currentTile.remTargets();
-			currentTile.collect();
-			targetCount++;
-			//print("hit a target!");
-		}
-	}
 }
 
 function pitReset() {
 	currentTile = prevTile;
 }
-
-
-
-
-
-
-
-
-
 
