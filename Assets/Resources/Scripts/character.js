@@ -1,27 +1,17 @@
 ﻿var x : int;
 var y : int;
-var comingFrom : int;
-var goingTo : int;
 
 var currentTile : tile; 
 var prevTile : tile;
 var nextTile : tile; 
 var clock : int;
-var tempTime : int;
-var speed : int;
 var type : int;
-
-var xLen : int;
-var yLen : int;
 var rotation : int;
 
 var tiles : Array;
-var targetCount : int;
-//var curTar : int; //now is an int for the number of the target we are supposed to collect
-var tCount : int;
-var characters : Array;
+//var characters : Array;
 
-function init(row : int, column : int, r : int, Tile : tile, tileList : Array, typeL : int,  characters : Array) {
+function init(row : int, column : int, r : int, Tile : tile, tileList : Array, typeL : int) {
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the texture.
 //try find method
 	type = typeL;
@@ -31,17 +21,9 @@ function init(row : int, column : int, r : int, Tile : tile, tileList : Array, t
 	x = row;
 	y = column;
 	clock = 0.0;
-	speed = 1.0;
-	xLen = tiles.length-1;
-	yLen = tiles[0].length-1;
-	targetCount = 1;
-	tCount = 0;
-	curTar = 1; 
-	this.characters = characters;
-	
+	//this.characters = characters;
 	transform.localPosition = Vector3(0,0, -0.001);		// Center the model on the parent.
 	name = "Character";							// Name the object.
-
 }
 
 function setTile() {

@@ -8,6 +8,8 @@ var curTarBlue : int = 1; //default starting target number is one
 var curTarRed : int = 1; //default starting target number is one
 var redTargets: Array= new Array(); //array for holding the tile objects of redTargets
 var blueTargets: Array= new Array();  //array for holding the tile objects of the blue targets
+//need to handle edge case for when characters move into the same square, but only one collects
+
 
 // Called once when the script is created.
 function Start () {
@@ -19,37 +21,117 @@ function Start () {
 	characterFolder = new GameObject();
 	characterFolder.name = "characters";
 	characters = new Array();
-	var boardsize : int = 7;
+	var boardsize : int = 8;
 	
 	generateBoard(boardsize, boardsize);
 	setNeighbors();
 	
 
-	addcharacter(6, 2, 1, 1);
-	addcharacter(0, 0, 1, 2);
+	//hardcode of level 1
+	// addcharacter(6, 2, 1, 1);
+	// addcharacter(0, 0, 1, 2);
 	
-	// convertToTarget(3,1,11,curTarBlue); 
+	// convertToTarget(4,2,11,curTarBlue); 
 	// convertToTarget(0,2,12,curTarBlue); 
 	// convertToTarget(2,0,21,curTarRed); 
-	// convertToTarget(5,0,22,curTarRed); 
+	// convertToTarget(6,0,22,curTarRed); 
 
-	 convertToTarget(3,1,11,curTarBlue); 
-	 convertToTarget(2,2,12,curTarBlue); 
-	 convertToTarget(0,2,13,curTarBlue);
+	// tiles2[3][2].makeWall();
 
-	 convertToTarget(2,0,21,curTarRed); 
-	 convertToTarget(3,0,22,curTarRed); 
-	 convertToTarget(4,0,23,curTarRed);
-
-	 tiles2[1][0].makeWall();
+	// tiles2[1][0].makeWall();
 	// tiles2[2][1].makeWall();
 
-	// tiles2[1][1].makePit();
-	// tiles2[4][1].makePit();
-	for(var k: int =0;k<7;k++) {
-		tiles2[k][3].makeWall();
+	// tiles2[1][1].makeWall(); //was pit
+	// tiles2[4][1].makeWall();//was pit
+	// for(var k: int =0;k<boardsize;k++) {
+	// 	tiles2[k][4].makeWall();
+	// }
+
+
+//hardcode for level 2
+//sound example/easy
+// 
+
+	// addcharacter(3, 2, 1, 1);
+	// addcharacter(4, 2, 3, 2);
+	
+	// convertToTarget(4,3,11,curTarBlue); 
+	// convertToTarget(0,3,12,curTarBlue); 
+	// convertToTarget(6,2,13,curTarBlue); 
+
+	// convertToTarget(2,0,21,curTarRed); 
+	// convertToTarget(7,0,22,curTarRed); 
+	// convertToTarget(0,2,23,curTarRed); 
+
+	// // tiles2[3][3].makeWall();
+
+	// // tiles2[1][0].makeWall();
+	// // tiles2[2][1].makeWall();
+
+	// //tiles2[1][1].makeWall(); //was pit
+	// tiles2[4][1].makeWall();//was pit
+	// for(var k: int =0;k<boardsize;k++) {
+	// 	tiles2[k][4].makeWall();
+	// }
+// 
+
+
+
+//level 3?
+// 
+
+	addcharacter(4, 2, 2, 1);
+	addcharacter(3, 5, 1, 2);
+
+//targets
+	convertToTarget(4,3,11,curTarBlue); 
+	convertToTarget(1,3,12,curTarBlue); 
+	convertToTarget(6,2,13,curTarBlue); 
+
+
+//left upper wall block
+	 tiles2[1][5].makeWall();
+	 tiles2[1][6].makeWall();
+	 tiles2[1][7].makeWall();
+
+//right upper wall block
+	 tiles2[6][5].makeWall();
+	 tiles2[6][6].makeWall();
+	 tiles2[6][7].makeWall();
+
+//left lower wall block
+ 	 tiles2[0][1].makeWall();
+	 tiles2[0][2].makeWall();
+	 tiles2[0][3].makeWall();
+
+//left upper pit block
+	 tiles2[0][5].makePit();
+	 tiles2[0][6].makePit();
+	 tiles2[0][7].makePit();
+
+
+//right lower wall block
+	 tiles2[7][1].makeWall();
+	 tiles2[7][2].makeWall();
+	 tiles2[7][3].makeWall();
+
+//right upper pit block
+	 tiles2[7][5].makePit();
+	 tiles2[7][6].makePit();
+	 tiles2[7][7].makePit();
+
+//blocker pits in the upper section
+	 tiles2[4][5].makePit(); //variation single
+	 tiles2[4][6].makePit(); //variation  next
+
+	for(var k: int =0;k<boardsize;k++) {
+		tiles2[k][4].makeWall();
+		tiles2[k][0].makeWall();
+
 	}
 
+	audioSource = gameObject.AddComponent("AudioSource");
+	audio.PlayOneShot(Resources.Load("Sounds/loop1"), 1);
 }
 
 // Called every frame.
@@ -60,29 +142,25 @@ function Update () {
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
 		characters[0].move();
 		characters[1].move();
+		//curTarRed=curTarBlue; ///for if only one target
 		//target check
 		if(characters[0].currentTile.model.collectable) {
-			characters[0].currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
-			curTarBlue++;
-			//check to see if there are still targets left
-			if(curTarBlue<blueTargets.length+1) {
-			blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); //make it into a collectable model
-			}
-			else {
-				//completed blue targets
+			collectBlue();
+			if(curTarBlue==curTarRed) {
+			audio.Stop();
+			audio.PlayOneShot(Resources.Load("Sounds/loop"+(curTarRed-1)), 1);
 			}
 		}
 		if(characters[1].currentTile.model.collectable) {
-			characters[1].currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
-			curTarRed++;
-			//check to see if there are still targets left
-			if(curTarRed<redTargets.length+1) {
-			redTargets[curTarRed-1].makeTarget(redTargets[curTarRed-1].targetNum, curTarRed); //make it into a collectable model
-			}
-			else {
-				//completed red targets
+			collectRed();
+			if(curTarBlue==curTarRed) {
+			audio.Stop();
+			audio.PlayOneShot(Resources.Load("Sounds/loop"+(curTarRed-1)), 1);
 			}
 		}
+		//	print("blue is "+curTarBlue+" . Red is : "+curTarRed);
+		//for next loop
+		
 	}
 	else {
 		characters[0].pitReset();
@@ -102,13 +180,12 @@ function sameSpaceCheck() {
 
 //returns false if either character tries to move into a target they are not allowed to collect
 //just cases to make it false
-//TODO still
 function targetBlockedCheck() {
 		curTar1 = characters[0].currentTile.getTargetNum();
 		curTar2 = characters[1].currentTile.getTargetNum();
 		if ((curTar1==0) && (curTar2==0)) {
 			return true;
-		};
+		}
 
 // //checking to see if going for wrong character's target
 	if((curTar1/10 == 2) || curTar2/10 == 1) {
@@ -122,7 +199,6 @@ function targetBlockedCheck() {
 	if (!(curTar2%10 == curTarRed) && curTar2!=0) {
 		return false;
 	}
-
 		return true;
 	
 }
@@ -171,9 +247,9 @@ function addcharacter(x : int, y : int, rotation : int, typeL : int) {
 
 	var myTile = tiles2[x][y];
 	if (typeL == 1) {
-		characterScript.init(x, y, rotation, myTile, tiles2, typeL, characters);
+		characterScript.init(x, y, rotation, myTile, tiles2, typeL);
 	} else {
-		characterScript.init(x, y, rotation, myTile, tiles2, typeL, characters);
+		characterScript.init(x, y, rotation, myTile, tiles2, typeL);
 	}
 	
 	characters.Add(characterScript);
@@ -211,10 +287,6 @@ function generateBoard(columns : int, rows : int) {
 	}
 }
 
-function tileAt(x : int, y : int) {
-	return tiles2[x][y];
-}
-
 function addTile(x : int, y : int) { 
 	var tileObject = new GameObject();
 	var tileScript = tileObject.AddComponent("tile");
@@ -245,8 +317,29 @@ function convertToTarget(tilex : int ,tiley : int , targetNum: int, curTar: int)
 	}
 }
 
-//will make an actual method once code is working
-function collectTarget() {
+//collects blue targets and sets the next one up
+function collectBlue() {
+	characters[0].currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
+	curTarBlue++;
+	//check to see if there are still targets left
+	if(curTarBlue<blueTargets.length+1) {
+	blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); //make it into a collectable model
+	}
+	else {
+		//completed blue targets
+	}
+}
 
+//collects red targets and sets the next one up
+function collectRed() {
+	characters[1].currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
+	curTarRed++;
+	//check to see if there are still targets left
+	if(curTarRed<redTargets.length+1) {
+	redTargets[curTarRed-1].makeTarget(redTargets[curTarRed-1].targetNum, curTarRed); //make it into a collectable model
+	}
+	else {
+		//completed red targets
+	}
 
 }
