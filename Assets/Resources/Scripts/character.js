@@ -8,15 +8,15 @@ var clock : int;
 var type : int;
 var rotation : int;
 
-var tiles : Array;
+//var tiles : Array;
 //var characters : Array;
 
-function init(row : int, column : int, r : int, Tile : tile, tileList : Array, typeL : int) {
+function init(row : int, column : int, r : int, Tile : tile, typeL : int) {
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the texture.
 //try find method
 	type = typeL;
 	rotation = r;
-	tiles = tileList;
+	//tiles = tileList;
 	currentTile = Tile;
 	x = row;
 	y = column;
@@ -33,37 +33,37 @@ function setTile() {
 	if (type == 1) {
 		if (Input.GetKeyDown("right")) {
 			currentTile = currentTile.neighborsList[0];
-			transform.eulerAngles = Vector3(0, 0, -90);
+//			transform.eulerAngles = Vector3(0, 0, -90);
 		}
 		if (Input.GetKeyDown("down")) {
 			currentTile = currentTile.neighborsList[1];
-			transform.eulerAngles = Vector3(0, 0, 180);
+//			transform.eulerAngles = Vector3(0, 0, 180);
 		}
 		if (Input.GetKeyDown("left")) {
 			currentTile = currentTile.neighborsList[2];
-			transform.eulerAngles = Vector3(0, 0, 90);
+//			transform.eulerAngles = Vector3(0, 0, 90);
 		}
 		if (Input.GetKeyDown("up")) {
 			currentTile = currentTile.neighborsList[3];
-			transform.eulerAngles = Vector3(0, 0, 0);
+//			transform.eulerAngles = Vector3(0, 0, 0);
 		}
 		
 	} else {
 		if (Input.GetKeyDown("left")) {
 			currentTile = currentTile.neighborsList[0];
-			transform.eulerAngles = Vector3(0, 0, -90);
+//			transform.eulerAngles = Vector3(0, 0, -90);
 		}
 		if (Input.GetKeyDown("up")) {
 			currentTile = currentTile.neighborsList[1];
-			transform.eulerAngles = Vector3(0, 0, 180);
+//			transform.eulerAngles = Vector3(0, 0, 180);
 		}
 		if (Input.GetKeyDown("right")) {
 			currentTile = currentTile.neighborsList[2];
-			transform.eulerAngles = Vector3(0, 0, 90);
+//			transform.eulerAngles = Vector3(0, 0, 90);
 		}
 		if (Input.GetKeyDown("down")) {
 			currentTile = currentTile.neighborsList[3];
-			transform.eulerAngles = Vector3(0, 0, 0);
+//			transform.eulerAngles = Vector3(0, 0, 0);
 		}
 		
 	}

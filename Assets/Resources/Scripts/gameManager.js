@@ -52,27 +52,27 @@ function Start () {
 //sound example/easy
 // 
 
-	// addcharacter(3, 2, 1, 1);
-	// addcharacter(4, 2, 3, 2);
+	addcharacter(3, 2, 1, 1);
+	addcharacter(4, 2, 3, 2);
 	
-	// convertToTarget(4,3,11,curTarBlue); 
-	// convertToTarget(0,3,12,curTarBlue); 
-	// convertToTarget(6,2,13,curTarBlue); 
+	convertToTarget(4,3,11,curTarBlue); 
+	convertToTarget(0,3,12,curTarBlue); 
+	convertToTarget(6,2,13,curTarBlue); 
 
-	// convertToTarget(2,0,21,curTarRed); 
-	// convertToTarget(7,0,22,curTarRed); 
-	// convertToTarget(0,2,23,curTarRed); 
+	convertToTarget(2,0,21,curTarRed); 
+	convertToTarget(7,0,22,curTarRed); 
+	convertToTarget(0,2,23,curTarRed); 
 
-	// // tiles2[3][3].makeWall();
+	// tiles2[3][3].makeWall();
 
-	// // tiles2[1][0].makeWall();
-	// // tiles2[2][1].makeWall();
+	// tiles2[1][0].makeWall();
+	// tiles2[2][1].makeWall();
 
-	// //tiles2[1][1].makeWall(); //was pit
-	// tiles2[4][1].makeWall();//was pit
-	// for(var k: int =0;k<boardsize;k++) {
-	// 	tiles2[k][4].makeWall();
-	// }
+	//tiles2[1][1].makeWall(); //was pit
+	tiles2[4][1].makeWall();//was pit
+	for(var k: int =0;k<boardsize;k++) {
+		tiles2[k][4].makeWall();
+	}
 // 
 
 
@@ -80,55 +80,55 @@ function Start () {
 //level 3?
 // 
 
-	addcharacter(4, 2, 2, 1);
-	addcharacter(3, 5, 1, 2);
+// 	addcharacter(4, 2, 2, 1);
+// 	addcharacter(3, 5, 1, 2);
 
-//targets
-	convertToTarget(4,3,11,curTarBlue); 
-	convertToTarget(1,3,12,curTarBlue); 
-	convertToTarget(6,2,13,curTarBlue); 
-
-
-//left upper wall block
-	 tiles2[1][5].makeWall();
-	 tiles2[1][6].makeWall();
-	 tiles2[1][7].makeWall();
-
-//right upper wall block
-	 tiles2[6][5].makeWall();
-	 tiles2[6][6].makeWall();
-	 tiles2[6][7].makeWall();
-
-//left lower wall block
- 	 tiles2[0][1].makeWall();
-	 tiles2[0][2].makeWall();
-	 tiles2[0][3].makeWall();
-
-//left upper pit block
-	 tiles2[0][5].makePit();
-	 tiles2[0][6].makePit();
-	 tiles2[0][7].makePit();
+// //targets
+// 	convertToTarget(4,3,11,curTarBlue); 
+// 	convertToTarget(1,3,12,curTarBlue); 
+// 	convertToTarget(6,2,13,curTarBlue); 
 
 
-//right lower wall block
-	 tiles2[7][1].makeWall();
-	 tiles2[7][2].makeWall();
-	 tiles2[7][3].makeWall();
+// //left upper wall block
+// 	 tiles2[1][5].makeWall();
+// 	 tiles2[1][6].makeWall();
+// 	 tiles2[1][7].makeWall();
 
-//right upper pit block
-	 tiles2[7][5].makePit();
-	 tiles2[7][6].makePit();
-	 tiles2[7][7].makePit();
+// //right upper wall block
+// 	 tiles2[6][5].makeWall();
+// 	 tiles2[6][6].makeWall();
+// 	 tiles2[6][7].makeWall();
 
-//blocker pits in the upper section
-	 tiles2[4][5].makePit(); //variation single
-	 tiles2[4][6].makePit(); //variation  next
+// //left lower wall block
+//  	 tiles2[0][1].makeWall();
+// 	 tiles2[0][2].makeWall();
+// 	 tiles2[0][3].makeWall();
 
-	for(var k: int =0;k<boardsize;k++) {
-		tiles2[k][4].makeWall();
-		tiles2[k][0].makeWall();
+// //left upper pit block
+// 	 tiles2[0][5].makePit();
+// 	 tiles2[0][6].makePit();
+// 	 tiles2[0][7].makePit();
 
-	}
+
+// //right lower wall block
+// 	 tiles2[7][1].makeWall();
+// 	 tiles2[7][2].makeWall();
+// 	 tiles2[7][3].makeWall();
+
+// //right upper pit block
+// 	 tiles2[7][5].makePit();
+// 	 tiles2[7][6].makePit();
+// 	 tiles2[7][7].makePit();
+
+// //blocker pits in the upper section
+// 	 tiles2[4][5].makePit(); //variation single
+// 	 tiles2[4][6].makePit(); //variation  next
+
+// 	for(var k: int =0;k<boardsize;k++) {
+// 		tiles2[k][4].makeWall();
+// 		tiles2[k][0].makeWall();
+
+// 	}
 
 	audioSource = gameObject.AddComponent("AudioSource");
 	audio.PlayOneShot(Resources.Load("Sounds/loop1"), 1);
@@ -247,9 +247,9 @@ function addcharacter(x : int, y : int, rotation : int, typeL : int) {
 
 	var myTile = tiles2[x][y];
 	if (typeL == 1) {
-		characterScript.init(x, y, rotation, myTile, tiles2, typeL);
+		characterScript.init(x, y, rotation, myTile, typeL);
 	} else {
-		characterScript.init(x, y, rotation, myTile, tiles2, typeL);
+		characterScript.init(x, y, rotation, myTile, typeL);
 	}
 	
 	characters.Add(characterScript);
@@ -261,16 +261,20 @@ function addcharacterModel(characterObject : GameObject, rotation: int, typeL: i
 
 	if (typeL == 1) {
 	characterObject.renderer.material.mainTexture = Resources.Load("Textures/character_blue", Texture2D);		// Set the texture.  Must be in Resources folder.
+//	characterObject.renderer.material.mainTexture = Resources.Load("Textures/modelbackup", Texture2D);	
+		characterObject.renderer.material.color = Color(1,1,2);										
+
 	} 
 	else {
 	characterObject.renderer.material.mainTexture = Resources.Load("Textures/character_red", Texture2D);		// Set the texture.  Must be in Resources folder.
-	}																					// Set the color (easy way to tint things).		renderer.material.color = Color(1,1,1);										
+//	characterObject.renderer.material.mainTexture = Resources.Load("Textures/modelbackup", Texture2D);	
 	characterObject.renderer.material.color = Color(1,1,1);										
+	}																					// Set the color (easy way to tint things).		renderer.material.color = Color(1,1,1);										
 
 	characterObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
-	if (rotation == 2) { transform.eulerAngles = Vector3(0, 0, 90); }  
-	else if (rotation == 1) { transform.eulerAngles = Vector3(0, 0, 180); }  
-	else if (rotation == 0) { transform.eulerAngles = Vector3(0, 0,  -90); } 
+	//if (rotation == 2) { transform.eulerAngles = Vector3(0, 0, 90); }  
+	//else if (rotation == 1) { transform.eulerAngles = Vector3(0, 0, 180); }  
+	//else if (rotation == 0) { transform.eulerAngles = Vector3(0, 0,  -90); } 
 
 return characterObject;
 }

@@ -8,29 +8,30 @@ var type : int;
 var model;
 var isPit : int;
 var targetNum : int; //
+
 function init(xS : float, yS : float) {
-var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
-x = xS;
-y = yS;
-neighborsList = new Array();
-charOn = 0;
-isWall = 0;
-isPit=0;
-type = 0;
-targetNum=0; //for non targets
-model = modelObject.AddComponent("tileModel");	
-model.init(this);	
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
+	x = xS;
+	y = yS;
+	neighborsList = new Array();
+	charOn = 0;
+	isWall = 0;
+	isPit=0;
+	type = 0;
+	targetNum=0; //for non targets
+	model = modelObject.AddComponent("tileModel");	
+	model.init(this);	
 }	
 function addChar() { //we can change this to simply hold the character later, rather than an int
-charOn = 1;
+	charOn = 1;
 }
 function makeWall() {
-isWall = 1;
-model.makeWall();
+	isWall = 1;
+	model.makeWall();
 }
 function makePit() {
-isPit = 1;
-model.makePit();
+	isPit = 1;
+	model.makePit();
 }
 
 function makeTarget(localTargetNum : int, curTar: int) {
