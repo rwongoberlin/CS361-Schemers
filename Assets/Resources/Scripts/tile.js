@@ -1,37 +1,39 @@
-﻿
-var neighborsList : Array;
-var x : float;
-var y : float;
-var charOn : int; // if 0, nothing on, if 1, character is on tile
-var isWall : int;
-var type : int;
-var model;
-var isPit : int;
-var targetNum : int; //
+﻿var neighborsList : Array;
+var x : int;
+var y : int;
+var charOn : boolean;
+var type : String;
+var model : tileModel;
+var targetNum : int;
 
-function init(xS : float, yS : float) {
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
-	x = xS;
-	y = yS;
-	neighborsList = new Array();
-	charOn = 0;
-	isWall = 0;
-	isPit=0;
-	type = 0;
+function init(x : int, y : int, type : String, charOn : boolean) {	
+	this.x = x;
+	this.y = y;
+	this.type = type;
+	neighborsList = [];
+	this.charOn = charOn;
 	targetNum=0; //for non targets
+	
+	// Add Child Model Object
+	
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 	model = modelObject.AddComponent("tileModel");	
-	model.init(this);	
-}	
+	model.transform.parent = modelObject.transform;			// Make Tile the Parent of TileModel
+	model.init(this, type);	
+}
+
+function isWall() {
+	if(type == "x") return true;
+	else return false;
+}
+
+function isPit() {
+	if(type == "o") return true;
+	else return false;
+}
+
 function addChar() { //we can change this to simply hold the character later, rather than an int
-	charOn = 1;
-}
-function makeWall() {
-	isWall = 1;
-	model.makeWall();
-}
-function makePit() {
-	isPit = 1;
-	model.makePit();
+	charOn = true;
 }
 
 function makeTarget(localTargetNum : int, curTar: int) {
@@ -40,7 +42,7 @@ function makeTarget(localTargetNum : int, curTar: int) {
 }
 
 function remChar() {
-	charOn = 0;
+	charOn = false;
 }
 
 function getX() {
@@ -56,10 +58,11 @@ function getTargetNum() {
 }
 function addNeighbors(T : tile) { //x is the length of tiles, y is length of tiles[0]
 	neighborsList.Add(T);
+//	print(neighborsList);
 }
 //coding in the reset for now
 function collect() {
-	type=0;
+	type="_";
 	targetNum=0;
 	model.collect();
 }

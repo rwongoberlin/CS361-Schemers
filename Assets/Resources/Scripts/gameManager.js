@@ -1,157 +1,97 @@
-﻿var tileFolder : GameObject;
+﻿/*
+FALL BREAK GAME MANAGER
+*/
+
+import System.IO;
+
+var tileFolder : GameObject;
 var tiles : Array;
-public var tiles2 : Array;
 
 var characterFolder : GameObject;
 var characters : Array;
+var blueChar : character;
+var redChar : character;
+
 var curTarBlue : int = 1; //default starting target number is one
 var curTarRed : int = 1; //default starting target number is one
-var redTargets: Array= new Array(); //array for holding the tile objects of redTargets
-var blueTargets: Array= new Array();  //array for holding the tile objects of the blue targets
+var redTargets: Array; //array for holding the tile objects of redTargets
+var blueTargets: Array;  //array for holding the tile objects of the blue targets
+var blueInit : Array;
+var redInit : Array;
 //need to handle edge case for when characters move into the same square, but only one collects
 
+var turns : turnCounter;
+var level : String = "Assets/Resources/Levels/devin3.txt";
 
 // Called once when the script is created.
 function Start () {
 	tileFolder = new GameObject();
-	tileFolder.name = "Tiles";
-	tiles = new Array();
-	tiles2 = new Array();
+	tileFolder.name = "TileFolder";
 	
 	characterFolder = new GameObject();
-	characterFolder.name = "characters";
-	characters = new Array();
-	var boardsize : int = 8;
+	characterFolder.name = "CharacterFolder";
 	
-	generateBoard(boardsize, boardsize);
+	blueTargets = new Array(3);
+	redTargets = new Array(3);
+	
+	buildMap(level);
+	blueChar = addCharacter(blueInit[0], blueInit[1], 0, 1);
+	redChar = addCharacter(redInit[0], redInit[1], 0, 2);
 	setNeighbors();
 	
 
-	//hardcode of level 1
-	// addcharacter(6, 2, 1, 1);
-	// addcharacter(0, 0, 1, 2);
-	
-	// convertToTarget(4,2,11,curTarBlue); 
-	// convertToTarget(0,2,12,curTarBlue); 
-	// convertToTarget(2,0,21,curTarRed); 
-	// convertToTarget(6,0,22,curTarRed); 
-
-	// tiles2[3][2].makeWall();
-
-	// tiles2[1][0].makeWall();
-	// tiles2[2][1].makeWall();
-
-	// tiles2[1][1].makeWall(); //was pit
-	// tiles2[4][1].makeWall();//was pit
-	// for(var k: int =0;k<boardsize;k++) {
-	// 	tiles2[k][4].makeWall();
-	// }
-
-
-//hardcode for level 2
-//sound example/easy
-// 
-
-	addcharacter(3, 2, 1, 1);
-	addcharacter(4, 2, 3, 2);
-	
-	convertToTarget(4,3,11,curTarBlue); 
-	convertToTarget(0,3,12,curTarBlue); 
-	convertToTarget(6,2,13,curTarBlue); 
-
-	convertToTarget(2,0,21,curTarRed); 
-	convertToTarget(7,0,22,curTarRed); 
-	convertToTarget(0,2,23,curTarRed); 
-
-	// tiles2[3][3].makeWall();
-
-	// tiles2[1][0].makeWall();
-	// tiles2[2][1].makeWall();
-
-	//tiles2[1][1].makeWall(); //was pit
-	tiles2[4][1].makeWall();//was pit
-	for(var k: int =0;k<boardsize;k++) {
-		tiles2[k][4].makeWall();
-	}
-// 
-
-
-
-//level 3?
-// 
-
-// 	addcharacter(4, 2, 2, 1);
-// 	addcharacter(3, 5, 1, 2);
-
-// //targets
-// 	convertToTarget(4,3,11,curTarBlue); 
-// 	convertToTarget(1,3,12,curTarBlue); 
-// 	convertToTarget(6,2,13,curTarBlue); 
-
-
-// //left upper wall block
-// 	 tiles2[1][5].makeWall();
-// 	 tiles2[1][6].makeWall();
-// 	 tiles2[1][7].makeWall();
-
-// //right upper wall block
-// 	 tiles2[6][5].makeWall();
-// 	 tiles2[6][6].makeWall();
-// 	 tiles2[6][7].makeWall();
-
-// //left lower wall block
-//  	 tiles2[0][1].makeWall();
-// 	 tiles2[0][2].makeWall();
-// 	 tiles2[0][3].makeWall();
-
-// //left upper pit block
-// 	 tiles2[0][5].makePit();
-// 	 tiles2[0][6].makePit();
-// 	 tiles2[0][7].makePit();
-
-
-// //right lower wall block
-// 	 tiles2[7][1].makeWall();
-// 	 tiles2[7][2].makeWall();
-// 	 tiles2[7][3].makeWall();
-
-// //right upper pit block
-// 	 tiles2[7][5].makePit();
-// 	 tiles2[7][6].makePit();
-// 	 tiles2[7][7].makePit();
-
-// //blocker pits in the upper section
-// 	 tiles2[4][5].makePit(); //variation single
-// 	 tiles2[4][6].makePit(); //variation  next
-
-// 	for(var k: int =0;k<boardsize;k++) {
-// 		tiles2[k][4].makeWall();
-// 		tiles2[k][0].makeWall();
-
-// 	}
-
 	audioSource = gameObject.AddComponent("AudioSource");
 	audio.PlayOneShot(Resources.Load("Sounds/loop1"), 1);
+
+}
+
+function buildMap(map : String) {	
+	try {
+        // Create an instance of StreamReader to read from a file.
+        sr = new StreamReader("Assets/Resources/Levels/devin3.txt");
+        // Read and display lines from the file until the end of the file is reached.
+        line = sr.ReadLine();
+        width = parseInt(line);
+        line = sr.ReadLine();
+        height = parseInt(line);
+        tiles = new Array();
+        line = sr.ReadLine();
+        y=0;
+        while (line != null) {
+        	tiles[y] = new Array();
+            row = line.Split(' '[0]);
+            for( x = 0; x < width; x++) {
+				addTile(x, y, row[x]);
+            }
+            line = sr.ReadLine();
+            y++;
+        }
+        sr.Close();
+    }
+    catch (e) {
+        // Let the user know what went wrong.
+        print("The level text file could not be read:");
+        print(e.Message);
+    }
 }
 
 // Called every frame.
 function Update () {
-
-	characters[0].setTile();
-	characters[1].setTile();
+	blueChar.setTile();
+	redChar.setTile();
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
-		characters[0].move();
-		characters[1].move();
+		blueChar.move();
+		redChar.move();
 		//curTarRed=curTarBlue; ///for if only one target
 		//target check
-		if(characters[0].currentTile.model.collectable) {
+		if(blueChar.currentTile.model.collectable) {
 			collectBlue();
 			if(curTarBlue==curTarRed) {
 			audio.Stop();
 			audio.PlayOneShot(Resources.Load("Sounds/loop"+(curTarRed-1)), 1);
 			}
 		}
-		if(characters[1].currentTile.model.collectable) {
+		if(redChar.currentTile.model.collectable) {
 			collectRed();
 			if(curTarBlue==curTarRed) {
 			audio.Stop();
@@ -163,26 +103,27 @@ function Update () {
 		
 	}
 	else {
-		characters[0].pitReset();
-		characters[1].pitReset();
+		blueChar.pitReset();
+		redChar.pitReset();
 	}
+
 } 
 
 //returns true if both characters are not moving into pits
 function pitCheck() {
-	return (!characters[0].currentTile.isPit && !characters[1].currentTile.isPit);
+	return (!blueChar.currentTile.isPit() && !redChar.currentTile.isPit());
 }
 
 //returns true if both characters are not moving into the same space
 function sameSpaceCheck() {
-	return characters[0].currentTile!=characters[1].currentTile;
+	return blueChar.currentTile!=redChar.currentTile;
 }
 
 //returns false if either character tries to move into a target they are not allowed to collect
 //just cases to make it false
 function targetBlockedCheck() {
-		curTar1 = characters[0].currentTile.getTargetNum();
-		curTar2 = characters[1].currentTile.getTargetNum();
+		curTar1 = blueChar.currentTile.getTargetNum();
+		curTar2 = redChar.currentTile.getTargetNum();
 		if ((curTar1==0) && (curTar2==0)) {
 			return true;
 		}
@@ -204,129 +145,104 @@ function targetBlockedCheck() {
 }
 
 function setNeighbors() {
-	var xs = tiles2.length - 1;
-	var ys = tiles2[0].length - 1;
-	for (T in tiles) {
-		var x = T.getX();
-		var y = T.getY();
-		
-		//Eastside
-		if ((x+1) > xs) {
-			T.addNeighbors(tiles2[x][y]);
-		} else {
-			T.addNeighbors(tiles2[x+1][y]); 
+	var width = tiles[0].length - 1;
+	var height = tiles.length - 1;
+	for(y = 1; y<height; y++) {
+		for(x=1; x<width; x++) {
+			tiles[y][x].addNeighbors( tiles[y][x-1]);
+			tiles[y][x].addNeighbors( tiles[y+1][x]);
+			tiles[y][x].addNeighbors( tiles[y][x+1]);
+			tiles[y][x].addNeighbors( tiles[y-1][x]);
+				
 		}
-		//Southside
-		if ((y-1) < 0) {
-			T.addNeighbors(tiles2[x][y]);
-		} else {
-			T.addNeighbors(tiles2[x][y-1]); 
-		}
-		//Westside
-		if ((x-1) < 0) {
-			T.addNeighbors(tiles2[x][y]);
-		} else {
-			T.addNeighbors(tiles2[x-1][y]);
-		} 
-		//Northside 
-		if ((y+1) > ys) { 
-			T.addNeighbors(tiles2[x][y]);
-		} else {
-			T.addNeighbors(tiles2[x][y+1]); 
-		}
-	} 
-}
-
-function addcharacter(x : int, y : int, rotation : int, typeL : int) {
-	var characterObject = GameObject.CreatePrimitive(PrimitiveType.Quad); //new empty game object
-	characterObject=addcharacterModel(characterObject,rotation ,typeL); //set that object to be character textured
-	var characterScript = characterObject.AddComponent("character");
-	
-	characterScript.transform.parent = characterFolder.transform;
-	characterScript.transform.position = Vector3(x, y, 0);
-
-	var myTile = tiles2[x][y];
-	if (typeL == 1) {
-		characterScript.init(x, y, rotation, myTile, typeL);
-	} else {
-		characterScript.init(x, y, rotation, myTile, typeL);
-	}
-	
-	characters.Add(characterScript);
-	
-	characterScript.name = "character " + characters.length;
-}
-
-function addcharacterModel(characterObject : GameObject, rotation: int, typeL: int) {
-
-	if (typeL == 1) {
-	characterObject.renderer.material.mainTexture = Resources.Load("Textures/character_blue", Texture2D);		// Set the texture.  Must be in Resources folder.
-//	characterObject.renderer.material.mainTexture = Resources.Load("Textures/modelbackup", Texture2D);	
-		characterObject.renderer.material.color = Color(1,1,2);										
-
-	} 
-	else {
-	characterObject.renderer.material.mainTexture = Resources.Load("Textures/character_red", Texture2D);		// Set the texture.  Must be in Resources folder.
-//	characterObject.renderer.material.mainTexture = Resources.Load("Textures/modelbackup", Texture2D);	
-	characterObject.renderer.material.color = Color(1,1,1);										
-	}																					// Set the color (easy way to tint things).		renderer.material.color = Color(1,1,1);										
-
-	characterObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
-	//if (rotation == 2) { transform.eulerAngles = Vector3(0, 0, 90); }  
-	//else if (rotation == 1) { transform.eulerAngles = Vector3(0, 0, 180); }  
-	//else if (rotation == 0) { transform.eulerAngles = Vector3(0, 0,  -90); } 
-
-return characterObject;
-}
-
-// Generates a board randomly (rows is num of rows, columns is the same, turnDensity is num of turn tiles)
-function generateBoard(columns : int, rows : int) {	 
-	for(var i : int=0; i < columns; i++) {
-		var columnNum = new Array();
-		for(var j : int=0; j < rows; j++) {
-			var currentT = addTile(i, j);
-			columnNum.Add(currentT);		
-		}
-		tiles2.Add(columnNum);
 	}
 }
 
-function addTile(x : int, y : int) { 
+/*
+addCharacter takes:
+	x position (int)
+	y position (int)
+	rotation (int)
+	type (int, 1 or 2)
+*/
+function addCharacter(x : int, y : int, rotation : int, type : int) {
+	var characterObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// New Empty Game Object
+	var characterScript = characterObject.AddComponent("character");		// Add "CHARACTER" Component
+
+	characterScript.transform.parent = characterFolder.transform;			// Make CharacterFolder the Parent
+	characterScript.transform.position = Vector3(x, y, -0.001);					// Set Transform to Correct Coordinate
+
+	var myTile = tiles[y][x];
+	characterScript.init(rotation, myTile, type);							// Initialize CharacterScript
+	characterScript.name = "character " + type;								// Name CharacterScript
+	return characterScript;
+}
+
+/*
+addTile (float, float, String) method by Devin
+added to support tile creation w/ different types of tiles
+
+character 1 = 1
+character 2 = 2
+blank tile = _
+wall = x
+pit = o
+
+targets for char 1 = A B C D
+targets for char 2 = a b c d
+*/
+function addTile (x : int, y : int, tileType : String) {
 	var tileObject = new GameObject();
+	var charOn = false;
+	var character = 0;
+	// check to see if this tile has a character or a target on it
+	// if so, add that AND a blank tile
+	if( tileType == "1" ) {				// if it is the blue characer
+		tileType == "_";
+		character = 1;
+		charOn = true;
+		blueInit = [x,y];
+	} else if( tileType == "2" ) { 		// if it is the red character
+		tileType == "_";
+		character = 2;
+		charOn = true;
+		redInit = [x,y];
+	}
+	
 	var tileScript = tileObject.AddComponent("tile");
 	
 	tileScript.transform.parent = tileFolder.transform;
-	tileScript.transform.position = Vector3(x, y, 0);
-	
-	tileScript.init(x, y);
-	
-	tiles.Add(tileScript);
-	tileScript.name = "Tile " + x+","+y;
-	return tileScript;	 
-}
+	tileScript.transform.position = Vector3(x,y,0);
 
-//converts a  blank tile into a target tile
-//args: (x position of target, y position of target, the number of the target (first digit is still type, second is target number)), current target we're supposed to collect
-function convertToTarget(tilex : int ,tiley : int , targetNum: int, curTar: int) {
+	tileScript.init(x, y, tileType, charOn);
+	
+	tileScript.name = "Tile "+x+" "+y;
+	tiles[y].Add(tileScript);
 
-	tiles2[tilex][tiley].makeTarget(targetNum,curTar); //1 is blue, 2 is red
-	if(targetNum/10==1) {
-		blueTargets.Add(tiles2[tilex][tiley]);
+	
+	if( tileType == "A" ) {
+		blueTargets[0] = tileScript;
+	} else if( tileType == "B" ) {
+		blueTargets[1] = tileScript;
+	} else if( tileType == "C" ) {
+		blueTargets[2] = tileScript;
+	} else if( tileType == "a" ) {
+		redTargets[0] = tileScript;
+	} else if( tileType == "b" ) {
+		redTargets[1] = tileScript;
+	} else if( tileType == "c" ) {
+		redTargets[2] = tileScript;
 	}
-	else if(targetNum/10==2) {
-		redTargets.Add(tiles2[tilex][tiley]); 
-	}
-	else {
-		print("wrong target number");
-	}
+	
+	return tileScript;
 }
 
 //collects blue targets and sets the next one up
 function collectBlue() {
-	characters[0].currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
+	blueChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
 	curTarBlue++;
 	//check to see if there are still targets left
-	if(curTarBlue<blueTargets.length+1) {
+	if(curTarBlue < blueTargets.length+1) {
 	blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); //make it into a collectable model
 	}
 	else {
@@ -336,7 +252,7 @@ function collectBlue() {
 
 //collects red targets and sets the next one up
 function collectRed() {
-	characters[1].currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
+	redChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
 	curTarRed++;
 	//check to see if there are still targets left
 	if(curTarRed<redTargets.length+1) {
