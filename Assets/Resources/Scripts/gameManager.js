@@ -8,7 +8,6 @@ var tileFolder : GameObject;
 var tiles : Array;
 
 var characterFolder : GameObject;
-var characters : Array;
 var blueChar : character;
 var redChar : character;
 
@@ -18,10 +17,10 @@ var redTargets: Array; //array for holding the tile objects of redTargets
 var blueTargets: Array;  //array for holding the tile objects of the blue targets
 var blueInit : Array;
 var redInit : Array;
-//need to handle edge case for when characters move into the same square, but only one collects
+var mainMenu : boolean;
 
 var turns : turnCounter;
-var level : String = "Assets/Resources/Levels/devin3.txt";
+var level : String = "Assets/Resources/Levels/devin3";
 
 // Called once when the script is created.
 function Start () {
@@ -35,10 +34,6 @@ function Start () {
 	redTargets = new Array(3);
 	
 	buildMap(level);
-	blueChar = addCharacter(blueInit[0], blueInit[1], 0, 1);
-	redChar = addCharacter(redInit[0], redInit[1], 0, 2);
-	setNeighbors();
-	
 
 	audioSource = gameObject.AddComponent("AudioSource");
 	audio.PlayOneShot(Resources.Load("Sounds/loop1"), 1);
@@ -48,7 +43,8 @@ function Start () {
 function buildMap(map : String) {	
 	try {
         // Create an instance of StreamReader to read from a file.
-        sr = new StreamReader("Assets/Resources/Levels/devin3.txt");
+        print(map);
+        sr = new StreamReader(map+".txt");
         // Read and display lines from the file until the end of the file is reached.
         line = sr.ReadLine();
         width = parseInt(line);
@@ -67,6 +63,10 @@ function buildMap(map : String) {
             y++;
         }
         sr.Close();
+        
+        blueChar = addCharacter(blueInit[0], blueInit[1], 0, 1);
+		redChar = addCharacter(redInit[0], redInit[1], 0, 2);
+		setNeighbors();
     }
     catch (e) {
         // Let the user know what went wrong.
@@ -262,4 +262,66 @@ function collectRed() {
 		//completed red targets
 	}
 
+}
+
+function reset(map : String) {
+	var children : int = tileFolder.transform.childCount;
+ 		for (var i = children - 1; i >= 0; i--) {
+   			Destroy(tileFolder.transform.GetChild(i).gameObject);
+		}
+
+		Destroy(blueChar.gameObject);
+		Destroy(redChar.gameObject);
+		
+		tiles.Clear();
+
+		buildMap(map);
+}
+
+function OnGUI () {
+	
+	var buttonx : int=50;
+    var buttony : int=50;
+    var offset: int =100;
+    var numButtons: int=5;
+    //x, y, width, height
+    if(mainMenu) {
+
+        if (GUI.Button (Rect (buttonx+(offset*(numButtons-4)),buttony*numButtons,100,60), "Level 1")) {
+                mainMenu=false;
+                level = "Assets/Resources/Levels/devin3";
+                reset(level);
+        }
+       
+        if (GUI.Button (Rect (buttonx+(offset*(numButtons-3)),buttony*numButtons,100,60), "Level 2")) {
+                mainMenu=false;
+                level = "Assets/Resources/Levels/demo3";
+                reset(level);
+        }
+        if (GUI.Button (Rect (buttonx+(offset*(numButtons-2)),buttony*numButtons,100,60), "Level 3")) {
+                mainMenu=false;
+                level = "Assets/Resources/Levels/demo4";
+                reset(level);
+        }
+        if (GUI.Button (Rect (buttonx+(offset*(numButtons-1)),buttony*numButtons,100,60), "Level 4")) {
+                mainMenu=false;
+                level = "Assets/Resources/Levels/demo5";
+                reset(level);
+        }
+        if (GUI.Button (Rect (buttonx+(offset*numButtons),buttony*numButtons,100,60), "Level 5")) {
+                mainMenu=false;
+                level = "Assets/Resources/Levels/TIMSLEVEL";
+                reset(level);
+        }
+    }
+    else {
+         if (GUI.Button (Rect (0,0,80,48), "Main Menu")) {
+            mainMenu=true;
+         }
+
+        if (GUI.Button (Rect (0,50,60,40), "Reset")) {
+			reset(level);
+         }
+
+    }
 }
