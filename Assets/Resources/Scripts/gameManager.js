@@ -63,7 +63,7 @@ function Start () {
         height = parseInt(line);
         tiles = new Array();
         line = sr.ReadLine();
-        y=0;
+        y=height-1;
         while (line != null) {
         	tiles[y] = new Array();
             row = line.Split(' '[0]);
@@ -71,7 +71,7 @@ function Start () {
 				addTile(x, y, row[x]);
             }
             line = sr.ReadLine();
-            y++;
+            y--;
         }
         sr.Close();
         
