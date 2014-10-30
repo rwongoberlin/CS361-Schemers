@@ -1,5 +1,4 @@
 ﻿var tile : tile;
-var type : int; //0 is blank, 1 is wall, 2 is pit, 11-19 are targets for char 1, 21-29 are targets for char 2
 var count : int;
 var collectable: boolean; //if the tile is collectable
 
@@ -41,30 +40,33 @@ function init(t : tile, type : String) {
 	}
 } 	
 
+//TO DO: should we remove tileType?
+
 function makeEmpty() {
-	tileType = 0;
+	//tileType = 0;
 	renderer.material.mainTexture = Resources.Load("Textures/tile_empty", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 }
 
 function makeWall() {
-	tileType = 1;
+	//tileType = 1;
 	renderer.material.mainTexture = Resources.Load("Textures/tile_wall", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 }
 
 function makePit() {
-	tileType = 2;
+	//tileType = 2;
 	renderer.material.mainTexture = Resources.Load("Textures/tile_pit", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 }
 
-
+//turn the current tile into a target
+//*Params: localTargetNum (target number ), curTar (the target we're supposed to collect)
 function makeTarget(localTargetNum: int, curTar: int) {
-	tileType = 3;
+	//tileType = 3;
 	targetType=localTargetNum/10;					
 	
 	//blue

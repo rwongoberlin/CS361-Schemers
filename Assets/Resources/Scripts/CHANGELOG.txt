@@ -6,6 +6,17 @@ recent ones on top, along with the
 date uploaded to the github
 ***********************************/
 
+10/29 - Teresa and Robin
+-commented code finally…
+-removed extraneous fields
+-renamed levels
+-made a file for crediting levels in the level folder
+
+gameManager.js
+-changed button sizes to be a little more dynamic
+-levels now load in based on number
+
+
 10/27 -Robin
 changes:
 -cleaned up character.js

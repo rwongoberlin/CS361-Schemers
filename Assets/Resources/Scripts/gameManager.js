@@ -4,27 +4,44 @@ FALL BREAK GAME MANAGER
 
 import System.IO;
 
-var tileFolder : GameObject;
-var tiles : Array;
+var tileFolder : GameObject;				//holds tiles for hierarchy pane
+var tiles : Array;							//2D array of tiles
 
-var characterFolder : GameObject;
-var blueChar : character;
-var redChar : character;
+var characterFolder : GameObject;			//holds characters for hierarchy pane
+var blueChar : character;					//blue character
+var redChar : character;					//red character
+		
+var curTarBlue : int = 1; 					//default starting target number is one
+var curTarRed : int = 1; 					//default starting target number is one
+var redTargets: Array; 						//array for holding the tile objects of redTargets
+var blueTargets: Array;  					//array for holding the tile objects of the blue targets
+var blueInit : Array;						//initial x and y for blue's placement
+var redInit : Array;						//initial x and y for reds placement			
+var mainMenu : boolean;						//whether we're on the main menu screen
 
-var curTarBlue : int = 1; //default starting target number is one
-var curTarRed : int = 1; //default starting target number is one
-var redTargets: Array; //array for holding the tile objects of redTargets
-var blueTargets: Array;  //array for holding the tile objects of the blue targets
-var blueInit : Array;
-var redInit : Array;
-var mainMenu : boolean;
-
-var turns : turnCounter;
-var level : String = "Assets/Resources/Levels/devin3";
+var turns : turnCounter;					//the number of moves we've made for this level
+var level : String = "Assets/Resources/Levels/level1";	//default starting level
+var audioSource1: AudioSource;				//controls the audio
+var numLevels : int = 5; 					//number of levels we currently have
 
 // Called once when the script is created.
 function Start () {
-	tileFolder = new GameObject();
+
+	buildMap(level);
+	audioSource1 = gameObject.AddComponent("AudioSource");
+
+	audioSource1.audio.loop = true; 
+	audioSource1.audio.clip = Resources.Load("Sounds/loop1");
+	audioSource1.audio.Play();
+}
+
+/* takes in a string, pulls in corresponding text file, and reads in a map
+ * params: map (the name of the text file for the level without .txt)
+ */
+ function buildMap(map : String) {	
+
+ //reinitialize both tile and character folders, arrays for tracking targets, set current targets to be 1	
+    tileFolder = new GameObject();
 	tileFolder.name = "TileFolder";
 	
 	characterFolder = new GameObject();
@@ -32,15 +49,9 @@ function Start () {
 	
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
-	
-	buildMap(level);
+	curTarBlue = 1;
+	curTarRed = 1;
 
-	audioSource = gameObject.AddComponent("AudioSource");
-	audio.PlayOneShot(Resources.Load("Sounds/loop1"), 1);
-
-}
-
-function buildMap(map : String) {	
 	try {
         // Create an instance of StreamReader to read from a file.
         print(map);
@@ -64,6 +75,7 @@ function buildMap(map : String) {
         }
         sr.Close();
         
+        //after tiles are set up, add characters and set their neighbors
         blueChar = addCharacter(blueInit[0], blueInit[1], 0, 1);
 		redChar = addCharacter(redInit[0], redInit[1], 0, 2);
 		setNeighbors();
@@ -73,35 +85,32 @@ function buildMap(map : String) {
         print("The level text file could not be read:");
         print(e.Message);
     }
+
 }
 
-// Called every frame.
 function Update () {
 	blueChar.setTile();
 	redChar.setTile();
+	//check to see if the move is legal
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
 		blueChar.move();
 		redChar.move();
-		//curTarRed=curTarBlue; ///for if only one target
-		//target check
+
+		//check to see if the target we're moving onto is collectable
 		if(blueChar.currentTile.model.collectable) {
 			collectBlue();
 			if(curTarBlue==curTarRed) {
-			audio.Stop();
-			audio.PlayOneShot(Resources.Load("Sounds/loop"+(curTarRed-1)), 1);
+				playNextLoop();			
 			}
 		}
 		if(redChar.currentTile.model.collectable) {
 			collectRed();
 			if(curTarBlue==curTarRed) {
-			audio.Stop();
-			audio.PlayOneShot(Resources.Load("Sounds/loop"+(curTarRed-1)), 1);
+				playNextLoop();
 			}
 		}
-		//	print("blue is "+curTarBlue+" . Red is : "+curTarRed);
-		//for next loop
-		
 	}
+	//if the move wasn't legal, do not move.
 	else {
 		blueChar.pitReset();
 		redChar.pitReset();
@@ -128,12 +137,12 @@ function targetBlockedCheck() {
 			return true;
 		}
 
-// //checking to see if going for wrong character's target
+//checking to see if going for wrong character's target
 	if((curTar1/10 == 2) || curTar2/10 == 1) {
 		return false; 
  	}
- //	print(curTarBlue);
-// //checking to see if going for wrong number target
+
+//checking to see if going for wrong number target
 	if (!(curTar1%10 == curTarBlue) && curTar1!=0) {
 		return false;
 	}
@@ -144,6 +153,14 @@ function targetBlockedCheck() {
 	
 }
 
+//synchs up the loop so that the current one stops and the next one plays
+function playNextLoop() {
+	audioSource1.clip = Resources.Load("Sounds/loop"+(curTarRed-1));
+	audioSource1.audio.Stop();
+	audioSource1.audio.Play(); 
+}
+
+//gives each tile an array containing the tiles its the E, S, W, N directions (in that order)
 function setNeighbors() {
 	var width = tiles[0].length - 1;
 	var height = tiles.length - 1;
@@ -152,8 +169,7 @@ function setNeighbors() {
 			tiles[y][x].addNeighbors( tiles[y][x-1]);
 			tiles[y][x].addNeighbors( tiles[y+1][x]);
 			tiles[y][x].addNeighbors( tiles[y][x+1]);
-			tiles[y][x].addNeighbors( tiles[y-1][x]);
-				
+			tiles[y][x].addNeighbors( tiles[y-1][x]);		
 		}
 	}
 }
@@ -239,13 +255,16 @@ function addTile (x : int, y : int, tileType : String) {
 
 //collects blue targets and sets the next one up
 function collectBlue() {
-	blueChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
+	//sets type to be wall, reverts model to blank, set collectable to be false
+	blueChar.currentTile.collect(); 
 	curTarBlue++;
 	//check to see if there are still targets left
 	if(curTarBlue < blueTargets.length+1) {
-	blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); //make it into a collectable model
+		//make it into a collectable model
+		blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); 
 	}
 	else {
+		//TO DO: write the win condition.
 		//completed blue targets
 	}
 }
@@ -259,67 +278,53 @@ function collectRed() {
 	redTargets[curTarRed-1].makeTarget(redTargets[curTarRed-1].targetNum, curTarRed); //make it into a collectable model
 	}
 	else {
+		//TO DO: set up win condition
+		//blue will check red, red checks blue, then if all is well call winFunction.
 		//completed red targets
 	}
-
 }
 
+//clear the map (identified with a string).
 function reset(map : String) {
 	var children : int = tileFolder.transform.childCount;
  		for (var i = children - 1; i >= 0; i--) {
    			Destroy(tileFolder.transform.GetChild(i).gameObject);
 		}
-
 		Destroy(blueChar.gameObject);
 		Destroy(redChar.gameObject);
-		
 		tiles.Clear();
-
 		buildMap(map);
 }
 
+//Level select
+//TO DO: set up main menu SCREEN
+//TODO streamline level loading based on name
 function OnGUI () {
 	
-	var buttonx : int=50;
-    var buttony : int=50;
+	var xOffset : int=50;
+    var yOffset : int=260;
+    var buttonHeight: int= 100;
+    var buttonWidth: int =50;
     var offset: int =100;
-    var numButtons: int=5;
+  //  var numButtons: int=5;
+
     //x, y, width, height
     if(mainMenu) {
-
-        if (GUI.Button (Rect (buttonx+(offset*(numButtons-4)),buttony*numButtons,100,60), "Level 1")) {
-                mainMenu=false;
-                level = "Assets/Resources/Levels/devin3";
-                reset(level);
-        }
-       
-        if (GUI.Button (Rect (buttonx+(offset*(numButtons-3)),buttony*numButtons,100,60), "Level 2")) {
-                mainMenu=false;
-                level = "Assets/Resources/Levels/demo3";
-                reset(level);
-        }
-        if (GUI.Button (Rect (buttonx+(offset*(numButtons-2)),buttony*numButtons,100,60), "Level 3")) {
-                mainMenu=false;
-                level = "Assets/Resources/Levels/demo4";
-                reset(level);
-        }
-        if (GUI.Button (Rect (buttonx+(offset*(numButtons-1)),buttony*numButtons,100,60), "Level 4")) {
-                mainMenu=false;
-                level = "Assets/Resources/Levels/demo5";
-                reset(level);
-        }
-        if (GUI.Button (Rect (buttonx+(offset*numButtons),buttony*numButtons,100,60), "Level 5")) {
-                mainMenu=false;
-                level = "Assets/Resources/Levels/TIMSLEVEL";
-                reset(level);
-        }
+    	var count: int;
+    	for(count=1; count<=numLevels;count++) {
+		   	if (GUI.Button (Rect (xOffset+(offset*count), yOffset, xOffset*2, 50), "Level "+count)) {
+		            mainMenu=false;
+		            level = "Assets/Resources/Levels/level"+count;
+		            reset(level);
+		    }
+    	}
     }
     else {
-         if (GUI.Button (Rect (0,0,80,48), "Main Menu")) {
+         if (GUI.Button (Rect (10,0,buttonHeight, buttonWidth), "Level Select")) {
             mainMenu=true;
          }
 
-        if (GUI.Button (Rect (0,50,60,40), "Reset")) {
+        if (GUI.Button (Rect (10,50, buttonHeight, buttonWidth), "Reset")) {
 			reset(level);
          }
 
