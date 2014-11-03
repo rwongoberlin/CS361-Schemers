@@ -5,6 +5,7 @@ var charOn : boolean;						//whether or not a character is on the tile
 var type : String;							//whether tile is null, a wall, or pit.
 var model : tileModel;						//for the tileModel texture
 var targetNum : int;						//which number/type of target tile contains, if it contains a target.
+var tempType : String = "_";
 
 function init(x : int, y : int, type : String, charOn : boolean) {	
 	this.x = x;
@@ -18,6 +19,14 @@ function init(x : int, y : int, type : String, charOn : boolean) {
 	model = modelObject.AddComponent("tileModel");	
 	model.transform.parent = modelObject.transform;			// Make Tile the Parent of TileModel
 	model.init(this, type);	
+}
+
+function Update() {
+	model.tempType = tempType;
+}
+
+function getType() {
+	return model.type;
 }
 
 //returns true if tile is wall

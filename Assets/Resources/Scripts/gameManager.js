@@ -18,11 +18,17 @@ var blueTargets: Array;  					//array for holding the tile objects of the blue t
 var blueInit : Array;						//initial x and y for blue's placement
 var redInit : Array;						//initial x and y for reds placement			
 var mainMenu : boolean;						//whether we're on the main menu screen
+//EDITOR SCHTUFF
+var makeLevel : boolean;
+var makeWidth = 2;
+var makeHeight = 2;	
+var editMode : boolean = false;
+var makeType : String = "_";
 
 var turns : turnCounter;					//the number of moves we've made for this level
 var level : String = "Assets/Resources/Levels/level1";	//default starting level
 var audioSource1: AudioSource;				//controls the audio
-var numLevels : int = 5; 					//number of levels we currently have
+var numLevels : int = 6; 					//number of levels we currently have
 
 // Called once when the script is created.
 function Start () {
@@ -115,7 +121,14 @@ function Update () {
 		blueChar.pitReset();
 		redChar.pitReset();
 	}
-
+	
+	if (editMode) {
+		for(var i = 0; i < makeWidth; i++) {
+			for(var j = 0; j < makeHeight; j++) {
+				tiles[i][j].tempType = makeType;
+			}
+		}
+	}
 } 
 
 //returns true if both characters are not moving into pits
@@ -296,17 +309,57 @@ function reset(map : String) {
 		buildMap(map);
 }
 
+function makeTile (x : int, y : int, tileType : String) {
+	var tileObject = new GameObject();
+	var charOn = false;
+	var character = 0;
+	
+	var tileScript = tileObject.AddComponent("tile");
+	
+	tileScript.transform.parent = tileFolder.transform;
+	tileScript.transform.position = Vector3(x,y,0);
+
+	tileScript.init(x, y, tileType, charOn);
+	
+	tileScript.name = "Tile " + x + " " + y;
+	return tileScript;
+}
+
+function convertTile(x : int, y : int, tileType : String) {
+	tiles[x][y].type = tileType;
+	print(tiles[x][y].type);
+}
+
+function displayLevel(makeWidth : int, makeHeight : int) {
+	var children : int = tileFolder.transform.childCount;
+ 	for (var i = children - 1; i >= 0; i--) {
+   		Destroy(tileFolder.transform.GetChild(i).gameObject);
+	}
+	Destroy(blueChar.gameObject);
+	Destroy(redChar.gameObject);
+	tiles.Clear();
+	
+	tiles = new Array();
+	tileFolder = new GameObject();
+	tileFolder.name = "TileFolder";
+	for (var ii = 0; ii < makeWidth; ii++) {
+		tiles[ii] = new Array();
+		for (var j = 0; j < makeHeight; j++) {
+			tiles[ii].Add(makeTile(ii, makeHeight-j, "_"));
+		}
+	}
+}
+
 //Level select
-//TO DO: set up main menu SCREEN
+//TODO: set up main menu SCREEN
 //TODO streamline level loading based on name
 function OnGUI () {
-	
 	var xOffset : int=50;
     var yOffset : int=260;
     var buttonHeight: int= 100;
     var buttonWidth: int =50;
     var offset: int =100;
-  //  var numButtons: int=5;
+  	//var numButtons: int=5;
 
     //x, y, width, height
     if(mainMenu) {
@@ -318,15 +371,77 @@ function OnGUI () {
 		            reset(level);
 		    }
     	}
-    }
-    else {
-         if (GUI.Button (Rect (10,0,buttonHeight, buttonWidth), "Level Select")) {
+    } else if(makeLevel) {
+		GUI.Label (Rect (10, 100, 50, 50), "Width");
+		GUI.Label (Rect (10, 200, 50, 50), "Height");
+		GUI.Label (Rect (140, 100, 50, 50), makeWidth.ToString());
+		GUI.Label (Rect (140, 200, 50, 50), makeHeight.ToString());
+		if (GUI.Button (Rect (90, 80, 30, 30), "+") && makeWidth < 12) {
+			makeWidth++;	
+		}
+		if (GUI.Button (Rect (90, 110, 30, 30), "-") && makeWidth > 2) {	
+			makeWidth--;
+		}
+		if (GUI.Button (Rect (90, 180, 30, 30), "+") && makeHeight < 12) {	
+			makeHeight++;
+		}
+		if (GUI.Button (Rect (90, 210, 30, 30), "-") && makeHeight > 2) {	
+			makeHeight--;
+		}
+		if (GUI.Button (Rect (10, 300, 100, 50), "MAKE MAP")) {	
+			displayLevel(makeWidth, makeHeight);
+			makeLevel = false;
+			editMode = true;
+		}
+	} else if(editMode) {
+		if (GUI.Button (Rect (10, 0, buttonHeight, buttonWidth), "Wall")) {
+            makeType="x";
+     	} 
+      	if (GUI.Button (Rect (10, 50, buttonHeight, buttonWidth), "Pit")) {
+			makeType="o";
+		}
+     	if (GUI.Button (Rect (10, 100, buttonHeight, buttonWidth), "Red Char")) {
+     		makeType="2";
+     	}
+		if (GUI.Button (Rect (10, 150, buttonHeight, buttonWidth), "Red *")) {
+			makeType="a";
+     	} 
+      	if (GUI.Button (Rect (10, 200, buttonHeight, buttonWidth), "Red **")) {
+			makeType="b";
+		}
+     	if (GUI.Button (Rect (10, 250, buttonHeight, buttonWidth), "Red ***")) {
+			makeType="c";     		
+     	}
+		if (GUI.Button (Rect (10, 300, buttonHeight, buttonWidth), "Blue Char")) {
+     		makeType="1";
+     	}
+		if (GUI.Button (Rect (10, 350, buttonHeight, buttonWidth), "Blue *")) {
+			makeType="A";		
+     	} 
+      	if (GUI.Button (Rect (10, 400, buttonHeight, buttonWidth), "Blue **")) {
+			makeType="B";		
+		}
+     	if (GUI.Button (Rect (10, 450, buttonHeight, buttonWidth), "Blue ***")) {
+			makeType="C";     		
+     	}
+     	if (GUI.Button (Rect (10, 500, buttonHeight, buttonWidth), "Empty Tile")) {
+			makeType="_";     		
+     	}  	
+    } else {
+    	if (GUI.Button (Rect (10, 0, buttonHeight, buttonWidth), "Main Menu")) {
             mainMenu=true;
-         }
-
-        if (GUI.Button (Rect (10,50, buttonHeight, buttonWidth), "Reset")) {
+     	} 
+     	
+      	if (GUI.Button (Rect (10, 50, buttonHeight, buttonWidth), "Reset")) {
 			reset(level);
-         }
-
+		}
+     	
+     	if (GUI.Button (Rect (10, 100, buttonHeight, buttonWidth), "Make Level")) {
+     		makeLevel = true;
+     	}
     }
 }
+
+
+
+
