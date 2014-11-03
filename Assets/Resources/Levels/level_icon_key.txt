@@ -1,0 +1,10 @@
+first line is width
+second is height
+
+x wall
+o pit
+1 blue
+2 red
+A blue 1
+a red 1
+put spaces between everything
