@@ -28,12 +28,13 @@ var makeType : String = "_";
 var turns : turnCounter;					//the number of moves we've made for this level
 var level : String = "Assets/Resources/Levels/level1";	//default starting level
 var audioSource1: AudioSource;				//controls the audio
-var numLevels : int = 6; 					//number of levels we currently have
+var numLevels : int = 7; 					//number of levels we currently have
 
 // Called once when the script is created.
 function Start () {
 
 	buildMap(level);
+	addCounter();
 	audioSource1 = gameObject.AddComponent("AudioSource");
 
 	audioSource1.audio.loop = true; 
@@ -97,10 +98,15 @@ function Start () {
 function Update () {
 	blueChar.setTile();
 	redChar.setTile();
+	
 	//check to see if the move is legal
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
-		blueChar.move();
-		redChar.move();
+		var bTrue = blueChar.move();
+		var rTrue = redChar.move();
+		
+		if(bTrue || rTrue) {
+			turns.addTurn();
+		}
 
 		//check to see if the target we're moving onto is collectable
 		if(blueChar.currentTile.model.collectable) {
@@ -307,6 +313,7 @@ function reset(map : String) {
 		Destroy(redChar.gameObject);
 		tiles.Clear();
 		buildMap(map);
+		turns.reset();
 }
 
 function makeTile (x : int, y : int, tileType : String) {
@@ -348,6 +355,19 @@ function displayLevel(makeWidth : int, makeHeight : int) {
 			tiles[ii].Add(makeTile(ii, makeHeight-j, "_"));
 		}
 	}
+}
+
+function addCounter() {
+	var countObject = new GameObject();
+	var countScript = countObject.AddComponent("turnCounter");
+	
+	countScript.transform.parent = transform;
+	countScript.transform.position = Vector3(-2, 1, -2);
+
+	countScript.init(this);
+	
+	turns = countScript;
+	countScript.name = "turnCounter";
 }
 
 //Level select

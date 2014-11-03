@@ -84,8 +84,10 @@ function move() {
 		transform.position.x = currentTile.x;
 		transform.position.y = currentTile.y;
 		moved = true;
+		return true;
 	} else {
 		currentTile = prevTile;
+		return false;
 	}
 
 }

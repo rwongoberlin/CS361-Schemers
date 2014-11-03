@@ -23,8 +23,8 @@ function init(o : gameManager) {
 	//gameObject.renderer.material.color = Color(0,0,0, 0f);
 }
 
-function halfMove() {
-	turns = turns + 0.5;
+function addTurn() {
+	turns = turns + 1;
 	counterText.text = ""+Mathf.Floor(turns);
 }
 
