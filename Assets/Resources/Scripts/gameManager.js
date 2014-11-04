@@ -23,7 +23,9 @@ var makeLevel : boolean;
 var makeWidth = 2;
 var makeHeight = 2;	
 var editMode : boolean = false;
-var makeType : String = "_";
+var makeType : String;
+var allBlueCollected: boolean = false;		//keeps track of whether we've collected all the blue targets
+var allRedCollected:  boolean = false;		//keeps track of whether we've collected all the red targets
 
 var turns : turnCounter;					//the number of moves we've made for this level
 var level : String = "Assets/Resources/Levels/level1";	//default starting level
@@ -283,24 +285,41 @@ function collectBlue() {
 		blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); 
 	}
 	else {
-		//TO DO: write the win condition.
 		//completed blue targets
+		allBlueCollected=true;
+			if(allRedCollected) {
+				youWin();
+		}
 	}
 }
+
 
 //collects red targets and sets the next one up
 function collectRed() {
 	redChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
 	curTarRed++;
 	//check to see if there are still targets left
-	if(curTarRed<redTargets.length+1) {
-	redTargets[curTarRed-1].makeTarget(redTargets[curTarRed-1].targetNum, curTarRed); //make it into a collectable model
+	if(curTarRed < redTargets.length+1) {
+		//make it into a collectable model
+		redTargets[curTarRed-1].makeTarget(redTargets[curTarRed-1].targetNum, curTarRed); 
 	}
 	else {
-		//TO DO: set up win condition
-		//blue will check red, red checks blue, then if all is well call winFunction.
-		//completed red targets
+		allRedCollected=true;
+		if(allBlueCollected) {
+			//beat level
+				youWin();
+		}
 	}
+}
+
+//displays winning text
+function youWin() {
+	var winObject = new GameObject();
+	var winScript = winObject.AddComponent("win");
+	winScript.transform.parent = transform;
+	winScript.transform.position = Vector3(-2, 5, -2);
+	winScript.init(this);
+	winScript.name = "win";
 }
 
 //clear the map (identified with a string).

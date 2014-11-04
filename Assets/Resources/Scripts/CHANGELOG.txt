@@ -6,6 +6,10 @@ recent ones on top, along with the
 date uploaded to the github
 ***********************************/
 
+11/3 -Robin
+-Added win.js, a basic win condition script that is called through youWin() gameManager function 
+-reset makeType to not have a default so that you have to be in edit mode to change tile types
+
 10/29 - Teresa and Robin
 -commented code finally…
 -removed extraneous fields
