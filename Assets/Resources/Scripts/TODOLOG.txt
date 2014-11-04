@@ -1,0 +1,13 @@
+/***********************************
+It would be great to have a running
+log of changes other than github 
+commit messages. Please add the most 
+recent ones on top, along with the 
+date uploaded to the github
+***********************************/
+
+Things to do:
+
+
+
+Things completed (with date):

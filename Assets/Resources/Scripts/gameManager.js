@@ -337,11 +337,12 @@ function reset(map : String) {
 		tiles.Clear();
 		buildMap(map);
 		turns.reset();
-		allRedCollected=false;
-		allBlueCollected=false;
 		if(allRedCollected&&allBlueCollected) {
+		//	print("about to dstroy?");
 			Destroy(winFolder.transform.GetChild(0).gameObject);
 		}
+		allRedCollected=false;
+		allBlueCollected=false;
 }
 
 function makeTile (x : int, y : int, tileType : String) {

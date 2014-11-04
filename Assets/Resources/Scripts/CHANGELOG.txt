@@ -6,6 +6,10 @@ recent ones on top, along with the
 date uploaded to the github
 ***********************************/
 
+11/4 -Robin
+-win message now properly clears
+-Blue char is more transparent
+
 11/3 -Robin
 -Added win.js, a basic win condition script that is called through youWin() gameManager function 
 -reset makeType to not have a default so that you have to be in edit mode to change tile types
