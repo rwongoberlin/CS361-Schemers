@@ -398,13 +398,22 @@ function writeLevel() {
 	var realHeight = makeHeight + 2;
 	sw.WriteLine(realWidth);
 	sw.WriteLine(realHeight);
+	for (var k = 1; k < realWidth; k++) {
+		row = row + "o ";
+	}
+	sw.WriteLine(row);
+	row = "o ";
 	for (var i = 0; i < makeHeight; i++) {
 		for (var j = 0; j < makeWidth; j++) {
-			row = row + tiles[i][j].getType() + " ";
+			row = row + tiles[j][i].getType() + " ";
 		}
 		sw.WriteLine(row + "o");
 		row = "o ";
 	}
+	for (var kk = 1; kk < realWidth; kk++) {
+		row = row + "o ";
+	}
+	sw.WriteLine(row);
 	sw.Flush();
 	sw.Close();
 	numLevels++;
