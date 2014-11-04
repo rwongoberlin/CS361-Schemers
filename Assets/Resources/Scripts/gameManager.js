@@ -8,6 +8,7 @@ var tileFolder : GameObject;				//holds tiles for hierarchy pane
 var tiles : Array;							//2D array of tiles
 
 var characterFolder : GameObject;			//holds characters for hierarchy pane
+var winFolder: GameObject;					//for easy deleting
 var blueChar : character;					//blue character
 var redChar : character;					//red character
 		
@@ -34,6 +35,18 @@ var numLevels : int = 7; 					//number of levels we currently have
 
 // Called once when the script is created.
 function Start () {
+ //reinitialize both tile and character folders, arrays for tracking targets, set current targets to be 1	
+    tileFolder = new GameObject();
+	tileFolder.name = "TileFolder";
+	
+	characterFolder = new GameObject();
+	characterFolder.name = "CharacterFolder";	
+
+	winFolder = new GameObject();
+	winFolder.name = "winFolder";
+
+	blueTargets = new Array(3);
+	redTargets = new Array(3);
 
 	buildMap(level);
 	addCounter();
@@ -42,22 +55,13 @@ function Start () {
 	audioSource1.audio.loop = true; 
 	audioSource1.audio.clip = Resources.Load("Sounds/loop1");
 	audioSource1.audio.Play();
+
 }
 
 /* takes in a string, pulls in corresponding text file, and reads in a map
  * params: map (the name of the text file for the level without .txt)
  */
  function buildMap(map : String) {	
-
- //reinitialize both tile and character folders, arrays for tracking targets, set current targets to be 1	
-    tileFolder = new GameObject();
-	tileFolder.name = "TileFolder";
-	
-	characterFolder = new GameObject();
-	characterFolder.name = "CharacterFolder";
-	
-	blueTargets = new Array(3);
-	redTargets = new Array(3);
 	curTarBlue = 1;
 	curTarRed = 1;
 
@@ -316,7 +320,7 @@ function collectRed() {
 function youWin() {
 	var winObject = new GameObject();
 	var winScript = winObject.AddComponent("win");
-	winScript.transform.parent = transform;
+	winScript.transform.parent = winFolder.transform;
 	winScript.transform.position = Vector3(-2, 5, -2);
 	winScript.init(this);
 	winScript.name = "win";
@@ -333,6 +337,11 @@ function reset(map : String) {
 		tiles.Clear();
 		buildMap(map);
 		turns.reset();
+		allRedCollected=false;
+		allBlueCollected=false;
+		if(allRedCollected&&allBlueCollected) {
+			Destroy(winFolder.transform.GetChild(0).gameObject);
+		}
 }
 
 function makeTile (x : int, y : int, tileType : String) {
