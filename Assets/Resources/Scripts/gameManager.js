@@ -398,6 +398,38 @@ function addCounter() {
 	countScript.name = "turnCounter";
 }
 
+//Writes the edited level into a text file (numbered appropriately) and resets to the default level
+function writeLevel() {
+	var nextLevel = numLevels + 1;
+	var sw : StreamWriter = new StreamWriter("Assets/Resources/Levels/level" + nextLevel + ".txt");
+	var row : String = "o ";
+	var realWidth = makeWidth + 2;
+	var realHeight = makeHeight + 2;
+	sw.WriteLine(realWidth);
+	sw.WriteLine(realHeight);
+	for (var k = 1; k < realWidth; k++) {
+		row = row + "o ";
+	}
+	sw.WriteLine(row);
+	row = "o ";
+	for (var i = 0; i < makeHeight; i++) {
+		for (var j = 0; j < makeWidth; j++) {
+			row = row + tiles[j][i].getType() + " ";
+		}
+		sw.WriteLine(row + "o");
+		row = "o ";
+	}
+	for (var kk = 1; kk < realWidth; kk++) {
+		row = row + "o ";
+	}
+	sw.WriteLine(row);
+	sw.Flush();
+	sw.Close();
+	numLevels++;
+	editMode = false;
+	reset("Assets/Resources/Levels/level1");
+}
+
 //Level select
 //TODO: set up main menu SCREEN
 //TODO streamline level loading based on name
@@ -474,6 +506,9 @@ function OnGUI () {
      	}
      	if (GUI.Button (Rect (10, 500, buttonHeight, buttonWidth), "Empty Tile")) {
 			makeType="_";     		
+     	}
+     	if (GUI.Button (Rect (10, 600, buttonHeight, buttonWidth), "Write Level")) {
+     		writeLevel();
      	}  	
     } else {
     	if (GUI.Button (Rect (10, 0, buttonHeight, buttonWidth), "Main Menu")) {
