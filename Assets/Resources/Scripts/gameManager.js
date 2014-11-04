@@ -394,8 +394,10 @@ function writeLevel() {
 	var nextLevel = numLevels + 1;
 	var sw : StreamWriter = new StreamWriter("Assets/Resources/Levels/level" + nextLevel + ".txt");
 	var row : String = "o ";
-	sw.WriteLine(makeWidth);
-	sw.WriteLine(makeHeight);
+	var realWidth = makeWidth + 2;
+	var realHeight = makeHeight + 2;
+	sw.WriteLine(realWidth);
+	sw.WriteLine(realHeight);
 	for (var i = 0; i < makeHeight; i++) {
 		for (var j = 0; j < makeWidth; j++) {
 			row = row + tiles[i][j].getType() + " ";
