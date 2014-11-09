@@ -102,13 +102,13 @@ function Start () {
 }
 
 function Update () {
-	blueChar.setTile();
-	redChar.setTile();
+	var bluedir : int = blueChar.setTile();
+	var reddir :  int = redChar.setTile();
 	
 	//check to see if the move is legal
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
-		var bTrue = blueChar.move();
-		var rTrue = redChar.move();
+		var bTrue = blueChar.move(bluedir);
+		var rTrue = redChar.move(reddir);
 		
 		if(bTrue || rTrue) {
 			turns.addTurn();
