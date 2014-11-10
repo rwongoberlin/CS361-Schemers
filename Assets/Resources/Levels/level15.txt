@@ -1,7 +1,10 @@
-16
-5
-o o o o o o o o o o o o o o o o
-o x x x o x x x o x x o o x x x
-o o x o o x 1 x o x o x o x 2 x
-o o x o o x x x o x x o o x x x
-o o o o o o o o o o o o o o o o
+10
+8
+o o o o o o o o o o
+o o x - x x - - c o
+o B x - x - x - - o
+o b A 2 a 1 x - - o
+o - x x x - x - - o
+o - - - - x - C - o
+o - - - - - - x - o
+o o o o o o o o o o
