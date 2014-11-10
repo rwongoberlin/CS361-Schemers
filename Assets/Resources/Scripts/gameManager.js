@@ -104,6 +104,9 @@ function Start () {
 function Update () {
 	var bluedir : int = blueChar.setTile();
 	var reddir :  int = redChar.setTile();
+	//if (bluedir == 5 ||  reddir == 5) {
+	//	return;
+	//}
 	
 	//check to see if the move is legal
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
@@ -145,6 +148,12 @@ function Update () {
 
 //returns true if both characters are not moving into pits
 function pitCheck() {
+	if (blueChar.currentTile.isPit()) {
+		blueChar.pitShake();
+	}
+	if (redChar.currentTile.isPit()) {
+		redChar.pitShake();
+	}
 	return (!blueChar.currentTile.isPit() && !redChar.currentTile.isPit());
 }
 

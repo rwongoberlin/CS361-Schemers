@@ -3,17 +3,26 @@ var prevTile : tile;
 var nextTile : tile; 
 var type : int;
 var rotation : int;
-//variables needed for movement calculation
-var clock : float;
-var moveTime : float = 0.25;
-var t0 : float = 0;
-var tend : float = 0;
+
+//variables to determine what kind of movement is underway currently.  At most one of these should be true at any given time (ie reset them after movement is finished)
 var moving : boolean = false;
-var deltat : float = 0;
-var deltax : int = 0;
-var deltay : int = 0;
-var xinit : float = 0;
-var yinit : float = 0;
+var shaking : boolean = false;
+
+//variables needed for smooth movement calculation (the "t" variables are used in all animations)
+var clock : float;
+var moveTime : float = 0.25;	//total time in which the movement is done; increase for slower movement, decrease for faster movement
+var t0 : float = 0;				//used in calculation.  Don't touch.
+var tend : float = 0;			//used in calculation.  Determined by clock and moveTime - don't directly adjust
+var deltat : float = 0;			//used in calculation.  Don't touch.
+var deltax : int = 0;			//I think you see the pattern here.
+var deltay : int = 0;			//Don't touch this either
+var xinit : float = 0;			//Or this.
+var yinit : float = 0;			//or even this
+
+//variables for shaking calculation
+//var numShakes : float = 2.0;		//the number of full shake cycles the animation will undergo (where 1 shake cycle goes middle > left > right > middle).  Adjust this as you see fit, but keep as an integer value (currently hardcoded as 2 - it makes it a lot easier)
+var shakeTime : float = 0.5;	//total time in which the shake(s) will be completed.  Probably should be the same as moveTime, but it doesn't really matter.  Adjust as you see fit.
+var shakeAngle : int = 15;		//the maximum angle (from the vertical axis) of each shake.  The difference in rotation between the clockwise and counterclockwise extents of the shakes will be 2  * shakeAngle.
 
 //TO DO: remove rotation (?)
 
@@ -143,12 +152,24 @@ function pitReset() {
 	currentTile = prevTile;
 }
 
+//Sets up the shaking animation (which will be handled in the Update function)
+function pitShake() {
+	t0 = clock;
+	tend = clock + shakeTime;
+	shaking = true;
+}
+
+//Shakes to inform player that their move is invalid.
+function shakeIt() {
+	
+}
+
 function Update() {
 	if (moving) {
 		deltat = clock - t0;
 		transform.position = Vector3(xinit + (deltax*deltat/moveTime), yinit + (deltay*deltat/moveTime), -0.1);
 		if (clock >= tend) {
-			moving =false;
+			moving = false;
 			deltax = 0;
 			deltay = 0;
 			t0 = 0;
@@ -158,6 +179,31 @@ function Update() {
 			transform.position.y = currentTile.y;
 			xinit = transform.position.x;
 			yinit = transform.position.y;
+		}
+	}
+	if (shaking) {
+		deltat = clock - t0;
+		var interval : float = shakeTime / 8.0;
+		var direction = -1;
+		transform.Rotate(0, 0, (shakeAngle * direction/interval));
+		if (clock >= t0 + interval) {
+			direction = -1;
+		}
+		if (clock >= t0 + 3.0 * interval) {
+			direction = 1;
+		}
+		if (clock >= t0 + 5.0 * interval) {
+			direction = -1;
+		}
+		if (clock >= t0 + 7.0 * interval) {
+			direction = 1;
+		}
+		if (clock >= tend) {
+			shaking = false;
+			t0 = 0;
+			tend = 0;
+			deltat = 0;
+			transform.eulerAngles = Vector3(0, 0, 0);
 		}
 	}
 	clock = clock + Time.deltaTime;

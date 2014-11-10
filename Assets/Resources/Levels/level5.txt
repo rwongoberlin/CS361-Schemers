@@ -2,7 +2,7 @@
 7
 o o o o o o o o o o o o
 o - - - 2 - - - - - - o
-o - B - - - - - b - - o
+o - B - - - - x b - - o
 o C x - - - - - - c - o
 o - A - - - a - - - - o
 o - - 1 - - - - - - - o
