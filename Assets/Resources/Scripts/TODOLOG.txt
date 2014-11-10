@@ -7,7 +7,7 @@ date uploaded to the github
 ***********************************/
 
 Things to do:
-
+fix spaces so that once a target is collected the character doesn’t go behind the space
 
 
 Things completed (with date):

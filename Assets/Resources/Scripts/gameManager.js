@@ -159,6 +159,10 @@ function pitCheck() {
 
 //returns true if both characters are not moving into the same space
 function sameSpaceCheck() {
+	if(blueChar.currentTile==redChar.currentTile) {
+		redChar.pitShake();
+		blueChar.pitShake();
+	}
 	return blueChar.currentTile!=redChar.currentTile;
 }
 
@@ -167,23 +171,36 @@ function sameSpaceCheck() {
 function targetBlockedCheck() {
 		curTar1 = blueChar.currentTile.getTargetNum();
 		curTar2 = redChar.currentTile.getTargetNum();
+		var wrongTarget: boolean =true; 
+
 		if ((curTar1==0) && (curTar2==0)) {
-			return true;
+			wrongTarget = true;
 		}
 
 //checking to see if going for wrong character's target
-	if((curTar1/10 == 2) || curTar2/10 == 1) {
-		return false; 
+
+//if blue tries to collect red's targer, blue shakes 
+	if(curTar1/10 == 2) {
+		blueChar.pitShake();
+		wrongTarget = false;
+	}
+
+///if red tries to collect blues's targer, red
+	if(curTar2/10 == 1) {
+		redChar.pitShake();
+		wrongTarget = false; 
  	}
 
 //checking to see if going for wrong number target
 	if (!(curTar1%10 == curTarBlue) && curTar1!=0) {
-		return false;
+		blueChar.pitShake();
+		wrongTarget = false;
 	}
 	if (!(curTar2%10 == curTarRed) && curTar2!=0) {
-		return false;
+		redChar.pitShake();
+		wrongTarget = false;
 	}
-		return true;
+		return wrongTarget;
 	
 }
 
