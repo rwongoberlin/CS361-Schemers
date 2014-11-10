@@ -5,6 +5,11 @@ commit messages. Please add the most
 recent ones on top, along with the 
 date uploaded to the github
 ***********************************/
+11/10 -Robin
+-renumbered levels
+-made buttons into a dynamic grid
+-levels 0-4 are now a tutorial type thing
+-levels at the end say TODO
 
 11/9-Robin
 -made it so characters shake on all illegal moves

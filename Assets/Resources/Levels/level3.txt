@@ -1,8 +1,9 @@
-10
-6
-x x x x x x x x x x
-x b _ _ _ a _ _ _ x 
-x C _ _ 1 2 _ c _ x 
-x _ _ _ _ _ _ _ _ x 
-x _ _ A _ _ _ _ B x
-x x x x x x x x x x
+9
+7
+x x x x x x x x x 
+x _ _ 1 x _ c _ x
+x _ _ _ x _ b _ x
+x _ _ A x _ a _ x
+x B _ _ x _ o _ x
+x _ _ C x _ 2 _ x
+x x x x x x x x x 

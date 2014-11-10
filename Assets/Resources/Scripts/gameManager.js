@@ -31,7 +31,7 @@ var allRedCollected:  boolean = false;		//keeps track of whether we've collected
 var turns : turnCounter;					//the number of moves we've made for this level
 var level : String = "Assets/Resources/Levels/level1";	//default starting level
 var audioSource1: AudioSource;				//controls the audio
-var numLevels : int = 7; 					//number of levels we currently have
+var numLevels : int; 					//number of levels we currently have
 
 // Called once when the script is created.
 function Start () {
@@ -463,20 +463,30 @@ function writeLevel() {
 function OnGUI () {
 	var xOffset : int=50;
     var yOffset : int=260;
-    var buttonHeight: int= 100;
-    var buttonWidth: int =50;
-    var offset: int =100;
+    var buttonHeight: int= 60;
+    var buttonWidth: int =100;
+    var offset: int =90;
+    numLevels = 16; 	//number of levels we currently have (0 indexed)
+    var numPerRow: int = 4;
   	//var numButtons: int=5;
 
     //x, y, width, height
+ /*
+(0,0) (0,1) (0,2) (0,3)
+(1,0) (1,1) (1,2) (1,3)
+(2,0) (2,1) (2,2) (2,3)
+ */
     if(mainMenu) {
     	var count: int;
-    	for(count=1; count<=numLevels;count++) {
-		   	if (GUI.Button (Rect (xOffset+(offset*count), yOffset, xOffset*2, 50), "Level "+count)) {
-		            mainMenu=false;
-		            level = "Assets/Resources/Levels/level"+count;
-		            reset(level);
-		    }
+    //	print(numLevels);
+    	for(county = 0; county<numLevels/numPerRow; county++) {
+    		for(countx = 0; countx<numPerRow; countx++) {
+			   	if (GUI.Button (Rect (xOffset+(buttonWidth*countx), yOffset+(buttonHeight*county), buttonWidth, buttonHeight), "Level "+ ((numPerRow*county)+countx))) {
+			            mainMenu=false;
+			            level = "Assets/Resources/Levels/level"+((numPerRow*county)+countx);
+			            reset(level);
+			    }
+    		}
     	}
     } else if(makeLevel) {
 		GUI.Label (Rect (10, 100, 50, 50), "Width");
@@ -538,15 +548,15 @@ function OnGUI () {
      		writeLevel();
      	}  	
     } else {
-    	if (GUI.Button (Rect (10, 0, buttonHeight, buttonWidth), "Main Menu")) {
+    	if (GUI.Button (Rect (10, 0, buttonWidth, buttonHeight), "Main Menu")) {
             mainMenu=true;
      	} 
      	
-      	if (GUI.Button (Rect (10, 50, buttonHeight, buttonWidth), "Reset")) {
+      	if (GUI.Button (Rect (10, buttonHeight, buttonWidth, buttonHeight), "Reset")) {
 			reset(level);
 		}
      	
-     	if (GUI.Button (Rect (10, 100, buttonHeight, buttonWidth), "Make Level")) {
+     	if (GUI.Button (Rect (10, 2*buttonHeight, buttonWidth, buttonHeight), "Make Level")) {
      		makeLevel = true;
      	}
     }
