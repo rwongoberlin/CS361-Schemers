@@ -1,0 +1,9 @@
+10
+7
+x x x x x x x x x x 
+x _ _ _ _ x _ b _ x
+x _ _ _ _ x _ _ _ x
+x _ 1 _ _ x c a _ x
+x _ _ _ _ x _ _ _ x
+x _ _ _ _ x _ 2 _ x
+x x x x x x x x x x 

@@ -1,0 +1,8 @@
+9
+6
+o o o o o o o o o 
+o _ b _ c _ _ _ o
+o _ x _ _ x B _ o
+o 2 _ _ 1 x _ _ o
+o _ _ C _ _ a _ o
+o o o o o o o o o 
