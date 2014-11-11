@@ -5,7 +5,14 @@ commit messages. Please add the most
 recent ones on top, along with the 
 date uploaded to the github
 ***********************************/
+
+
 11/10 -Robin
+-levels now jump to the next one after a few seconds, display win message and sound effect
+-we can now have <=3 targets on any level!
+-made buttons for edit mode have proper width and height
+-Now default level is an arrow pointing to main menu button
+
 -renumbered levels
 -made buttons into a dynamic grid
 -levels 0-4 are now a tutorial type thing

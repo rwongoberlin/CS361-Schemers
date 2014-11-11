@@ -9,3 +9,4 @@ o - - x - 2 x a o
 o x - B - x - - o
 o - - x - - x - o
 o c - x - - A - o
+x x x x x x x x o

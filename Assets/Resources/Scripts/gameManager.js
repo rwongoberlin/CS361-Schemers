@@ -27,9 +27,12 @@ var editMode : boolean = false;
 var makeType : String;
 var allBlueCollected: boolean = false;		//keeps track of whether we've collected all the blue targets
 var allRedCollected:  boolean = false;		//keeps track of whether we've collected all the red targets
+var reqBlueTargets : int = 0;				//number of targets require for the level, 
+var reqRedTargets : int = 0;				//number of targets require for the level, 
 
 var turns : turnCounter;					//the number of moves we've made for this level
-var level : String = "Assets/Resources/Levels/level1";	//default starting level
+var level : String = "Assets/Resources/Levels/level0";	//default starting level
+var curlevel: int = 0;							//the level we're currently on
 var audioSource1: AudioSource;				//controls the audio
 var numLevels : int; 					//number of levels we currently have
 
@@ -47,8 +50,9 @@ function Start () {
 
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
-
-	buildMap(level);
+	
+	//print(level);
+	buildMap("Assets/Resources/Levels/levelmenu");
 	addCounter();
 	audioSource1 = gameObject.AddComponent("AudioSource");
 
@@ -118,13 +122,13 @@ function Update () {
 		}
 
 		//check to see if the target we're moving onto is collectable
-		if(blueChar.currentTile.model.collectable) {
+		if(blueChar.currentTile.model.collectable&&curTarBlue<=reqBlueTargets) {
 			collectBlue();
 			if(curTarBlue==curTarRed) {
 				playNextLoop();			
 			}
 		}
-		if(redChar.currentTile.model.collectable) {
+		if(redChar.currentTile.model.collectable&&curTarRed<=reqRedTargets) {
 			collectRed();
 			if(curTarBlue==curTarRed) {
 				playNextLoop();
@@ -248,6 +252,7 @@ function addCharacter(x : int, y : int, rotation : int, type : int) {
 /*
 addTile (float, float, String) method by Devin
 added to support tile creation w/ different types of tiles
+also changes  the required number of targets
 
 character 1 = 1
 character 2 = 2
@@ -289,16 +294,34 @@ function addTile (x : int, y : int, tileType : String) {
 	
 	if( tileType == "A" ) {
 		blueTargets[0] = tileScript;
+		if(reqBlueTargets<1) {
+			reqBlueTargets=1;
+		}
 	} else if( tileType == "B" ) {
 		blueTargets[1] = tileScript;
+		if(reqBlueTargets<2) {
+			reqBlueTargets=2;
+		}
 	} else if( tileType == "C" ) {
 		blueTargets[2] = tileScript;
+		if(reqBlueTargets<3) {
+			reqBlueTargets=3;
+		}
 	} else if( tileType == "a" ) {
 		redTargets[0] = tileScript;
+		if(reqRedTargets<1) {
+			reqRedTargets=1;
+		}
 	} else if( tileType == "b" ) {
 		redTargets[1] = tileScript;
+		if(reqRedTargets<2) {
+			reqRedTargets=2;
+		}
 	} else if( tileType == "c" ) {
 		redTargets[2] = tileScript;
+		if(reqRedTargets<3) {
+			reqRedTargets=3;
+		}
 	}
 	
 	return tileScript;
@@ -310,7 +333,7 @@ function collectBlue() {
 	blueChar.currentTile.collect(); 
 	curTarBlue++;
 	//check to see if there are still targets left
-	if(curTarBlue < blueTargets.length+1) {
+	if(curTarBlue <= reqBlueTargets) {
 		//make it into a collectable model
 		blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); 
 	}
@@ -329,7 +352,8 @@ function collectRed() {
 	redChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
 	curTarRed++;
 	//check to see if there are still targets left
-	if(curTarRed < redTargets.length+1) {
+	if(curTarRed <= reqRedTargets) { 
+	//redTargets.length+1) {
 		//make it into a collectable model
 		redTargets[curTarRed-1].makeTarget(redTargets[curTarRed-1].targetNum, curTarRed); 
 	}
@@ -344,13 +368,28 @@ function collectRed() {
 
 //displays winning text
 function youWin() {
+
 	var winObject = new GameObject();
 	var winScript = winObject.AddComponent("win");
 	winScript.transform.parent = winFolder.transform;
-	winScript.transform.position = Vector3(-2, 5, -2);
 	winScript.init(this);
 	winScript.name = "win";
-}
+	winScript.transform.position = Vector3(-2, 5, -2);
+
+//winning sound 
+	audioSource2 = gameObject.AddComponent("AudioSource");
+	audioSource2.audio.loop = true; 
+	audioSource2.audio.clip = Resources.Load("Sounds/winsound");
+	audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
+	
+		yield WaitForSeconds(audioSource2.audio.clip.length);				//so the next level doesn't auto load [took wayyy too long to figure out]
+			curlevel++;
+    		level = "Assets/Resources/Levels/level"+curlevel;
+			reset(level);
+
+	}
+
+
 
 //clear the map (identified with a string).
 function reset(map : String) {
@@ -361,14 +400,29 @@ function reset(map : String) {
 		Destroy(blueChar.gameObject);
 		Destroy(redChar.gameObject);
 		tiles.Clear();
+
+		reqBlueTargets=0;
+		reqRedTargets=0;
 		buildMap(map);
 		turns.reset();
 		if(allRedCollected&&allBlueCollected) {
-		//	print("about to dstroy?");
 			Destroy(winFolder.transform.GetChild(0).gameObject);
 		}
+		if(reqRedTargets==0) {
+			allRedCollected=true;
+		}
+		else {
 		allRedCollected=false;
-		allBlueCollected=false;
+		}
+		if(reqBlueTargets==0) {
+			allBlueCollected=true;
+		}
+		else {
+			allBlueCollected=false;
+		}
+
+		audioSource1.audio.clip = Resources.Load("Sounds/loop1");
+
 }
 
 function makeTile (x : int, y : int, tileType : String) {
@@ -454,7 +508,7 @@ function writeLevel() {
 	sw.Close();
 	numLevels++;
 	editMode = false;
-	reset("Assets/Resources/Levels/level1");
+	reset("Assets/Resources/Levels/level0");
 }
 
 //Level select
@@ -478,11 +532,11 @@ function OnGUI () {
  */
     if(mainMenu) {
     	var count: int;
-    //	print(numLevels);
     	for(county = 0; county<numLevels/numPerRow; county++) {
     		for(countx = 0; countx<numPerRow; countx++) {
 			   	if (GUI.Button (Rect (xOffset+(buttonWidth*countx), yOffset+(buttonHeight*county), buttonWidth, buttonHeight), "Level "+ ((numPerRow*county)+countx))) {
 			            mainMenu=false;
+			            curlevel=numPerRow*county+countx;
 			            level = "Assets/Resources/Levels/level"+((numPerRow*county)+countx);
 			            reset(level);
 			    }
@@ -511,41 +565,42 @@ function OnGUI () {
 			editMode = true;
 		}
 	} else if(editMode) {
-		if (GUI.Button (Rect (10, 0, buttonHeight, buttonWidth), "Wall")) {
+		if (GUI.Button (Rect (10, 0, buttonWidth, buttonHeight), "Wall")) {
             makeType="x";
      	} 
-      	if (GUI.Button (Rect (10, 50, buttonHeight, buttonWidth), "Pit")) {
+      	if (GUI.Button (Rect (10, 50, buttonWidth, buttonHeight), "Pit")) {
 			makeType="o";
 		}
-     	if (GUI.Button (Rect (10, 100, buttonHeight, buttonWidth), "Red Char")) {
+     	if (GUI.Button (Rect (10, 100, buttonWidth, buttonHeight), "Red Char")) {
      		makeType="2";
      	}
-		if (GUI.Button (Rect (10, 150, buttonHeight, buttonWidth), "Red *")) {
+		if (GUI.Button (Rect (10, 150, buttonWidth, buttonHeight), "Red *")) {
 			makeType="a";
      	} 
-      	if (GUI.Button (Rect (10, 200, buttonHeight, buttonWidth), "Red **")) {
+      	if (GUI.Button (Rect (10, 200, buttonWidth, buttonHeight), "Red **")) {
 			makeType="b";
 		}
-     	if (GUI.Button (Rect (10, 250, buttonHeight, buttonWidth), "Red ***")) {
+     	if (GUI.Button (Rect (10, 250, buttonWidth, buttonHeight), "Red ***")) {
 			makeType="c";     		
      	}
-		if (GUI.Button (Rect (10, 300, buttonHeight, buttonWidth), "Blue Char")) {
+		if (GUI.Button (Rect (10, 300, buttonWidth, buttonHeight), "Blue Char")) {
      		makeType="1";
      	}
-		if (GUI.Button (Rect (10, 350, buttonHeight, buttonWidth), "Blue *")) {
+		if (GUI.Button (Rect (10, 350, buttonWidth, buttonHeight), "Blue *")) {
 			makeType="A";		
      	} 
-      	if (GUI.Button (Rect (10, 400, buttonHeight, buttonWidth), "Blue **")) {
+      	if (GUI.Button (Rect (10, 400, buttonWidth, buttonHeight), "Blue **")) {
 			makeType="B";		
 		}
-     	if (GUI.Button (Rect (10, 450, buttonHeight, buttonWidth), "Blue ***")) {
+     	if (GUI.Button (Rect (10, 450, buttonWidth, buttonHeight), "Blue ***")) {
 			makeType="C";     		
      	}
-     	if (GUI.Button (Rect (10, 500, buttonHeight, buttonWidth), "Empty Tile")) {
+     	if (GUI.Button (Rect (10, 500, buttonWidth, buttonHeight), "Empty Tile")) {
 			makeType="_";     		
      	}
-     	if (GUI.Button (Rect (10, 600, buttonHeight, buttonWidth), "Write Level")) {
+     	if (GUI.Button (Rect (10, 550, buttonWidth, buttonHeight), "Write Level")) {
      		writeLevel();
+     		editMode=false;
      	}  	
     } else {
     	if (GUI.Button (Rect (10, 0, buttonWidth, buttonHeight), "Main Menu")) {
