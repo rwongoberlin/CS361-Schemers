@@ -1,10 +1,11 @@
 10
 9
 o o o o o o o o o o
-o - - o o o o x x o
-o o o - - - - B x o
-o - - - - 1 x b - o
-o - - o 2 A a o - o
-o - - - - - - o o o
-o o o - o o o c - o
-o - - - - - - C - o
+o _ _ o o o o x x o
+o o o _ _ _ _ B x o
+o _ _ _ _ 1 x b _ o
+o _ _ o 2 A a o _ o
+o _ _ _ _ _ _ o o o
+o o o _ o o o c _ o
+o _ _ _ _ _ _ C _ o
+o o o o o o o o o o
