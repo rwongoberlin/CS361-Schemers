@@ -1,0 +1,9 @@
+7
+7
+o x o o o o o
+o _ _ _ 2 x o
+o o o o 1 x o
+o x a A _ x o
+o x o o _ x o
+o _ _ _ _ x o
+o o o o o o o
