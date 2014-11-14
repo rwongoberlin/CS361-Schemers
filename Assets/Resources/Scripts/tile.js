@@ -6,6 +6,7 @@ var type : String;							//whether tile is null, a wall, or pit.
 var model : tileModel;						//for the tileModel texture
 var targetNum : int;						//which number/type of target tile contains, if it contains a target.
 var tempType : String = "_";
+var editMode : int;
 
 function init(x : int, y : int, type : String, charOn : boolean) {	
 	this.x = x;
@@ -14,6 +15,7 @@ function init(x : int, y : int, type : String, charOn : boolean) {
 	neighborsList = [];
 	this.charOn = charOn;
 	targetNum=0; //for non targets
+	editMode = 0;
 	
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 	model = modelObject.AddComponent("tileModel");	
@@ -22,11 +24,17 @@ function init(x : int, y : int, type : String, charOn : boolean) {
 }
 
 function Update() {
-	model.tempType = tempType;
+	if (editMode == 1) {
+		model.tempType = tempType;
+	}
 }
 
 function getType() {
 	return model.type;
+}
+
+function makeEditable() {
+	editMode = 1;
 }
 
 //returns true if tile is wall

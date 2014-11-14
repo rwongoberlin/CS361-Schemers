@@ -219,8 +219,8 @@ function playNextLoop() {
 function setNeighbors() {
 	var width = tiles[0].length - 1;
 	var height = tiles.length - 1;
-	for(y = 1; y<height; y++) {
-		for(x=1; x<width; x++) {
+	for(y = 1; y < height; y++) {
+		for(x = 1; x < width; x++) {
 			tiles[y][x].addNeighbors( tiles[y][x-1]);
 			tiles[y][x].addNeighbors( tiles[y+1][x]);
 			tiles[y][x].addNeighbors( tiles[y][x+1]);
@@ -563,6 +563,11 @@ function OnGUI () {
 			displayLevel(makeWidth, makeHeight);
 			makeLevel = false;
 			editMode = true;
+			for (var ii = 0; ii < makeWidth; ii++) {
+				for (var j = 0; j < makeHeight; j++) {
+					tiles[ii][j].makeEditable();
+				}
+			}
 		}
 	} else if(editMode) {
 		if (GUI.Button (Rect (10, 0, buttonWidth, buttonHeight), "Wall")) {
