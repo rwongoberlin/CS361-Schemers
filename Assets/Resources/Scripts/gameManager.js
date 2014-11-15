@@ -520,7 +520,7 @@ function OnGUI () {
     var buttonHeight: int= 60;
     var buttonWidth: int =100;
     var offset: int =90;
-    numLevels = 24; 	//number of levels we currently have (0 indexed)
+    numLevels = 28; 	//number of levels we currently have (0 indexed)
     var numPerRow: int = 4;
   	//var numButtons: int=5;
 
