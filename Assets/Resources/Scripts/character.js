@@ -180,7 +180,7 @@ function Update() {
 	}
 	if (shaking) {
 		deltat = clock - t0;
-		transform.Rotate(0, 0, (shakeAngle * Mathf.Sin(2.0*Mathf.PI*deltat/(shakeTime/numShakes))));
+		transform.eulerAngles = Vector3(0, 0, (shakeAngle * Mathf.Sin(2.0*Mathf.PI*deltat/(shakeTime/numShakes))));
 		if (clock >= tend) {
 			shaking = false;
 			t0 = 0;
