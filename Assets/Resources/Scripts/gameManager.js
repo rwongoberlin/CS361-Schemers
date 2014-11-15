@@ -11,6 +11,8 @@ var characterFolder : GameObject;			//holds characters for hierarchy pane
 var winFolder: GameObject;					//for easy deleting
 var blueChar : character;					//blue character
 var redChar : character;					//red character
+
+var levelOver : boolean;					//determines whether the level is over (used to keep TurnCounter from incrementing after level completion)
 		
 var curTarBlue : int = 1; 					//default starting target number is one
 var curTarRed : int = 1; 					//default starting target number is one
@@ -51,6 +53,8 @@ function Start () {
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
 	
+	levelOver = true;
+
 	//print(level);
 	buildMap("Assets/Resources/Levels/levelmenu");
 	addCounter();
@@ -106,6 +110,9 @@ function Start () {
 }
 
 function Update () {
+	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking) {
+		return;
+	}
 	var bluedir : int = blueChar.setTile();
 	var reddir :  int = redChar.setTile();
 	//if (bluedir == 5 ||  reddir == 5) {
@@ -118,7 +125,9 @@ function Update () {
 		var rTrue = redChar.move(reddir);
 		
 		if(bTrue || rTrue) {
-			turns.addTurn();
+			if (!levelOver) {
+				turns.addTurn();
+			}
 		}
 
 		//check to see if the target we're moving onto is collectable
@@ -369,6 +378,8 @@ function collectRed() {
 //displays winning text
 function youWin() {
 
+	levelOver = true;
+
 	var winObject = new GameObject();
 	var winScript = winObject.AddComponent("win");
 	winScript.transform.parent = winFolder.transform;
@@ -393,6 +404,7 @@ function youWin() {
 
 //clear the map (identified with a string).
 function reset(map : String) {
+	levelOver = false;
 	var children : int = tileFolder.transform.childCount;
  		for (var i = children - 1; i >= 0; i--) {
    			Destroy(tileFolder.transform.GetChild(i).gameObject);
