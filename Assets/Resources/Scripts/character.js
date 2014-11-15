@@ -20,8 +20,8 @@ var xinit : float = 0;			//Or this.
 var yinit : float = 0;			//or even this
 
 //variables for shaking calculation
-var numShakes : float = 6.0;		//the number of full shake cycles the animation will undergo (where 1 shake cycle goes middle > left > right > middle).  Adjust this as you see fit, but keep as an integer value (currently hardcoded as 2 - it makes it a lot easier)
-var shakeTime : float = 0.5;	//total time in which the shake(s) will be completed.  Probably should be the same as moveTime, but it doesn't really matter.  Adjust as you see fit.
+var numShakes : float = 4.0;		//the number of full shake cycles the animation will undergo (where 1 shake cycle goes middle > left > right > middle).  Adjust this as you see fit, but keep as a positive integer value.
+var shakeTime : float = 0.25;	//total time in which the shake(s) will be completed.  Probably should be the same as moveTime, but it doesn't really matter.  Adjust as you see fit.
 var shakeAngle : int = 10;		//the maximum angle (from the vertical axis) of each shake.  The difference in rotation between the clockwise and counterclockwise extents of the shakes will be 2  * shakeAngle.
 
 //TO DO: remove rotation (?)
@@ -162,9 +162,12 @@ function pitShake() {
 //}
 
 function Update() {
+	//If we're supposed to be moving between tiles, the following if clause helps to set the character's position.
 	if (moving) {
-		deltat = clock - t0;
-		transform.position = Vector3(xinit + (deltax*deltat/moveTime), yinit + (deltay*deltat/moveTime), -0.1);
+		deltat = clock - t0;																						//updates the time since start of movement
+		//DO NOT CHANGE THE FOLLOWING LINE
+		transform.position = Vector3(xinit + (deltax*deltat/moveTime), yinit + (deltay*deltat/moveTime), -0.1);		//Sets the current position based on the movement variables.  See the variables up top to mess with how this works, don't edit this part.
+		//If it's time to be done moving, clean everything up and set moving status to false
 		if (clock >= tend) {
 			moving = false;
 			deltax = 0;
@@ -172,22 +175,26 @@ function Update() {
 			t0 = 0;
 			tend = 0;
 			deltat = 0;
+			//If there's no update precisely when we reach our destination, we want to reset to the middle of the current tile.
 			transform.position.x = currentTile.x;
 			transform.position.y = currentTile.y;
 			xinit = transform.position.x;
 			yinit = transform.position.y;
 		}
 	}
+	//If we're supposed to be shaking, this handles how that works.
 	if (shaking) {
-		deltat = clock - t0;
-		transform.eulerAngles = Vector3(0, 0, (shakeAngle * Mathf.Sin(2.0*Mathf.PI*deltat/(shakeTime/numShakes))));
+		deltat = clock - t0;																						//updates times since start of animation
+		//DO NOT CHANGE THE FOLLOWING LINE
+		transform.eulerAngles = Vector3(0, 0, (shakeAngle * Mathf.Sin(2.0*Mathf.PI*deltat/(shakeTime/numShakes))));	//Sets the current rotation based on the animation variables.  Change the variables up top to tweak this, don't change the function here.
+		//If it's time to stop shaking, clean everything up and set shaking status to false
 		if (clock >= tend) {
 			shaking = false;
 			t0 = 0;
 			tend = 0;
 			deltat = 0;
-			transform.eulerAngles = Vector3(0, 0, 0);
+			transform.eulerAngles = Vector3(0, 0, 0);																//This is just to reset back to normal rotation in case something weird happens with the updates.
 		}
 	}
-	clock = clock + Time.deltaTime;
+	clock = clock + Time.deltaTime;																					//Updates the clock.  Super important.
 }
