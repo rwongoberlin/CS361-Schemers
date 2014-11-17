@@ -546,7 +546,7 @@ function OnGUI () {
     	var count: int;
     	for(county = 0; county<numLevels/numPerRow; county++) {
     		for(countx = 0; countx<numPerRow; countx++) {
-			   	if (GUI.Button (Rect (xOffset+(buttonWidth*countx), yOffset+(buttonHeight*county), buttonWidth, buttonHeight), "Level "+ ((numPerRow*county)+countx))) {
+			   	if (GUI.Button (Rect (0+(buttonWidth*countx), 0+(buttonHeight*county), buttonWidth, buttonHeight), "Level "+ ((numPerRow*county)+countx))) {
 			            mainMenu=false;
 			            curlevel=numPerRow*county+countx;
 			            level = "Assets/Resources/Levels/level"+((numPerRow*county)+countx);
