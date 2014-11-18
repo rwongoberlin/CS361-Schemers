@@ -1,11 +1,12 @@
-10
 9
-o o o o o o o o o o
-o _ _ o o o o x x o
-o o o _ _ _ _ B x o
-o _ _ _ _ 1 x b _ o
-o _ _ o 2 A a o _ o
-o _ _ _ _ _ _ o o o
-o o o _ o o o c _ o
-o _ _ _ _ _ _ C _ o
-o o o o o o o o o o
+10
+o x x x x x x x x
+o _ _ x _ x _ _ o
+o _ x x _ C x _ o
+o x _ b 1 x _ _ o
+o _ _ x _ o x _ o
+o _ _ x _ 2 x a o
+o x _ B _ x _ _ o
+o _ _ x _ _ x _ o
+o c _ x _ _ A _ o
+x x x x x x x x o
