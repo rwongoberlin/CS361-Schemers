@@ -8,6 +8,9 @@ date uploaded to the github
 
 Things to do:
 fix spaces so that once a target is collected the character doesn’t go behind the space
+center board
+tutorial text
+
 
 
 Things completed (with date):

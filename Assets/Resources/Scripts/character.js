@@ -10,7 +10,7 @@ var shaking : boolean = false;
 
 //variables needed for smooth movement calculation (the "t" variables are used in all animations)
 var clock : float;
-var moveTime : float = 0.25;	//total time in which the movement is done; increase for slower movement, decrease for faster movement
+var moveTime : float = 0.23;	//total time in which the movement is done; increase for slower movement, decrease for faster movement
 var t0 : float = 0;				//used in calculation.  Don't touch.
 var tend : float = 0;			//used in calculation.  Determined by clock and moveTime - don't directly adjust
 var deltat : float = 0;			//used in calculation.  Don't touch.
@@ -20,7 +20,7 @@ var xinit : float = 0;			//Or this.
 var yinit : float = 0;			//or even this
 
 //variables for shaking calculation
-var numShakes : float = 4.0;		//the number of full shake cycles the animation will undergo (where 1 shake cycle goes middle > left > right > middle).  Adjust this as you see fit, but keep as a positive integer value.
+var numShakes : float = 2.0;		//the number of full shake cycles the animation will undergo (where 1 shake cycle goes middle > left > right > middle).  Adjust this as you see fit, but keep as a positive integer value.
 var shakeTime : float = 0.25;	//total time in which the shake(s) will be completed.  Probably should be the same as moveTime, but it doesn't really matter.  Adjust as you see fit.
 var shakeAngle : int = 10;		//the maximum angle (from the vertical axis) of each shake.  The difference in rotation between the clockwise and counterclockwise extents of the shakes will be 2  * shakeAngle.
 
@@ -59,44 +59,44 @@ function setTile() {
 	var dir : int = 5;
 	var moved = false;
 	if (type == 1) {
-		if (Input.GetKeyDown("right")) {
+		if (Input.GetKeyDown("right")||Input.GetKeyDown("d")) {
 			currentTile = currentTile.neighborsList[0];
 			dir = 0;
 //			transform.eulerAngles = Vector3(0, 0, -90);
 		}
-		if (Input.GetKeyDown("down")) {
+		if (Input.GetKeyDown("down")||Input.GetKeyDown("s")) {
 			currentTile = currentTile.neighborsList[1];
 			dir = 1;
 //			transform.eulerAngles = Vector3(0, 0, 180);
 		}
-		if (Input.GetKeyDown("left")) {
+		if (Input.GetKeyDown("left")||Input.GetKeyDown("a")) {
 			currentTile = currentTile.neighborsList[2];
 			dir = 2;
 //			transform.eulerAngles = Vector3(0, 0, 90);
 		}
-		if (Input.GetKeyDown("up")) {
+		if (Input.GetKeyDown("up")||Input.GetKeyDown("w")) {
 			currentTile = currentTile.neighborsList[3];
 			dir = 3;
 //			transform.eulerAngles = Vector3(0, 0, 0);
 		}
 		
 	} else {
-		if (Input.GetKeyDown("left")) {
+		if (Input.GetKeyDown("left")||Input.GetKeyDown("a")) {
 			currentTile = currentTile.neighborsList[0];
 			dir = 0;
 //			transform.eulerAngles = Vector3(0, 0, -90);
 		}
-		if (Input.GetKeyDown("up")) {
+		if (Input.GetKeyDown("up")||Input.GetKeyDown("w")) {
 			currentTile = currentTile.neighborsList[1];
 			dir = 1;
 //			transform.eulerAngles = Vector3(0, 0, 180);
 		}
-		if (Input.GetKeyDown("right")) {
+		if (Input.GetKeyDown("right")||Input.GetKeyDown("d")) {
 			currentTile = currentTile.neighborsList[2];
 			dir = 2;
 //			transform.eulerAngles = Vector3(0, 0, 90);
 		}
-		if (Input.GetKeyDown("down")) {
+		if (Input.GetKeyDown("down")||Input.GetKeyDown("s")) {
 			currentTile = currentTile.neighborsList[3];
 			dir = 3;
 //			transform.eulerAngles = Vector3(0, 0, 0);

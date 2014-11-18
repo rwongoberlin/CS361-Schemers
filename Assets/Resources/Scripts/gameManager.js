@@ -8,6 +8,7 @@ var tileFolder : GameObject;				//holds tiles for hierarchy pane
 var tiles : Array;							//2D array of tiles
 
 var characterFolder : GameObject;			//holds characters for hierarchy pane
+var tutorialFolder : GameObject;			//holds characters for hierarchy pane
 var winFolder: GameObject;					//for easy deleting
 var blueChar : character;					//blue character
 var redChar : character;					//red character
@@ -50,6 +51,9 @@ function Start () {
 	winFolder = new GameObject();
 	winFolder.name = "winFolder";
 
+	tutorialFolder = new GameObject();
+	tutorialFolder.name = "tutorialFolder";
+
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
 	
@@ -70,6 +74,11 @@ function Start () {
  * params: map (the name of the text file for the level without .txt)
  */
  function buildMap(map : String) {	
+ 	//tutorial text 
+ 	if(curlevel>=0&&curlevel<3) {
+	 	tutorialText(1); //normal
+	 	tutorialText(2); //reverse
+ 	}
 	curTarBlue = 1;
 	curTarRed = 1;
 
@@ -400,6 +409,26 @@ function youWin() {
 
 	}
 
+//diaplys tutorial info in the bottom corner 1 is non-inverted 2 is inverted
+function tutorialText(inversion: int) {
+	if(curlevel>2) {
+
+	}
+	else {
+		var tutorialObject = new GameObject();
+		var tutorialScript = tutorialObject.AddComponent("tutorial");
+		tutorialScript.transform.parent = tutorialFolder.transform;
+		tutorialScript.init(this,inversion,curlevel);
+		tutorialScript.name = "tutorial";
+		if(inversion==1) {
+		tutorialScript.transform.position = Vector3(8, 7, -2);
+		}
+		else {
+		tutorialScript.transform.position = Vector3(-2, 7, -2);
+		}
+	}
+}
+
 
 
 //clear the map (identified with a string).
@@ -411,6 +440,14 @@ function reset(map : String) {
 		}
 		Destroy(blueChar.gameObject);
 		Destroy(redChar.gameObject);
+	//	var j:int;
+		//for(var j = 0; j<tutorialFolder.transform.childCount; j++) {
+		if( tutorialFolder.transform.childCount>0) {
+			Destroy(tutorialFolder.transform.GetChild(1).gameObject);
+			Destroy(tutorialFolder.transform.GetChild(0).gameObject);
+		}
+		
+		//}
 		tiles.Clear();
 
 		reqBlueTargets=0;
@@ -532,7 +569,7 @@ function OnGUI () {
     var buttonHeight: int= 60;
     var buttonWidth: int =100;
     var offset: int =90;
-    numLevels = 28; 	//number of levels we currently have (0 indexed)
+    numLevels = 25; 	//number of levels we currently have (0 indexed)
     var numPerRow: int = 4;
   	//var numButtons: int=5;
 

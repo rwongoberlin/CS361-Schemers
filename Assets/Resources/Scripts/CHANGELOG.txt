@@ -5,7 +5,13 @@ commit messages. Please add the most
 recent ones on top, along with the 
 date uploaded to the github
 ***********************************/
-
+11/17 -Robin
+-Added a tutorial text for displaying movement, might tweak
+-removed unneeded tutorial levels
+-fixed current level 2
+-change move speed to feel smoother
+-changed to two shakes, we can revert it
+-display move guide (super basic, I’m not sure if that’s enough)
 
 11/10 -Robin
 -levels now jump to the next one after a few seconds, display win message and sound effect

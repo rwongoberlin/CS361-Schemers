@@ -1,9 +1,11 @@
-12
-7
-o o o o o o o o o o o o
-o - - - 2 - - - - - - o
-o - B - - - - x b - - o
-o C x - - - - - - c - o
-o - A - - - a - - - - o
-o - - 1 - - - - - - - o
-o o o o o o o o o o o o
+10
+9
+o o o o o o o o o o
+o _ _ o o o o x x o
+o o o _ _ _ _ B x o
+o _ _ _ _ 1 x b _ o
+o _ _ o 2 A a o _ o
+o _ _ _ _ _ _ o o o
+o o o _ o o o c _ o
+o _ _ _ _ _ _ C _ o
+o o o o o o o o o o
