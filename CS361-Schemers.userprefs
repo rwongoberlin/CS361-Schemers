@@ -1,10 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/tile.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/stars.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/character.js" Line="71" Column="1" />
-      <File FileName="Assets/Resources/Scripts/tile.js" Line="32" Column="21" />
-      <File FileName="Assets/Resources/Scripts/gameManager.js" Line="568" Column="34" />
+      <File FileName="Assets/Resources/Scripts/stars.js" Line="28" Column="26" />
+      <File FileName="Assets/Resources/Scripts/gameManager.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
