@@ -38,6 +38,7 @@ var level : String = "Assets/Resources/Levels/level0";	//default starting level
 var curlevel: int = 0;							//the level we're currently on
 var audioSource1: AudioSource;				//controls the audio
 var numLevels : int; 					//number of levels we currently have
+var theStart: boolean=true;
 
 // Called once when the script is created.
 function Start () {
@@ -75,9 +76,12 @@ function Start () {
  */
  function buildMap(map : String) {	
  	//tutorial text 
- 	if(curlevel>=0&&curlevel<3) {
-	 	tutorialText(1); //normal
+ 	if(map=="Assets/Resources/Levels/levelmenu") {
+ 		tutorialText(1); //normal
 	 	tutorialText(2); //reverse
+	 } else if(curlevel>=0&&curlevel<3) {
+	 	tutorialText(3); //normal
+	 	tutorialText(4); //reverse
  	}
 	curTarBlue = 1;
 	curTarRed = 1;
@@ -386,7 +390,6 @@ function collectRed() {
 
 //displays winning text
 function youWin() {
-
 	levelOver = true;
 
 	var winObject = new GameObject();
@@ -402,31 +405,39 @@ function youWin() {
 	audioSource2.audio.clip = Resources.Load("Sounds/winsound");
 	audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
 	
-		yield WaitForSeconds(audioSource2.audio.clip.length);				//so the next level doesn't auto load [took wayyy too long to figure out]
+		yield WaitForSeconds(audioSource2.audio.clip.length-2);				//so the next level doesn't auto load [took wayyy too long to figure out]
 			curlevel++;
     		level = "Assets/Resources/Levels/level"+curlevel;
 			reset(level);
 
-	}
+}
 
 //diaplys tutorial info in the bottom corner 1 is non-inverted 2 is inverted
+//TODO: switch out map for a boolean that tells us whether or not we're on the main menu screen
 function tutorialText(inversion: int) {
-	if(curlevel>2) {
-
-	}
-	else {
-		var tutorialObject = new GameObject();
-		var tutorialScript = tutorialObject.AddComponent("tutorial");
-		tutorialScript.transform.parent = tutorialFolder.transform;
-		tutorialScript.init(this,inversion,curlevel);
-		tutorialScript.name = "tutorial";
+	var tutorialObject = new GameObject();
+	var tutorialScript = tutorialObject.AddComponent("tutorial");
+	tutorialScript.transform.parent = tutorialFolder.transform;
+	tutorialScript.init(this,inversion);
+	tutorialScript.name = "tutorial";
+	
+	//if(curlevel>=0&&curlevel<4) {
 		if(inversion==1) {
-		tutorialScript.transform.position = Vector3(8, 7, -2);
+			tutorialScript.transform.position = Vector3(2.5, 7, -2);
 		}
-		else {
-		tutorialScript.transform.position = Vector3(-2, 7, -2);
+		else if (inversion==2) {
+			tutorialScript.transform.position = Vector3(2.5, 1, -2);
 		}
-	}
+	//}
+	//else {
+		if(inversion==3) {
+			tutorialScript.transform.position = Vector3(-2, 8, -2);
+		}
+		else if(inversion==4) {
+			tutorialScript.transform.position = Vector3(8, 8, -2);
+
+		}
+	//}
 }
 
 
@@ -572,6 +583,7 @@ function OnGUI () {
     numLevels = 25; 	//number of levels we currently have (0 indexed)
     var numPerRow: int = 4;
   	//var numButtons: int=5;
+  	makeLevel=false;
 
     //x, y, width, height
  /*
@@ -579,6 +591,12 @@ function OnGUI () {
 (1,0) (1,1) (1,2) (1,3)
 (2,0) (2,1) (2,2) (2,3)
  */
+ 	if (theStart) {
+ 		if (GUI.Button (Rect (415, 210, 100, 60), "play") ) {
+				reset("Assets/Resources/Levels/level0");
+		theStart=false;
+		}	//	Destroy(this);
+	}
     if(mainMenu) {
     	var count: int;
     	for(county = 0; county<numLevels/numPerRow; county++) {
@@ -588,6 +606,7 @@ function OnGUI () {
 			            curlevel=numPerRow*county+countx;
 			            level = "Assets/Resources/Levels/level"+((numPerRow*county)+countx);
 			            reset(level);
+
 			    }
     		}
     	}
@@ -665,9 +684,9 @@ function OnGUI () {
 			reset(level);
 		}
      	
-     	if (GUI.Button (Rect (10, 2*buttonHeight, buttonWidth, buttonHeight), "Make Level")) {
-     		makeLevel = true;
-     	}
+     	// if (GUI.Button (Rect (10, 2*buttonHeight, buttonWidth, buttonHeight), "Make Level")) {
+     	// 	makeLevel = true;
+     	// }
     }
 }
 

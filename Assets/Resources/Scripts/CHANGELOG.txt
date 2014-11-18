@@ -6,6 +6,10 @@ recent ones on top, along with the
 date uploaded to the github
 ***********************************/
 11/17 -Robin
+-Added a text screen on the main menu with rules and a play button that loads level 0
+-play button isn’t relatively positioned
+-commented out make level button
+-decreased time between level completion and load
 -Added a tutorial text for displaying movement, might tweak
 -removed unneeded tutorial levels
 -fixed current level 2
