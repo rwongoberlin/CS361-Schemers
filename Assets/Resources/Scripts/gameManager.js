@@ -39,6 +39,7 @@ var curlevel: int = 0;							//the level we're currently on
 var audioSource1: AudioSource;				//controls the audio
 var numLevels : int; 					//number of levels we currently have
 var theStart: boolean=true;
+var mainMenuCount : int = 0;
 
 // Called once when the script is created.
 function Start () {
@@ -351,6 +352,8 @@ function addTile (x : int, y : int, tileType : String) {
 
 //collects blue targets and sets the next one up
 function collectBlue() {
+	//Starts the spinnnnnniiiiiinnnnnnngggggggg
+	blueChar.spinny();
 	//sets type to be wall, reverts model to blank, set collectable to be false
 	blueChar.currentTile.collect(); 
 	curTarBlue++;
@@ -371,6 +374,8 @@ function collectBlue() {
 
 //collects red targets and sets the next one up
 function collectRed() {
+	//Starts the spinnnnnniiiiiinnnnnnngggggggg
+	redChar.spinny();
 	redChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
 	curTarRed++;
 	//check to see if there are still targets left
@@ -391,6 +396,10 @@ function collectRed() {
 //displays winning text
 function youWin() {
 	levelOver = true;
+	blueChar.spinny();
+	blueChar.winning = true;
+	redChar.spinny();
+	redChar.winning = true;
 
 	var winObject = new GameObject();
 	var winScript = winObject.AddComponent("win");
@@ -598,6 +607,10 @@ function OnGUI () {
 		}	//	Destroy(this);
 	}
     if(mainMenu) {
+    	if (mainMenuCount == 0) {
+    		theStart = false;
+    		mainMenuCount++;
+    	}
     	var count: int;
     	for(county = 0; county<numLevels/numPerRow; county++) {
     		for(countx = 0; countx<numPerRow; countx++) {

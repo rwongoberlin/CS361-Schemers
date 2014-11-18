@@ -7,6 +7,8 @@ var rotation : int;
 //variables to determine what kind of movement is underway currently.  At most one of these should be true at any given time (ie reset them after movement is finished)
 var moving : boolean = false;
 var shaking : boolean = false;
+var spinning : boolean = false;
+var winning : boolean = false;
 
 //variables needed for smooth movement calculation (the "t" variables are used in all animations)
 var clock : float;
@@ -19,10 +21,18 @@ var deltay : int = 0;			//Don't touch this either
 var xinit : float = 0;			//Or this.
 var yinit : float = 0;			//or even this
 
+var spint0 : float = 0;
+var spintend : float = 0;
+var spindeltat : float = 0;
+
+
 //variables for shaking calculation
 var numShakes : float = 2.0;		//the number of full shake cycles the animation will undergo (where 1 shake cycle goes middle > left > right > middle).  Adjust this as you see fit, but keep as a positive integer value.
 var shakeTime : float = 0.25;	//total time in which the shake(s) will be completed.  Probably should be the same as moveTime, but it doesn't really matter.  Adjust as you see fit.
 var shakeAngle : int = 10;		//the maximum angle (from the vertical axis) of each shake.  The difference in rotation between the clockwise and counterclockwise extents of the shakes will be 2  * shakeAngle.
+
+var spinTime : float = 0.6;
+var numSpins : float = 3;
 
 //TO DO: remove rotation (?)
 
@@ -124,6 +134,12 @@ function move(dir : int) {
 
 }
 
+function spinny() {
+	spint0 = clock;
+	spintend = clock + spinTime;
+	spinning = true;
+}
+
 function smoothMove(dir : int) {
 	xinit = transform.position.x;
 	yinit = transform.position.y;
@@ -194,6 +210,22 @@ function Update() {
 			tend = 0;
 			deltat = 0;
 			transform.eulerAngles = Vector3(0, 0, 0);																//This is just to reset back to normal rotation in case something weird happens with the updates.
+		}
+	}
+	//If we're supposed to be spinning, this handles how that works.
+	if (spinning) {
+		spindeltat = clock - t0;
+		//DO NOT CHANGE THE FOLLOWING LINE
+		transform.eulerAngles = Vector3(0, 0, 360*numSpins*spindeltat/spinTime);
+		//If it's time to stop spinning, clean everything up and set shaking status to false
+		if (clock >= spintend) {
+			if (!winning) {
+				spinning = false;
+				spint0 = 0;
+				spintend = 0;
+				spindeltat = 0;
+				transform.eulerAngles = Vector3(0, 0, 0);
+			}
 		}
 	}
 	clock = clock + Time.deltaTime;																					//Updates the clock.  Super important.
