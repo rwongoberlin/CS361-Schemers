@@ -124,7 +124,7 @@ function Start () {
 }
 
 function Update () {
-	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking) {
+	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking || blueChar.bouncing || redChar.bouncing) {
 		return;
 	}
 	var bluedir : int = blueChar.setTile();

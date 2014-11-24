@@ -9,8 +9,9 @@ var moving : boolean = false;
 var shaking : boolean = false;
 var spinning : boolean = false;
 var winning : boolean = false;
+var bouncing : boolean = false;
 
-//variables needed for smooth movement calculation (the "t" variables are used in all animations)
+//variables needed for smooth movement calculation (the "t" variables are used in all animations except for spinning which has its own set)
 var clock : float;
 var moveTime : float = 0.23;	//total time in which the movement is done; increase for slower movement, decrease for faster movement
 var t0 : float = 0;				//used in calculation.  Don't touch.
@@ -31,8 +32,15 @@ var numShakes : float = 2.0;		//the number of full shake cycles the animation wi
 var shakeTime : float = 0.25;	//total time in which the shake(s) will be completed.  Probably should be the same as moveTime, but it doesn't really matter.  Adjust as you see fit.
 var shakeAngle : int = 10;		//the maximum angle (from the vertical axis) of each shake.  The difference in rotation between the clockwise and counterclockwise extents of the shakes will be 2  * shakeAngle.
 
-var spinTime : float = 0.6;
+//variables for spinning calculation
+var spinTime : float = 0.75;
 var numSpins : float = 3;
+var spindir : float;
+
+//variables for bouncing calculation
+var bounceTime : float = 0.23;
+var bouncexDist : float = 0.15;
+var bounceyDist : float = 0.2;
 
 //TO DO: remove rotation (?)
 
@@ -47,6 +55,12 @@ init function takes the:
 function init(rotation : int, t : tile, type : int) {
 	clock = 0;
 	this.type = type;
+	if (this.type == 1) {
+		spindir = 1;
+	}
+	else {
+		spindir = -1;
+	}
 	this.rotation = rotation;
 	currentTile = t;
 	name = "Character"+type;							
@@ -127,7 +141,13 @@ function move(dir : int) {
 		//transform.position.y = currentTile.y;
 		moved = true;
 		return true;
-	} else {
+	}
+	else if (currentTile.isWall() == true) {
+		currentTile = prevTile;
+		wallBounce(dir);
+		return false;
+	}
+	else {
 		currentTile = prevTile;
 		return false;
 	}
@@ -172,10 +192,25 @@ function pitShake() {
 	shaking = true;
 }
 
-//Shakes to inform player that their move is invalid.
-//function shakeIt() {
-//	
-//}
+function wallBounce(dir : int) {
+	xinit = transform.position.x;
+	yinit = transform.position.y;
+	t0 = clock;
+	tend = clock + bounceTime;
+	if (dir == 0) {
+		deltax = -1;
+	}
+	if (dir == 1) {
+		deltay = 1;
+	}
+	if (dir == 2) {
+		deltax = 1;
+	}
+	if (dir == 3) {
+		deltay = -1;
+	}
+	bouncing = true;
+}
 
 function Update() {
 	//If we're supposed to be moving between tiles, the following if clause helps to set the character's position.
@@ -216,7 +251,7 @@ function Update() {
 	if (spinning) {
 		spindeltat = clock - t0;
 		//DO NOT CHANGE THE FOLLOWING LINE
-		transform.eulerAngles = Vector3(0, 0, 360*numSpins*spindeltat/spinTime);
+		transform.eulerAngles = Vector3(0, 0, spindir*360*numSpins*spindeltat/spinTime);
 		//If it's time to stop spinning, clean everything up and set shaking status to false
 		if (clock >= spintend) {
 			if (!winning) {
@@ -226,6 +261,22 @@ function Update() {
 				spindeltat = 0;
 				transform.eulerAngles = Vector3(0, 0, 0);
 			}
+		}
+	}
+	if (bouncing) {
+		deltat = clock - t0;
+		transform.position = Vector3(xinit + (deltax * bouncexDist * Mathf.Sin(2 * Mathf.PI*deltat/(2 * bounceTime))), yinit + (deltay * bounceyDist * Mathf.Sin(Mathf.PI*deltat/(bounceTime))), -0.1);
+		if (clock >= tend) {
+			deltax = 0;
+			deltay = 0;
+			bouncing = false;
+			t0 = 0;
+			tend = 0;
+			deltat = 0;
+			transform.position.x = currentTile.x;
+			transform.position.y = currentTile.y;
+			xinit = transform.position.x;
+			yinit = transform.position.y;
 		}
 	}
 	clock = clock + Time.deltaTime;																					//Updates the clock.  Super important.
