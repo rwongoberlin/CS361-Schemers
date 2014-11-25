@@ -4,15 +4,46 @@ var collectable: boolean; //if the tile is collectable
 var tempType : String = "";
 var type : String;
 
+var moving : boolean = false;
+
+var clock : float = 0;
+var moveTime : float = 0.5;
+var t0 : float = 0;
+var tend : float = 0;
+var deltat : float = 0;
+//var scaling : float = 0;
+
+function Update() {
+	if (moving) {
+		print("asdfasdfasdf");
+		transform.localPosition = Vector3(0, 0, (30 - (30 * deltat/moveTime)));
+		deltat = clock - t0;
+		if (clock >= tend) {
+			moving = false;
+			deltat = 0;
+			tend = 0;
+			t0 = 0;
+			transform.localPosition = Vector3(0, 0, 0);
+		}
+	}
+	clock = clock + Time.deltaTime;
+}
+
 //
-function init(t : tile, ty : String) {									
+function init(t : tile, ty : String) {
+	clock = 0;									
 	transform.parent = t.transform;				
-	transform.localPosition = Vector3(0,0,0);	
+	transform.localPosition = Vector3(0,0, 30);	
 	name = "Tile Model";
 	this.tile = t;	
 	this.type = ty;	
 	collectable=false; 				
 	
+	moving = true;
+	deltat = 0;
+	t0 = clock;
+	tend = clock + moveTime;
+
 	renderer.material.mainTexture = Resources.Load("Textures/tile_empty", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
