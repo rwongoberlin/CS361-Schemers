@@ -1,0 +1,7 @@
+16
+5
+o o o o o o a A o o o o o o o o
+o x x x o x x x o x x o o x x x
+o o x o o x 1 x o x o x o x 2 x
+o o x o o x x x o x x o o x x x
+o o o o o o o o o o o o o o o o
