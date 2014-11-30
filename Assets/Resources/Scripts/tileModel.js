@@ -15,7 +15,7 @@ var deltat : float = 0;
 
 function Update() {
 	if (moving) {
-		print("asdfasdfasdf");
+//		print("asdfasdfasdf");
 		transform.localPosition = Vector3(0, 0, (30 - (30 * deltat/moveTime)));
 		deltat = clock - t0;
 		if (clock >= tend) {

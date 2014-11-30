@@ -64,6 +64,8 @@ function Start () {
 	//print(level);
 	buildMap("Assets/Resources/Levels/level1");
 	addCounter();
+	addClouds();
+	
 	audioSource1 = gameObject.AddComponent("AudioSource");
 
 	audioSource1.audio.loop = true; 
@@ -549,6 +551,14 @@ function addCounter() {
 	countScript.name = "turnCounter";
 }
 
+function addClouds() {
+	var cloudObject = new GameObject();
+	var cloudScript = cloudObject.AddComponent("clouds");
+	
+	cloudScript.transform.parent = transform;
+	cloudScript.init();
+	cloudScript.name = "clouds";
+}
 //Writes the edited level into a text file (numbered appropriately) and resets to the default level
 function writeLevel() {
 	var nextLevel = numLevels + 1;
