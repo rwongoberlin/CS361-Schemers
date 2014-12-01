@@ -33,7 +33,8 @@ function Update() {
 function init(t : tile, ty : String) {
 	clock = 0;									
 	transform.parent = t.transform;				
-	transform.localPosition = Vector3(0,0, 30);	
+	transform.localPosition = Vector3(0, 0, 30);
+	transform.localScale = Vector3(1.1, 1.1, 1.1);	
 	name = "Tile Model";
 	this.tile = t;	
 	this.type = ty;	
@@ -44,7 +45,7 @@ function init(t : tile, ty : String) {
 	t0 = clock;
 	tend = clock + moveTime;
 
-	renderer.material.mainTexture = Resources.Load("Textures/tile_empty", Texture2D);	
+	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 	
@@ -106,11 +107,11 @@ function OnMouseDown() {
 			makeTarget( 23, 1 );
 			tile.targetNum = 23;
 		} else if ( type == "1") {
-			renderer.material.mainTexture = Resources.Load("Textures/character_blue", Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/bluePlane", Texture2D);
 			renderer.material.color = Color(1,1,1);										
 			renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 		} else if ( type == "2") {
-			renderer.material.mainTexture = Resources.Load("Textures/character_red", Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/purplePlane", Texture2D);
 			renderer.material.color = Color(1,1,1);										
 			renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 		}
@@ -119,21 +120,22 @@ function OnMouseDown() {
 
 function makeEmpty() {
 	//tileType = 0;
-	renderer.material.mainTexture = Resources.Load("Textures/tile_empty", Texture2D);
+	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 }
 
 function makeWall() {
 	//tileType = 1;
-	renderer.material.mainTexture = Resources.Load("Textures/tile_wall", Texture2D);
+	renderer.material.mainTexture = Resources.Load("Textures/wall", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+	transform.localScale = Vector3(1.15, 1.15, 1.15);
 }
 
 function makePit() {
 	//tileType = 2;
-	renderer.material.mainTexture = Resources.Load("Textures/tile_pit", Texture2D);
+	renderer.material.mainTexture = Resources.Load("Textures/pit", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 }
@@ -147,11 +149,11 @@ function makeTarget(localTargetNum: int, curTar: int) {
 	//blue
 	if(targetType==1) {
 		if (localTargetNum%10==curTar) {
-			renderer.material.mainTexture = Resources.Load("Textures/tile_blue_empty" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/blueTarget" + localTargetNum%10, Texture2D);
 			makeCollectable();
 		}
 		else {
-			renderer.material.mainTexture = Resources.Load("Textures/tile_blue_pit" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/blueTargetPit" + localTargetNum%10, Texture2D);
 		
 		}
 		renderer.material.color = Color(1,1,1);										
@@ -160,11 +162,11 @@ function makeTarget(localTargetNum: int, curTar: int) {
 	//red
 	else {
 		if (localTargetNum%10==curTar) {
-			renderer.material.mainTexture = Resources.Load("Textures/tile_red_empty" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/purpleTarget" + localTargetNum%10, Texture2D);
 			makeCollectable();
 		}
 		else {
-			renderer.material.mainTexture = Resources.Load("Textures/tile_red_pit" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/purpleTargetPit" + localTargetNum%10, Texture2D);
 		}
 		renderer.material.color = Color(1,1,1);										
 		renderer.material.shader = Shader.Find ("Transparent/Diffuse");	
@@ -173,7 +175,7 @@ function makeTarget(localTargetNum: int, curTar: int) {
 
 //collects the current target reverting the tile to a blank tile
 function collect() {
-		renderer.material.mainTexture = Resources.Load("Textures/tile_empty", Texture2D);	
+		renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);	
 		collectable=false;
 }
 

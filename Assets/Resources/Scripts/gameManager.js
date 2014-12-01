@@ -77,7 +77,7 @@ function Start () {
 /* takes in a string, pulls in corresponding text file, and reads in a map
  * params: map (the name of the text file for the level without .txt)
  */
- function buildMap(map : String) {	
+ function buildMap(mapName : String) {	
  	//tutorial text 
  	if(map=="Assets/Resources/Levels/levelmenu") {
  		tutorialText(1); //normal
@@ -91,16 +91,37 @@ function Start () {
 
 	try {
         // Create an instance of StreamReader to read from a file.
-        print(map);
-        sr = new StreamReader(map+".txt");
+        //print(map);
+        sr = new StreamReader(mapName+".txt");
         // Read and display lines from the file until the end of the file is reached.
+        
         line = sr.ReadLine();
         width = parseInt(line);
         line = sr.ReadLine();
         height = parseInt(line);
-        tiles = new Array();
-        line = sr.ReadLine();
-        y=height-1;
+        var map = new Array(height);
+
+        tiles = new Array(height);
+        for(i=0; i<height; i++) {
+        	tiles[i] = new Array(width);
+        	map[i] = new Array(width);
+        	row = sr.ReadLine().Split(' '[0]);
+        	for(j=0; j<width; j++) {
+        		//print(""+i+"-"+j);
+        		map[i][j] = row[j];
+        		//print(map[i][j]);
+        	} 
+        }
+        
+        for(i=height-1; i>-1; i--) {
+        	for( j = width-1; j > -1; j--) {
+				//print(""+i+"-"+j);
+				addTile(j, height-1-i, map[height-1-i][j]);
+				//print(map[i][j]);
+            }
+        }
+        
+        /*
         while (line != null) {
         	tiles[y] = new Array();
             row = line.Split(' '[0]);
@@ -109,7 +130,7 @@ function Start () {
             }
             line = sr.ReadLine();
             y--;
-        }
+        }*/
         sr.Close();
         
         //after tiles are set up, add characters and set their neighbors
@@ -314,7 +335,7 @@ function addTile (x : int, y : int, tileType : String) {
 	tileScript.init(x, y, tileType, charOn);
 	
 	tileScript.name = "Tile "+x+" "+y;
-	tiles[y].Add(tileScript);
+	tiles[y][x] = tileScript;
 
 	
 	if( tileType == "A" ) {

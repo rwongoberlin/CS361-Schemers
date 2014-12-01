@@ -66,11 +66,11 @@ function init(rotation : int, t : tile, type : int) {
 	name = "Character"+type;							
 	
 	if (type == 1) {
-		renderer.material.mainTexture = Resources.Load("Textures/character_blue", Texture2D);		
+		renderer.material.mainTexture = Resources.Load("Textures/bluePlane", Texture2D);		
 		renderer.material.color = Color(1,1,1,0.25);										
 	} 
 	else {
-		renderer.material.mainTexture = Resources.Load("Textures/character_red", Texture2D);		
+		renderer.material.mainTexture = Resources.Load("Textures/purplePlane", Texture2D);		
 		renderer.material.color = Color(1,1,1);										
 	}	
 
