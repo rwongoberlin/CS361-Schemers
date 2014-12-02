@@ -35,7 +35,7 @@ var reqRedTargets : int = 0;				//number of targets require for the level,
 
 var turns : turnCounter;					//the number of moves we've made for this level
 var level : String = "Assets/Resources/Levels/level1";	//default starting level
-var curLevel: int = 1;							//the level we're currently on
+var curLevel: int = 0;							//the level we're currently on
 var audioSource1: AudioSource;				//controls the audio
 var numLevels : int; 					//number of levels we currently have
 var theStart: boolean = true;
@@ -55,11 +55,16 @@ function Start () {
 
 	tutorialFolder = new GameObject();
 	tutorialFolder.name = "tutorialFolder";
+	
+//  turns.reset();
+//	turns = new GameObject();
+//	turns = turns.AddComponent("turnCounter");
+//	turns.init(this);
 
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
 	
-	levelOver = true;
+	levelOver = false;
 
 	//print(level);
 	buildMap("Assets/Resources/Levels/level1");
@@ -107,17 +112,13 @@ function Start () {
         	map[i] = new Array(width);
         	row = sr.ReadLine().Split(' '[0]);
         	for(j=0; j<width; j++) {
-        		//print(""+i+"-"+j);
         		map[i][j] = row[j];
-        		//print(map[i][j]);
         	} 
         }
         
-        for(i=height-1; i>-1; i--) {
+        for(i = height - 1; i >- 1; i--) {
         	for( j = width-1; j > -1; j--) {
-				//print(""+i+"-"+j);
-				addTile(j, height-1-i, map[height-1-i][j]);
-				//print(map[i][j]);
+				addTile(j, i, map[height - i - 1][j]);
             }
         }
         
@@ -439,7 +440,6 @@ function youWin() {
 	
 		yield WaitForSeconds(audioSource2.audio.clip.length-2);				//so the next level doesn't auto load [took wayyy too long to figure out]
 			curLevel++;
-			print(curLevel);
     		level = "Assets/Resources/Levels/level"+curLevel;
 			reset(level);
 
