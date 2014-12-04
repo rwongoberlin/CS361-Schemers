@@ -2,7 +2,7 @@
 class created by Devin
 */
 var owner : gameManager;
-var turns : float;
+var turns : int;
 var counterText : TextMesh;
 
 function init(o : gameManager) {
