@@ -66,13 +66,9 @@ function Start () {
 	
 	levelOver = false;
 
-<<<<<<< HEAD
 	//print(level);
 	buildMap("Assets/Resources/Levels/level0");
 	//reset("level0");
-=======
-	buildMap("Assets/Resources/Levels/level1");
->>>>>>> 5dff56d5fb05c195b282ef01105ebacb85db8854
 	addCounter();
 	addClouds();
 	
