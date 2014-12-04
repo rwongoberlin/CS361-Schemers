@@ -34,7 +34,9 @@ var reqBlueTargets : int = 0;				//number of targets require for the level,
 var reqRedTargets : int = 0;				//number of targets require for the level, 
 
 var turns : turnCounter;					//the number of moves we've made for this level
-var level : String = "Assets/Resources/Levels/level1";	//default starting level
+var level : String = "Assets/Resources/Levels/level0";	//default starting level
+var levelSet: int=1; 							//for which set of levels we're on (1-5), currently in groups of 5
+var numLevelSets=5;								//5 sets of levels currently
 var curLevel: int = 0;							//the level we're currently on
 var audioSource1: AudioSource;				//controls the audio
 var numLevels : int; 					//number of levels we currently have
@@ -67,14 +69,15 @@ function Start () {
 	levelOver = false;
 
 	//print(level);
-	buildMap("Assets/Resources/Levels/level1");
+	buildMap("Assets/Resources/Levels/level0");
+	//reset("level0");
 	addCounter();
 	addClouds();
 	
 	audioSource1 = gameObject.AddComponent("AudioSource");
 
 	audioSource1.audio.loop = true; 
-	audioSource1.audio.clip = Resources.Load("Sounds/loop1");
+	audioSource1.audio.clip = Resources.Load("Sounds/loop_0");
 	audioSource1.audio.Play();
 
 }
@@ -93,6 +96,8 @@ function Start () {
  	}
 	curTarBlue = 1;
 	curTarRed = 1;
+	levelSet = curLevel/numLevelSets;
+	print(levelSet);
 
 	try {
         // Create an instance of StreamReader to read from a file.
@@ -257,7 +262,8 @@ function targetBlockedCheck() {
 
 //synchs up the loop so that the current one stops and the next one plays
 function playNextLoop() {
-	audioSource1.clip = Resources.Load("Sounds/loop"+(curTarRed-1));
+	audioSource1.clip = Resources.Load("Sounds/loop_"+(levelSet*10+(curTarRed-1)));
+	print("loading audio:"+(levelSet*10+(curTarRed-1)));
 	audioSource1.audio.Stop();
 	audioSource1.audio.Play(); 
 }
@@ -513,9 +519,9 @@ function reset(map : String) {
 		else {
 			allBlueCollected=false;
 		}
-
-		audioSource1.audio.clip = Resources.Load("Sounds/loop1");
-
+		levelSet = curLevel/numLevelSets;
+		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
+		audioSource1.audio.Play();
 }
 
 function makeTile (x : int, y : int, tileType : String) {
@@ -652,6 +658,7 @@ function OnGUI () {
 			            mainMenu=false;
 			            curLevel=numPerRow*county+countx;
 			            level = "Assets/Resources/Levels/level"+((numPerRow*county)+countx);
+			            levelSet=curLevel/numLevelSets;
 			            reset(level);
 
 			    }
