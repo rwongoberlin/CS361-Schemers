@@ -1,5 +1,7 @@
 12
 7
+29
+100
 o o o o o o o o o o o o
 o - - - 2 - - - - - - o
 o - B - - - - x b - - o

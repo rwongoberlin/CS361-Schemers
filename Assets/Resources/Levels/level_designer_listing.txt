@@ -1,11 +1,34 @@
-level 0-4 tutorial 	Robin
-level 5 		Robin
+Default is 100 to be nice
 
-level 7			Devin
-level 8			Teresa
-level 9			
-level 10		Tim
-level 11		placeholder
-level 12		Devin
-
-NEED TO UPDATE THIS
+Level	opt	okay	designer 
+0	8		
+1	10
+2	16
+3	26
+4	24?
+5	17
+6	10
+7	29?
+8	27
+9	15
+10
+11	10
+12	36/38
+13	
+14
+15
+16
+17
+18	18
+19
+20	42
+21	
+22	19?
+23	
+24
+25
+26
+27	16
+28	28?
+29
+30

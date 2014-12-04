@@ -1,5 +1,7 @@
 10
 8
+100
+100
 o o o o o o o o o o
 o o x _ x x _ _ c o
 o B x _ x _ x _ _ o

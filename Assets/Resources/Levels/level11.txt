@@ -1,5 +1,7 @@
 7
 7
+10
+100
 x x x x x x x
 x o x _ o o x
 x x o a b o x

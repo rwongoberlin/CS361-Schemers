@@ -1,5 +1,7 @@
 9
 10
+100
+100
 o x x x x x x x x
 o _ _ x _ x _ _ o
 o _ x x _ C x _ o

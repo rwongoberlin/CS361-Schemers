@@ -109,7 +109,7 @@ function Start () {
         line = sr.ReadLine();
         bestStar = parseInt(line);
         line = sr.ReadLine();
-        okayStar = Concurrent.parseInt(line);
+        okayStar = parseInt(line);
         var map = new Array(height);
         
 
@@ -423,11 +423,14 @@ function youWin() {
 	//setting the star amounts
 	if (turns.turns <= bestStar) {
 		//right now will reset to lower num stars if score lower later
+		print("three stars!!!");
 		starCounts[curLevel-1] = 3;
 	} else if (turns.turns <= okayStar) {
 		starCounts[curLevel-1] = 2;
+		print("two stars!!");
 	} else {
 		starCounts[curLevel-1] = 1;
+		print("eh");
 	}
 
 	var winObject = new GameObject();

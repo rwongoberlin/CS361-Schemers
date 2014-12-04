@@ -1,5 +1,7 @@
 9 
 6
+26
+100
 x x x x x x x x x
 x _ _ _ _ _ _ _ x
 x b _ _ x a _ 2 x 
