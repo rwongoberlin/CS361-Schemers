@@ -42,6 +42,9 @@ var audioSource1: AudioSource;				//controls the audio
 var numLevels : int; 					//number of levels we currently have
 var theStart: boolean = true;
 var mainMenuCount : int = 0;
+var bestStar : int;						//when level read in, set to best possible score
+var okayStar : int;						//when level read in, set to medium score
+var starCounts : Array;					//keeps track of players best number of stars for each level
 
 // Called once when the script is created.
 function Start () {
@@ -58,19 +61,18 @@ function Start () {
 	tutorialFolder = new GameObject();
 	tutorialFolder.name = "tutorialFolder";
 	
-//  turns.reset();
-//	turns = new GameObject();
-//	turns = turns.AddComponent("turnCounter");
-//	turns.init(this);
-
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
 	
 	levelOver = false;
 
+<<<<<<< HEAD
 	//print(level);
 	buildMap("Assets/Resources/Levels/level0");
 	//reset("level0");
+=======
+	buildMap("Assets/Resources/Levels/level1");
+>>>>>>> 5dff56d5fb05c195b282ef01105ebacb85db8854
 	addCounter();
 	addClouds();
 	
@@ -101,7 +103,6 @@ function Start () {
 
 	try {
         // Create an instance of StreamReader to read from a file.
-        //print(map);
         sr = new StreamReader(mapName+".txt");
         // Read and display lines from the file until the end of the file is reached.
         
@@ -109,7 +110,12 @@ function Start () {
         width = parseInt(line);
         line = sr.ReadLine();
         height = parseInt(line);
+        line = sr.ReadLine();
+        bestStar = parseInt(line);
+        line = sr.ReadLine();
+        okayStar = Concurrent.parseInt(line);
         var map = new Array(height);
+        
 
         tiles = new Array(height);
         for(i=0; i<height; i++) {
@@ -127,16 +133,6 @@ function Start () {
             }
         }
         
-        /*
-        while (line != null) {
-        	tiles[y] = new Array();
-            row = line.Split(' '[0]);
-            for( x = 0; x < width; x++) {
-				addTile(x, y, row[x]);
-            }
-            line = sr.ReadLine();
-            y--;
-        }*/
         sr.Close();
         
         //after tiles are set up, add characters and set their neighbors
@@ -158,9 +154,6 @@ function Update () {
 	}
 	var bluedir : int = blueChar.setTile();
 	var reddir :  int = redChar.setTile();
-	//if (bluedir == 5 ||  reddir == 5) {
-	//	return;
-	//}
 	
 	//check to see if the move is legal
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
@@ -241,7 +234,7 @@ function targetBlockedCheck() {
 		wrongTarget = false;
 	}
 
-///if red tries to collect blues's targer, red
+///if red tries to collect blues's target, red
 	if(curTar2/10 == 1) {
 		redChar.pitShake();
 		wrongTarget = false; 
@@ -430,6 +423,16 @@ function youWin() {
 	blueChar.winning = true;
 	redChar.spinny();
 	redChar.winning = true;
+	
+	//setting the star amounts
+	if (turns.turns <= bestStar) {
+		//right now will reset to lower num stars if score lower later
+		starCounts[curLevel-1] = 3;
+	} else if (turns.turns <= okayStar) {
+		starCounts[curLevel-1] = 2;
+	} else {
+		starCounts[curLevel-1] = 1;
+	}
 
 	var winObject = new GameObject();
 	var winScript = winObject.AddComponent("win");
@@ -490,14 +493,12 @@ function reset(map : String) {
 		}
 		Destroy(blueChar.gameObject);
 		Destroy(redChar.gameObject);
-	//	var j:int;
-		//for(var j = 0; j<tutorialFolder.transform.childCount; j++) {
+
 		if( tutorialFolder.transform.childCount>0) {
 			Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 			Destroy(tutorialFolder.transform.GetChild(0).gameObject);
 		}
 		
-		//}
 		tiles.Clear();
 
 		reqBlueTargets=0;
@@ -628,6 +629,7 @@ function OnGUI () {
     var buttonWidth: int =100;
     var offset: int =90;
     numLevels = 32; 	//number of levels we currently have (0 indexed)
+    starCounts = new Array(numLevels);
     var numPerRow: int = 4;
   	//var numButtons: int=5;
   	makeLevel=false;
