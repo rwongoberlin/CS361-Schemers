@@ -3,7 +3,7 @@ class by Devin Frenze for moving background
 */
 
 var cloudFolder : GameObject;
-var numClouds = 16;
+var numClouds = 12;
 var cloud1 : GameObject;
 var cloudPrefabs : Array;
 
@@ -29,7 +29,7 @@ function init() {
 		
 		var width = cloudObject.transform.localScale.x;
 		var height = cloudObject.transform.localScale.z;
-		var z = (i+1)*2;
+		var z = i+1;
 		
 		var coef = (z+10)*2*Mathf.Sin(30*Mathf.Deg2Rad);
 		var x = Random.Range( 4-coef, 4+coef);

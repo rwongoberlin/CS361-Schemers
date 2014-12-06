@@ -570,7 +570,7 @@ function addCounter() {
 	var countScript = countObject.AddComponent("turnCounter");
 	
 	countScript.transform.parent = transform;
-	countScript.transform.position = Vector3(-2, 1, -2);
+	countScript.transform.position = Vector3(11, 8, -2);
 
 	countScript.init(this);
 	
