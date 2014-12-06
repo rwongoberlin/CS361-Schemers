@@ -34,9 +34,9 @@ function init(o : gameManager, first : int) {
 	winText.offsetZ = -1;
 	winText.characterSize = 0.075;
 	winText.fontSize = 128;
-	var courier : Font =  Resources.Load("Fonts/CourierNew") as Font;
-	winText.font = courier;
+	var hand : Font =  Resources.Load("Fonts/TrashHand") as Font;
+	winText.font = hand;
 	
-	gameObject.renderer.material = courier.material;
+	gameObject.renderer.material = hand.material;
 
 }
