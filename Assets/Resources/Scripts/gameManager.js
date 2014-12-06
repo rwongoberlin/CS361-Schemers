@@ -627,7 +627,7 @@ function OnGUI () {
     var buttonHeight: int= 60;
     var buttonWidth: int =100;
     var offset: int =90;
-    numLevels = 32; 	//number of levels we currently have (0 indexed)
+    numLevels = 44; 	//number of levels we currently have (0 indexed)
     starCounts = new Array(numLevels);
     var numPerRow: int = 4;
   	//var numButtons: int=5;

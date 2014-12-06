@@ -1,0 +1,12 @@
+9
+8
+100
+100
+o x o x o x o x o
+o _ _ _ _ B o c o
+o _ _ _ _ _ _ _ o
+o o _ A _ _ _ C o
+o _ _ 2 o _ x o o
+o _ _ _ a _ _ _ o
+o b x _ x 1 x _ o
+o o o o o o o o o

@@ -1,0 +1,14 @@
+4
+10
+100
+100
+o x o o 
+o b B x
+o _ _ o 
+x a x o
+o _ 2 o
+o A C o
+o _ _ o
+o 1 _ o
+o _ _ x
+o x o o
