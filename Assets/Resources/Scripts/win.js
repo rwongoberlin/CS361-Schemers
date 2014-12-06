@@ -19,7 +19,7 @@ function init(o : gameManager) {
 	winText.offsetZ = -1;
 	winText.fontSize = 256;
 	winText.characterSize = 0.075;
-	var courier : Font =  Resources.Load("Fonts/Herculanum") as Font;
+	var courier : Font =  Resources.Load("Fonts/TrashHand") as Font;
 	winText.font = courier;
 	
 	gameObject.renderer.material = courier.material;

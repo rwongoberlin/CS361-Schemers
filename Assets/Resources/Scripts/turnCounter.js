@@ -18,7 +18,7 @@ function init(o : gameManager) {
 	counterText.offsetZ = -1;
 	counterText.fontSize = 256;
 	counterText.characterSize = 0.05;
-	var courier : Font =  Resources.Load("Fonts/Herculanum") as Font;
+	var courier : Font =  Resources.Load("Fonts/TrashHand") as Font;
 	counterText.font = courier;
 	
 	//gameObject.renderer.material = Resources.Load("Scripts/textMat");
