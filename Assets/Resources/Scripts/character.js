@@ -74,7 +74,7 @@ function init(rotation : int, t : tile, type : int) {
 		renderer.material.color = Color(1,1,1);										
 	}	
 
-	renderer.material.shader = Shader.Find ("Transparent/Diffuse");	
+	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");	
 }
 
 //allows the character to get information on its next tile based on what key the user presses.
