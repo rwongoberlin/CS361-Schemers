@@ -48,7 +48,7 @@ function init(t : tile, ty : String) {
 	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
-	renderer.material = Resources.Load("Materials/tile") as Material;
+	//renderer.material = Resources.Load("Materials/tile") as Material;
 	
 	if( type == "_" ) {
 		makeEmpty();

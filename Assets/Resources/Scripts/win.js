@@ -14,7 +14,7 @@ function init(o : gameManager) {
 	winText.alignment = TextAlignment.Center;
 	winText.text = "you win!";
 	winText.anchor = TextAnchor.MiddleCenter;
-	winText.color = Color(1, 1, 1, 1);
+	winText.color = Color(1, 0.9, 0.5, 1);
 	//158, 82, 206
 	winText.offsetZ = -1;
 	winText.fontSize = 256;
