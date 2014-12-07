@@ -45,6 +45,7 @@ var mainMenuCount : int = 0;
 var bestStar : int;						//when level read in, set to best possible score
 var okayStar : int;						//when level read in, set to medium score
 var starCounts : Array;					//keeps track of players best number of stars for each level
+var help: boolean;						//displays help text when true
 
 // Called once when the script is created.
 function Start () {
@@ -58,8 +59,8 @@ function Start () {
 	winFolder = new GameObject();
 	winFolder.name = "winFolder";
 
-	tutorialFolder = new GameObject();
-	tutorialFolder.name = "tutorialFolder";
+	//tutorialFolder = new GameObject();
+//	tutorialFolder.name = "tutorialFolder";
 	
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
@@ -85,17 +86,18 @@ function Start () {
  */
  function buildMap(mapName : String) {	
  	//tutorial text 
- 	if(map=="Assets/Resources/Levels/levelmenu") {
+ /*	if(map=="Assets/Resources/Levels/levelmenu") {
  		tutorialText(1); //normal
 	 	tutorialText(2); //reverse
 	 } else if(curLevel>=0&&curLevel<3) {
 	 	tutorialText(3); //normal
 	 	tutorialText(4); //reverse
  	}
+ 	*/
 	curTarBlue = 1;
 	curTarRed = 1;
 	levelSet = curLevel/numLevelSets;
-	print(levelSet);
+	//print(levelSet);
 
 	try {
         // Create an instance of StreamReader to read from a file.
@@ -252,7 +254,7 @@ function targetBlockedCheck() {
 //synchs up the loop so that the current one stops and the next one plays
 function playNextLoop() {
 	audioSource1.clip = Resources.Load("Sounds/loop_"+(levelSet*10+(curTarRed-1)));
-	print("loading audio:"+(levelSet*10+(curTarRed-1)));
+	//print("loading audio:"+(levelSet*10+(curTarRed-1)));
 	audioSource1.audio.Stop();
 	audioSource1.audio.Play(); 
 }
@@ -492,12 +494,12 @@ function reset(map : String) {
 		}
 		Destroy(blueChar.gameObject);
 		Destroy(redChar.gameObject);
-
+/*
 		if( tutorialFolder.transform.childCount>0) {
 			Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 			Destroy(tutorialFolder.transform.GetChild(0).gameObject);
 		}
-		
+	*/	
 		tiles.Clear();
 
 		reqBlueTargets=0;
@@ -522,6 +524,7 @@ function reset(map : String) {
 		levelSet = curLevel/numLevelSets;
 		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
 		audioSource1.audio.Play();
+	//	showStars(); 
 }
 
 function makeTile (x : int, y : int, tileType : String) {
@@ -618,6 +621,16 @@ function writeLevel() {
 	reset("Assets/Resources/Levels/level0");
 }
 
+function showStars() {
+	var starsObject = new GameObject();
+	var starScript = starsObject.AddComponent("star");
+	//tileScript.transform.parent = tileFolder.transform;
+	starScript.position = Vector3(0,0,0);
+	starScript.init(starCounts[curLevel]);
+	starScript.name =  "Stars";
+	return starScript;
+}
+
 //Level select
 //TODO: set up main menu SCREEN
 //TODO streamline level loading based on name
@@ -665,6 +678,32 @@ function OnGUI () {
 			    }
     		}
     	}
+    }else if(help) {
+        var textHeight:int =30;
+  		var textWidth:int = 300;
+    	 // Make a group on the center of the screen
+    GUI.BeginGroup (Rect (Screen.width / 2 -textWidth/2, Screen.height / 2 -textHeight/2, buttonWidth*5, buttonHeight*5));
+    // All rectangles are now adjusted to the group. (0,0) is the topleft corner of the group.
+
+    // We'll make a box so you can see where the group is on-screen.
+    GUI.Box(new Rect(10,textHeight,textWidth,textHeight), "Characters move opposite each other");
+	GUI.Box(new Rect(10,textHeight*2,textWidth,textHeight), "You control purple");
+	GUI.Box(new Rect(10,textHeight*3,textWidth,textHeight), "Arrow Keys or wasd");
+	GUI.Box(new Rect(10,textHeight*4,textWidth,textHeight), "Don't fall into the clouds");
+	GUI.Box(new Rect(10,textHeight*5,textWidth,textHeight), "Collect targets in order, but don't be greedy");
+
+  //  GUI.Box (Rect (0,0,100,100), "Group is here");
+   // GUI.Button (Rect (10,40,80,30), "Click me");
+    
+    	if(GUI.Button (Rect (10+textWidth/4, textHeight*6, textWidth/2, buttonHeight),"Close")) {
+    		help=false;
+    	}
+    // End the group we started above. This is very important to remember!
+    GUI.EndGroup ();
+    	/*
+    	
+    	*/
+
     } else if(makeLevel) {
 		GUI.Label (Rect (10, 100, 50, 50), "Width");
 		GUI.Label (Rect (10, 200, 50, 50), "Height");
@@ -737,6 +776,10 @@ function OnGUI () {
      	
       	if (GUI.Button (Rect (10, buttonHeight, buttonWidth, buttonHeight), "Reset")) {
 			reset(level);
+		}
+
+		if (GUI.Button (Rect (10, buttonHeight*2, buttonWidth, buttonHeight), "Help")) {
+			help=true;
 		}
      	
      	// if (GUI.Button (Rect (10, 2*buttonHeight, buttonWidth, buttonHeight), "Make Level")) {
