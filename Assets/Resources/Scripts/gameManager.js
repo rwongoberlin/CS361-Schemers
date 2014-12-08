@@ -8,6 +8,7 @@ var tileFolder : GameObject;				//holds tiles for hierarchy pane
 var tiles : Array;							//2D array of tiles
 
 var characterFolder : GameObject;			//holds characters for hierarchy pane
+var tutorialFolder : GameObject;
 var winFolder: GameObject;					//for easy deleting
 var blueChar : character;					//blue character
 var redChar : character;					//red character
@@ -54,6 +55,9 @@ function Start () {
 	characterFolder = new GameObject();
 	characterFolder.name = "CharacterFolder";	
 
+	tutorialFolder = new GameObject();
+	tutorialFolder.name = "tutorialFolder";	
+
 	winFolder = new GameObject();
 	winFolder.name = "winFolder";
 	
@@ -84,20 +88,23 @@ function Start () {
 	var menuScript = menuObject.AddComponent(menuButtonMouse);
 	menuScript.init(this);
 	
+	// attach script to help button
+	var helpObject = GameObject.Find("helpButton");
+	var helpScript = helpObject.AddComponent(helpButtonMouse);
+	helpScript.init(this);
+
 	// attach script to mute button
 	var muteObject = GameObject.Find("muteButton");
 	var muteScript = muteObject.AddComponent(muteButtonMouse);
 	muteScript.init(this);
+
+
 }
 
 /* takes in a string, pulls in corresponding text file, and reads in a map
  * params: map (the name of the text file for the level without .txt)
  */
  function buildMap(mapName : String) {	
-<<<<<<< HEAD
-
-=======
->>>>>>> b168536f3faf2b6dcf5732be1b2ca85bcba13cd7
 	curTarBlue = 1;
 	curTarRed = 1;
 	levelSet = curLevel/numLevelSets;
@@ -149,13 +156,13 @@ function Start () {
     }
 
 	//tutorial text 
- 	if(map=="Assets/Resources/Levels/levelmenu") {
- 		tutorialText(1); //normal
-	 	tutorialText(2); //reverse
-	 } else if(curLevel>=0&&curLevel<3) {
-	 	tutorialText(3); //normal
-	 	tutorialText(4); //reverse
- 	}
+ 	// if(map=="Assets/Resources/Levels/levelmenu") {
+ 	// 	tutorialText(1); //normal
+	 // 	tutorialText(2); //reverse
+	 // } else if(curLevel>=0&&curLevel<3) {
+	 // 	tutorialText(3); //normal
+	 // 	tutorialText(4); //reverse
+ 	// }
 }
 
 function Update () {
@@ -203,6 +210,16 @@ function Update () {
 			}
 		}
 	}
+
+	if(Input.GetKeyDown("space")) {
+		tutorialText(1);
+  		tutorialText(2);
+	}
+	if (Input.GetKeyUp("space")) {
+		Destroy(tutorialFolder.transform.GetChild(0).gameObject);
+		Destroy(tutorialFolder.transform.GetChild(1).gameObject);
+	}
+
 } 
 
 //returns true if both characters are not moving into pits
@@ -468,8 +485,6 @@ function youWin() {
 
 }
 
-<<<<<<< HEAD
-=======
 //diaplys tutorial info in the bottom corner 1 is non-inverted 2 is inverted
 //TODO: switch out map for a boolean that tells us whether or not we're on the main menu screen
 function tutorialText(inversion: int) {
@@ -479,25 +494,17 @@ function tutorialText(inversion: int) {
 	//tutorialScript.init(this,inversion);
 	tutorialScript.name = "tutorial";
 	
-	//if(curLevel>=0&&curLevel<4) {
-		if(inversion==1) {
-			tutorialScript.transform.position = Vector3(2.5, 7, -2);
-		}
-		else if (inversion==2) {
-			tutorialScript.transform.position = Vector3(2.5, 1, -2);
-		}
-	//}
 	//else {
-		if(inversion==3) {
+		if(inversion==1) {
 			var blueButtons = Instantiate(Resources.Load("Prefabs/blueDirections", GameObject)) as GameObject;
 			blueButtons.transform.parent = tutorialScript.gameObject.transform;
-			blueButtons.transform.position = Vector3(blueInit[0], blueInit[1], -0.001);
+			blueButtons.transform.position = Vector3(blueChar.transform.position.x,blueChar.transform.position.y,-.001);//, characterFolder[1], -0.001);
 			//tutorialScript.transform.position = Vector3(-1, 4, -2);
 		}
-		else if(inversion==4) {
+		else if(inversion==2) {
 			var purpleButtons = Instantiate(Resources.Load("Prefabs/purpleDirections", GameObject)) as GameObject;
 			purpleButtons.transform.parent = tutorialScript.gameObject.transform;
-			purpleButtons.transform.position = Vector3(redInit[0], redInit[1], -0.001);
+			purpleButtons.transform.position = Vector3(redChar.transform.position.x,redChar.transform.position.y,-.001);
 			//tutorialScript.transform.position = Vector3(7.5, 4, -2);
 
 		}
@@ -505,8 +512,6 @@ function tutorialText(inversion: int) {
 }
 
 
-
->>>>>>> b168536f3faf2b6dcf5732be1b2ca85bcba13cd7
 //clear the map (identified with a string).
 function reset(map : String) {
 	levelOver = false;
@@ -516,6 +521,8 @@ function reset(map : String) {
 		}
 		Destroy(blueChar.gameObject);
 		Destroy(redChar.gameObject);
+
+
 		tiles.Clear();
 
 		reqBlueTargets=0;
