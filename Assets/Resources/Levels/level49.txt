@@ -1,0 +1,14 @@
+7
+10
+100
+100
+o o o x o o o
+o c _ _ x o o
+o _ 1 _ o o o
+o o x _ o o o
+o o b A x o o
+o o x a B o o
+o o o _ x o o
+o o o _ 2 x o
+o o o C _ _ o
+o o o o o o o

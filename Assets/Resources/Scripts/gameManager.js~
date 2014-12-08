@@ -648,7 +648,7 @@ print("stars is "+starCounts[curLevel]);
 function OnGUI () {
     var buttonHeight: int= Screen.width/20;
     var buttonWidth: int =Screen.width/14;
-    numLevels = 52; 	//number of levels we currently have (0 indexed)
+    numLevels = 40; 	//number of levels we currently have (0 indexed)
     var numPerRow: int = 5;
   	//var numButtons: int=5;
 

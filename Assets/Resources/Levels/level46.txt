@@ -1,0 +1,9 @@
+6
+5
+100
+100
+o o o o o o
+o 2 x _ x o
+o _ A _ o o
+o _ a 1 _ o
+o o o o o o
