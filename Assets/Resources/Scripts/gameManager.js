@@ -98,14 +98,6 @@ function Start () {
  * params: map (the name of the text file for the level without .txt)
  */
  function buildMap(mapName : String) {	
- 	//tutorial text 
- 	if(map=="Assets/Resources/Levels/levelmenu") {
- 		tutorialText(1); //normal
-	 	tutorialText(2); //reverse
-	 } else if(curLevel>=0&&curLevel<3) {
-	 	tutorialText(3); //normal
-	 	tutorialText(4); //reverse
- 	}
 	curTarBlue = 1;
 	curTarRed = 1;
 	levelSet = curLevel/numLevelSets;
@@ -156,6 +148,14 @@ function Start () {
         print(e.Message);
     }
 
+	//tutorial text 
+ 	if(map=="Assets/Resources/Levels/levelmenu") {
+ 		tutorialText(1); //normal
+	 	tutorialText(2); //reverse
+	 } else if(curLevel>=0&&curLevel<3) {
+	 	tutorialText(3); //normal
+	 	tutorialText(4); //reverse
+ 	}
 }
 
 function Update () {
@@ -474,7 +474,7 @@ function tutorialText(inversion: int) {
 	var tutorialObject = new GameObject();
 	var tutorialScript = tutorialObject.AddComponent("tutorial");
 	tutorialScript.transform.parent = tutorialFolder.transform;
-	tutorialScript.init(this,inversion);
+	//tutorialScript.init(this,inversion);
 	tutorialScript.name = "tutorial";
 	
 	//if(curLevel>=0&&curLevel<4) {
@@ -487,10 +487,16 @@ function tutorialText(inversion: int) {
 	//}
 	//else {
 		if(inversion==3) {
-			tutorialScript.transform.position = Vector3(-1, 4, -2);
+			var blueButtons = Instantiate(Resources.Load("Prefabs/blueDirections", GameObject)) as GameObject;
+			blueButtons.transform.parent = tutorialScript.gameObject.transform;
+			blueButtons.transform.position = Vector3(blueInit[0], blueInit[1], -0.001);
+			//tutorialScript.transform.position = Vector3(-1, 4, -2);
 		}
 		else if(inversion==4) {
-			tutorialScript.transform.position = Vector3(7.5, 4, -2);
+			var purpleButtons = Instantiate(Resources.Load("Prefabs/purpleDirections", GameObject)) as GameObject;
+			purpleButtons.transform.parent = tutorialScript.gameObject.transform;
+			purpleButtons.transform.position = Vector3(redInit[0], redInit[1], -0.001);
+			//tutorialScript.transform.position = Vector3(7.5, 4, -2);
 
 		}
 	//}
