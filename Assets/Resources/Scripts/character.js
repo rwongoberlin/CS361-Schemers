@@ -86,44 +86,44 @@ function setTile() {
 		if (Input.GetKeyDown("right")||Input.GetKeyDown("d")) {
 			currentTile = currentTile.neighborsList[0];
 			dir = 0;
-//			transform.eulerAngles = Vector3(0, 0, -90);
+			transform.eulerAngles = Vector3(0, 0, 180);
 		}
 		if (Input.GetKeyDown("down")||Input.GetKeyDown("s")) {
 			currentTile = currentTile.neighborsList[1];
 			dir = 1;
-//			transform.eulerAngles = Vector3(0, 0, 180);
+			transform.eulerAngles = Vector3(0, 0, 90);
 		}
 		if (Input.GetKeyDown("left")||Input.GetKeyDown("a")) {
 			currentTile = currentTile.neighborsList[2];
 			dir = 2;
-//			transform.eulerAngles = Vector3(0, 0, 90);
+			transform.eulerAngles = Vector3(0, 0, 0);
 		}
 		if (Input.GetKeyDown("up")||Input.GetKeyDown("w")) {
 			currentTile = currentTile.neighborsList[3];
 			dir = 3;
-//			transform.eulerAngles = Vector3(0, 0, 0);
+			transform.eulerAngles = Vector3(0, 0, -90);
 		}
 		
 	} else {
 		if (Input.GetKeyDown("left")||Input.GetKeyDown("a")) {
 			currentTile = currentTile.neighborsList[0];
 			dir = 0;
-//			transform.eulerAngles = Vector3(0, 0, -90);
+			transform.eulerAngles = Vector3(0, 0, 0);
 		}
 		if (Input.GetKeyDown("up")||Input.GetKeyDown("w")) {
 			currentTile = currentTile.neighborsList[1];
 			dir = 1;
-//			transform.eulerAngles = Vector3(0, 0, 180);
+			transform.eulerAngles = Vector3(0, 0, -90);
 		}
 		if (Input.GetKeyDown("right")||Input.GetKeyDown("d")) {
 			currentTile = currentTile.neighborsList[2];
 			dir = 2;
-//			transform.eulerAngles = Vector3(0, 0, 90);
+			transform.eulerAngles = Vector3(0, 0, 180);
 		}
 		if (Input.GetKeyDown("down")||Input.GetKeyDown("s")) {
 			currentTile = currentTile.neighborsList[3];
 			dir = 3;
-//			transform.eulerAngles = Vector3(0, 0, 0);
+			transform.eulerAngles = Vector3(0, 0, 90);
 		}
 		
 	}

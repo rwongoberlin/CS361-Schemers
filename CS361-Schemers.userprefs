@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/stars.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/character.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/stars.js" Line="28" Column="26" />
+      <File FileName="Assets/Resources/Scripts/character.js" Line="126" Column="42" />
+      <File FileName="Assets/Resources/Scripts/stars.js" Line="20" Column="2" />
       <File FileName="Assets/Resources/Scripts/gameManager.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
