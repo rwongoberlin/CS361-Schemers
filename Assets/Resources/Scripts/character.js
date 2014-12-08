@@ -67,7 +67,7 @@ function init(rotation : int, t : tile, type : int) {
 	
 	if (type == 1) {
 		renderer.material.mainTexture = Resources.Load("Textures/bluePlane", Texture2D);		
-		renderer.material.color = Color(1,1,1,0.25);										
+		renderer.material.color = Color(1,1,1,0.4);										
 	} 
 	else {
 		renderer.material.mainTexture = Resources.Load("Textures/purplePlane", Texture2D);		
