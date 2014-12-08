@@ -78,6 +78,20 @@ function Start () {
 	audioSource1.audio.clip = Resources.Load("Sounds/loop_0");
 	audioSource1.audio.Play();
 
+	// attach script to reset button
+	var resetObject = GameObject.Find("resetButton");
+	var resetScript = resetObject.AddComponent(resetButtonMouse);
+	resetScript.init(this);
+	
+	// attach script to menu button
+	var menuObject = GameObject.Find("menuButton");
+	var menuScript = menuObject.AddComponent(menuButtonMouse);
+	menuScript.init(this);
+	
+	// attach script to mute button
+	var muteObject = GameObject.Find("muteButton");
+	var muteScript = muteObject.AddComponent(muteButtonMouse);
+	muteScript.init(this);
 }
 
 /* takes in a string, pulls in corresponding text file, and reads in a map
@@ -444,7 +458,9 @@ function youWin() {
 	audioSource2 = gameObject.AddComponent("AudioSource");
 	audioSource2.audio.loop = true; 
 	audioSource2.audio.clip = Resources.Load("Sounds/winsound");
-	audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
+	if(!audioSource1.mute) {
+		audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
+	}
 	
 		yield WaitForSeconds(audioSource2.audio.clip.length-2);				//so the next level doesn't auto load [took wayyy too long to figure out]
 			curLevel++;
@@ -522,6 +538,10 @@ function reset(map : String) {
 		levelSet = curLevel/numLevelSets;
 		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
 		audioSource1.audio.Play();
+}
+
+function reset() {
+	reset(level);
 }
 
 function makeTile (x : int, y : int, tileType : String) {
@@ -731,14 +751,6 @@ function OnGUI () {
      		editMode=false;
      	}  	
     } else {
-    	if (GUI.Button (Rect (10, 0, buttonWidth, buttonHeight), "Main Menu")) {
-            mainMenu=true;
-     	} 
-     	
-      	if (GUI.Button (Rect (10, buttonHeight, buttonWidth, buttonHeight), "Reset")) {
-			reset(level);
-		}
-     	
      	// if (GUI.Button (Rect (10, 2*buttonHeight, buttonWidth, buttonHeight), "Make Level")) {
      	// 	makeLevel = true;
      	// }
