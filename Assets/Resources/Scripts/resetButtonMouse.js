@@ -10,7 +10,9 @@ function init(gM : gameManager) {
 }
 
 function Update () {
-
+	if(Input.GetKeyDown("r")) {
+		gM.reset();
+	}
 }
 
 function OnMouseDown() {

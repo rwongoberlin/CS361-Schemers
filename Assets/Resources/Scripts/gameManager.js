@@ -210,12 +210,11 @@ function Update () {
 			}
 		}
 	}
-
-	if(Input.GetKeyDown("space")) {
+	if(Input.GetKeyDown("space")||Input.GetKeyDown("h")) {
 		tutorialText(1);
   		tutorialText(2);
 	}
-	if (Input.GetKeyUp("space")) {
+	if (Input.GetKeyUp("space")||Input.GetKeyUp("h")) {
 		Destroy(tutorialFolder.transform.GetChild(0).gameObject);
 		Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 	}
@@ -677,9 +676,10 @@ function OnGUI () {
 		GUI.Box(new Rect(10,textHeight*2,textWidth,textHeight), "You control purple");
 		GUI.Box(new Rect(10,textHeight*3,textWidth,textHeight), "Arrow Keys or wasd");
 		GUI.Box(new Rect(10,textHeight*4,textWidth,textHeight), "Don't fall into the clouds");
-		GUI.Box(new Rect(10,textHeight*5,textWidth,textHeight), "Collect targets in order, but don't be greedy");
+		GUI.Box(new Rect(10,textHeight*5,textWidth,textHeight), "Press space to dispaly next move");
+		GUI.Box(new Rect(10,textHeight*6,textWidth,textHeight), "Collect targets in order, but don't be greedy");
 	    
-	    	if(GUI.Button (Rect (10+textWidth/4, textHeight*6, textWidth/2, buttonHeight),"Close")) {
+	    	if(GUI.Button (Rect (10+textWidth/4, textHeight*7, textWidth/2, buttonHeight),"Close")) {
 	    		help=false;
 	    	}
     // End the group we started above. This is very important to remember!
