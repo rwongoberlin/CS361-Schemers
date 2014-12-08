@@ -458,9 +458,8 @@ function youWin() {
 	audioSource2 = gameObject.AddComponent("AudioSource");
 	audioSource2.audio.loop = true; 
 	audioSource2.audio.clip = Resources.Load("Sounds/winsound");
-	if(!audioSource1.mute) {
-		audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
-	}
+	audioSource2.mute = audioSource1.mute;
+	audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
 	
 		yield WaitForSeconds(audioSource2.audio.clip.length-2);				//so the next level doesn't auto load [took wayyy too long to figure out]
 			curLevel++;
