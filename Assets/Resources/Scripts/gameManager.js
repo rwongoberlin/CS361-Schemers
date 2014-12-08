@@ -9,6 +9,7 @@ var tiles : Array;							//2D array of tiles
 
 var characterFolder : GameObject;			//holds characters for hierarchy pane
 var tutorialFolder : GameObject;
+var starFolder : GameObject;
 var winFolder: GameObject;					//for easy deleting
 var blueChar : character;					//blue character
 var redChar : character;					//red character
@@ -61,6 +62,10 @@ function Start () {
 	winFolder = new GameObject();
 	winFolder.name = "winFolder";
 	
+	starFolder = new GameObject();
+	starFolder.name = "starFolder";
+
+	
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
 	
@@ -97,6 +102,11 @@ function Start () {
 	var muteObject = GameObject.Find("muteButton");
 	var muteScript = muteObject.AddComponent(muteButtonMouse);
 	muteScript.init(this);
+
+	starCounts = new Array(numLevels);
+	for(var starsI=0; starsI<numLevels;starsI++) {
+		starCounts[starsI]=2;
+	}
 
 
 }
@@ -454,12 +464,13 @@ function youWin() {
 	if (turns.turns <= bestStar) {
 		//right now will reset to lower num stars if score lower later
 		print("three stars!!!");
-		starCounts[curLevel-1] = 3;
+		starCounts[curLevel] = 3;
+		print(starCounts[curLevel]);
 	} else if (turns.turns <= okayStar) {
-		starCounts[curLevel-1] = 2;
+		starCounts[curLevel] = 2;
 		print("two stars!!");
 	} else {
-		starCounts[curLevel-1] = 1;
+		starCounts[curLevel] = 1;
 		print("eh");
 	}
 
@@ -546,7 +557,7 @@ function reset(map : String) {
 		levelSet = curLevel/numLevelSets;
 		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
 		audioSource1.audio.Play();
-	//	showStars(); 
+	//	showStars(); doesn't work yet
 }
 
 function reset() {
@@ -617,27 +628,28 @@ function addClouds() {
 }
 
 function showStars() {
-	var starsObject = new GameObject();
-	var starScript = starsObject.AddComponent("star");
-	//tileScript.transform.parent = tileFolder.transform;
-	starScript.position = Vector3(0,0,0);
-	starScript.init(starCounts[curLevel]);
-	starScript.name =  "Stars";
-	return starScript;
+print("level is "+curLevel);
+print("stars is "+starCounts[curLevel]);
+	if(starCounts[curLevel]>0) {
+		for(var s=1;s<=starCounts[curLevel];s++) {
+			var starsObject = new GameObject();
+			var starScript = starsObject.AddComponent("stars");
+			starScript.transform.parent = starFolder.transform;
+			starScript.transform.position = Vector3(0,0,-1);//Screen.width/4,Screen.height/4,-1);
+			starScript.init(s);
+			starScript.name =  "Stars";
+		}
+	}
 }
 
 //Level select
 //TODO: set up main menu SCREEN
 //TODO streamline level loading based on name
 function OnGUI () {
-	var xOffset : int=50;
-    var yOffset : int=260;
-    var buttonHeight: int= 60;
-    var buttonWidth: int =100;
-    var offset: int =90;
-    numLevels = 44; 	//number of levels we currently have (0 indexed)
-    starCounts = new Array(numLevels);
-    var numPerRow: int = 4;
+    var buttonHeight: int= Screen.width/20;
+    var buttonWidth: int =Screen.width/14;
+    numLevels = 40; 	//number of levels we currently have (0 indexed)
+    var numPerRow: int = 5;
   	//var numButtons: int=5;
 
     //x, y, width, height

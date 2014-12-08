@@ -4,10 +4,11 @@ var numstars: int;
 
 function init(numstars:int) {
 	//numstars=this;
-	transform.localPosition = Vector3(0, 0, 30);
+//	numstars=1;
+	transform.localPosition = Vector3(0, 0, 0);
 	transform.localScale = Vector3(1.1, 1.1, 1.1);	
-	name = "Star Model";
-	renderer.material.mainTexture = Resources.Load("Textures/star_"+numstars, Texture2D);	
+	name = "StarModel";
+	renderer.material.mainTexture = Resources.Load("Textures/star" + numstars, Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 	renderer.material = Resources.Load("Materials/tile") as Material;
@@ -15,5 +16,5 @@ function init(numstars:int) {
 
 function setStars(numstars:int) {
 	//numstars=this;
-	renderer.material.mainTexture = Resources.Load("Textures/star_"+numstars, Texture2D);	
+	renderer.material.mainTexture = Resources.Load("Textures/star"+numstars, Texture2D);	
 }

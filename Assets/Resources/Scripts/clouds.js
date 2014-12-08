@@ -20,6 +20,8 @@ function init() {
 		var name = "Prefabs/cloud"+(i+1);
 		var cloud = Instantiate(Resources.Load(name, GameObject));
 		cloud.transform.parent = cloudFolder.transform;
+		cloud.transform.localScale = Vector3(.7, .7, .7);	
+
 		cloud.SetActive(false);
 		cloudPrefabs[i] = cloud;
 	}
