@@ -47,8 +47,8 @@ function init(t : tile, ty : String) {
 
 	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
-	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
-	renderer.material = Resources.Load("Materials/tile") as Material;
+	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
+	//renderer.material = Resources.Load("Materials/tile") as Material;
 	
 	if( type == "_" ) {
 		makeEmpty();
@@ -110,11 +110,11 @@ function OnMouseDown() {
 		} else if ( type == "1") {
 			renderer.material.mainTexture = Resources.Load("Textures/bluePlane", Texture2D);
 			renderer.material.color = Color(1,1,1);										
-			renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+			renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 		} else if ( type == "2") {
 			renderer.material.mainTexture = Resources.Load("Textures/purplePlane", Texture2D);
 			renderer.material.color = Color(1,1,1);										
-			renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+			renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 		}
 	//}
 }
@@ -123,14 +123,14 @@ function makeEmpty() {
 	//tileType = 0;
 	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);
 	renderer.material.color = Color(1,1,1);										
-	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 }
 
 function makeWall() {
 	//tileType = 1;
 	renderer.material.mainTexture = Resources.Load("Textures/wall", Texture2D);
 	renderer.material.color = Color(1,1,1);										
-	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 	transform.localScale = Vector3(1.15, 1.15, 1.15);
 }
 
@@ -138,7 +138,7 @@ function makePit() {
 	//tileType = 2;
 	renderer.material.mainTexture = Resources.Load("Textures/pit", Texture2D);
 	renderer.material.color = Color(1,1,1);										
-	renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 }
 
 //turn the current tile into a target
@@ -158,7 +158,7 @@ function makeTarget(localTargetNum: int, curTar: int) {
 		
 		}
 		renderer.material.color = Color(1,1,1);										
-		renderer.material.shader = Shader.Find ("Transparent/Diffuse");	
+		renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");	
 	}
 	//red
 	else {
@@ -170,7 +170,7 @@ function makeTarget(localTargetNum: int, curTar: int) {
 			renderer.material.mainTexture = Resources.Load("Textures/purpleTargetPit" + localTargetNum%10, Texture2D);
 		}
 		renderer.material.color = Color(1,1,1);										
-		renderer.material.shader = Shader.Find ("Transparent/Diffuse");	
+		renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");	
 	}
 }
 

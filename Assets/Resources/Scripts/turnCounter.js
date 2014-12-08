@@ -9,13 +9,16 @@ function init(o : gameManager) {
 	owner = o;
 	turns = 0;
 	
-	transform.localScale = Vector3(0.1, 0.1, 0.1);
+	transform.localScale = Vector3(1, 1, 1);
 	counterText = gameObject.AddComponent(TextMesh).GetComponent(TextMesh);
+	counterText.alignment = TextAlignment.Center;
+	counterText.anchor = TextAnchor.MiddleCenter;
 	counterText.text = ""+Mathf.Floor(turns);
-	counterText.color = Color(1,1,1, 1f);
+	counterText.color = Color(0,0,0,1);
 	counterText.offsetZ = -1;
-	counterText.fontSize = 64;
-	var courier : Font =  Resources.Load("Fonts/CourierNew") as Font;
+	counterText.fontSize = 256;
+	counterText.characterSize = 0.05;
+	var courier : Font =  Resources.Load("Fonts/TrashHand") as Font;
 	counterText.font = courier;
 	
 	//gameObject.renderer.material = Resources.Load("Scripts/textMat");

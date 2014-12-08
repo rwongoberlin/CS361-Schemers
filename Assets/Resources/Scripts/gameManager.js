@@ -8,7 +8,6 @@ var tileFolder : GameObject;				//holds tiles for hierarchy pane
 var tiles : Array;							//2D array of tiles
 
 var characterFolder : GameObject;			//holds characters for hierarchy pane
-var tutorialFolder : GameObject;			//holds characters for hierarchy pane
 var winFolder: GameObject;					//for easy deleting
 var blueChar : character;					//blue character
 var redChar : character;					//red character
@@ -23,7 +22,6 @@ var blueInit : Array;						//initial x and y for blue's placement
 var redInit : Array;						//initial x and y for reds placement			
 var mainMenu : boolean;						//whether we're on the main menu screen
 //EDITOR SCHTUFF
-var makeLevel : boolean;
 var makeWidth = 2;
 var makeHeight = 2;	
 var editMode : boolean = false;
@@ -58,9 +56,6 @@ function Start () {
 
 	winFolder = new GameObject();
 	winFolder.name = "winFolder";
-
-	//tutorialFolder = new GameObject();
-//	tutorialFolder.name = "tutorialFolder";
 	
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
@@ -79,21 +74,27 @@ function Start () {
 	audioSource1.audio.clip = Resources.Load("Sounds/loop_0");
 	audioSource1.audio.Play();
 
+	// attach script to reset button
+	var resetObject = GameObject.Find("resetButton");
+	var resetScript = resetObject.AddComponent(resetButtonMouse);
+	resetScript.init(this);
+	
+	// attach script to menu button
+	var menuObject = GameObject.Find("menuButton");
+	var menuScript = menuObject.AddComponent(menuButtonMouse);
+	menuScript.init(this);
+	
+	// attach script to mute button
+	var muteObject = GameObject.Find("muteButton");
+	var muteScript = muteObject.AddComponent(muteButtonMouse);
+	muteScript.init(this);
 }
 
 /* takes in a string, pulls in corresponding text file, and reads in a map
  * params: map (the name of the text file for the level without .txt)
  */
  function buildMap(mapName : String) {	
- 	//tutorial text 
- /*	if(map=="Assets/Resources/Levels/levelmenu") {
- 		tutorialText(1); //normal
-	 	tutorialText(2); //reverse
-	 } else if(curLevel>=0&&curLevel<3) {
-	 	tutorialText(3); //normal
-	 	tutorialText(4); //reverse
- 	}
- 	*/
+
 	curTarBlue = 1;
 	curTarRed = 1;
 	levelSet = curLevel/numLevelSets;
@@ -446,6 +447,7 @@ function youWin() {
 	audioSource2 = gameObject.AddComponent("AudioSource");
 	audioSource2.audio.loop = true; 
 	audioSource2.audio.clip = Resources.Load("Sounds/winsound");
+	audioSource2.mute = audioSource1.mute;
 	audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
 	
 		yield WaitForSeconds(audioSource2.audio.clip.length-2);				//so the next level doesn't auto load [took wayyy too long to figure out]
@@ -454,36 +456,6 @@ function youWin() {
 			reset(level);
 
 }
-
-//diaplys tutorial info in the bottom corner 1 is non-inverted 2 is inverted
-//TODO: switch out map for a boolean that tells us whether or not we're on the main menu screen
-function tutorialText(inversion: int) {
-	var tutorialObject = new GameObject();
-	var tutorialScript = tutorialObject.AddComponent("tutorial");
-	tutorialScript.transform.parent = tutorialFolder.transform;
-	tutorialScript.init(this,inversion);
-	tutorialScript.name = "tutorial";
-	
-	//if(curLevel>=0&&curLevel<4) {
-		if(inversion==1) {
-			tutorialScript.transform.position = Vector3(2.5, 7, -2);
-		}
-		else if (inversion==2) {
-			tutorialScript.transform.position = Vector3(2.5, 1, -2);
-		}
-	//}
-	//else {
-		if(inversion==3) {
-			tutorialScript.transform.position = Vector3(-1, 4, -2);
-		}
-		else if(inversion==4) {
-			tutorialScript.transform.position = Vector3(7.5, 4, -2);
-
-		}
-	//}
-}
-
-
 
 //clear the map (identified with a string).
 function reset(map : String) {
@@ -494,12 +466,6 @@ function reset(map : String) {
 		}
 		Destroy(blueChar.gameObject);
 		Destroy(redChar.gameObject);
-/*
-		if( tutorialFolder.transform.childCount>0) {
-			Destroy(tutorialFolder.transform.GetChild(1).gameObject);
-			Destroy(tutorialFolder.transform.GetChild(0).gameObject);
-		}
-	*/	
 		tiles.Clear();
 
 		reqBlueTargets=0;
@@ -525,6 +491,10 @@ function reset(map : String) {
 		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
 		audioSource1.audio.Play();
 	//	showStars(); 
+}
+
+function reset() {
+	reset(level);
 }
 
 function makeTile (x : int, y : int, tileType : String) {
@@ -573,7 +543,7 @@ function addCounter() {
 	var countScript = countObject.AddComponent("turnCounter");
 	
 	countScript.transform.parent = transform;
-	countScript.transform.position = Vector3(-2, 1, -2);
+	countScript.transform.position = Vector3(11, 8, -2);
 
 	countScript.init(this);
 	
@@ -588,37 +558,6 @@ function addClouds() {
 	cloudScript.transform.parent = transform;
 	cloudScript.init();
 	cloudScript.name = "clouds";
-}
-//Writes the edited level into a text file (numbered appropriately) and resets to the default level
-function writeLevel() {
-	var nextLevel = numLevels + 1;
-	var sw : StreamWriter = new StreamWriter("Assets/Resources/Levels/level" + nextLevel + ".txt");
-	var row : String = "o ";
-	var realWidth = makeWidth + 2;
-	var realHeight = makeHeight + 2;
-	sw.WriteLine(realWidth);
-	sw.WriteLine(realHeight);
-	for (var k = 1; k < realWidth; k++) {
-		row = row + "o ";
-	}
-	sw.WriteLine(row);
-	row = "o ";
-	for (var i = 0; i < makeHeight; i++) {
-		for (var j = 0; j < makeWidth; j++) {
-			row = row + tiles[j][i].getType() + " ";
-		}
-		sw.WriteLine(row + "o");
-		row = "o ";
-	}
-	for (var kk = 1; kk < realWidth; kk++) {
-		row = row + "o ";
-	}
-	sw.WriteLine(row);
-	sw.Flush();
-	sw.Close();
-	numLevels++;
-	editMode = false;
-	reset("Assets/Resources/Levels/level0");
 }
 
 function showStars() {
@@ -640,11 +579,10 @@ function OnGUI () {
     var buttonHeight: int= 60;
     var buttonWidth: int =100;
     var offset: int =90;
-    numLevels = 32; 	//number of levels we currently have (0 indexed)
+    numLevels = 44; 	//number of levels we currently have (0 indexed)
     starCounts = new Array(numLevels);
     var numPerRow: int = 4;
   	//var numButtons: int=5;
-  	makeLevel=false;
 
     //x, y, width, height
  /*
@@ -652,14 +590,6 @@ function OnGUI () {
 (1,0) (1,1) (1,2) (1,3)
 (2,0) (2,1) (2,2) (2,3)
  */
- /*
- 	if (theStart) {
- 		if (GUI.Button (Rect (415, 210, 100, 60), "play") ) {
-				reset("Assets/Resources/Levels/level0");
-		theStart=false;
-		}	//	Destroy(this);
-	}
-	*/
     if(mainMenu) {
     	if (mainMenuCount == 0) {
     		theStart = false;
@@ -685,107 +615,19 @@ function OnGUI () {
     GUI.BeginGroup (Rect (Screen.width / 2 -textWidth/2, Screen.height / 2 -textHeight/2, buttonWidth*5, buttonHeight*5));
     // All rectangles are now adjusted to the group. (0,0) is the topleft corner of the group.
 
-    // We'll make a box so you can see where the group is on-screen.
-    GUI.Box(new Rect(10,textHeight,textWidth,textHeight), "Characters move opposite each other");
-	GUI.Box(new Rect(10,textHeight*2,textWidth,textHeight), "You control purple");
-	GUI.Box(new Rect(10,textHeight*3,textWidth,textHeight), "Arrow Keys or wasd");
-	GUI.Box(new Rect(10,textHeight*4,textWidth,textHeight), "Don't fall into the clouds");
-	GUI.Box(new Rect(10,textHeight*5,textWidth,textHeight), "Collect targets in order, but don't be greedy");
-
-  //  GUI.Box (Rect (0,0,100,100), "Group is here");
-   // GUI.Button (Rect (10,40,80,30), "Click me");
-    
-    	if(GUI.Button (Rect (10+textWidth/4, textHeight*6, textWidth/2, buttonHeight),"Close")) {
-    		help=false;
-    	}
+	    // We'll make a box so you can see where the group is on-screen.
+	    GUI.Box(new Rect(10,textHeight,textWidth,textHeight), "Characters move opposite each other");
+		GUI.Box(new Rect(10,textHeight*2,textWidth,textHeight), "You control purple");
+		GUI.Box(new Rect(10,textHeight*3,textWidth,textHeight), "Arrow Keys or wasd");
+		GUI.Box(new Rect(10,textHeight*4,textWidth,textHeight), "Don't fall into the clouds");
+		GUI.Box(new Rect(10,textHeight*5,textWidth,textHeight), "Collect targets in order, but don't be greedy");
+	    
+	    	if(GUI.Button (Rect (10+textWidth/4, textHeight*6, textWidth/2, buttonHeight),"Close")) {
+	    		help=false;
+	    	}
     // End the group we started above. This is very important to remember!
     GUI.EndGroup ();
-    	/*
-    	
-    	*/
-
-    } else if(makeLevel) {
-		GUI.Label (Rect (10, 100, 50, 50), "Width");
-		GUI.Label (Rect (10, 200, 50, 50), "Height");
-		GUI.Label (Rect (140, 100, 50, 50), makeWidth.ToString());
-		GUI.Label (Rect (140, 200, 50, 50), makeHeight.ToString());
-		if (GUI.Button (Rect (90, 80, 30, 30), "+") && makeWidth < 12) {
-			makeWidth++;	
-		}
-		if (GUI.Button (Rect (90, 110, 30, 30), "-") && makeWidth > 2) {	
-			makeWidth--;
-		}
-		if (GUI.Button (Rect (90, 180, 30, 30), "+") && makeHeight < 12) {	
-			makeHeight++;
-		}
-		if (GUI.Button (Rect (90, 210, 30, 30), "-") && makeHeight > 2) {	
-			makeHeight--;
-		}
-		if (GUI.Button (Rect (10, 300, 100, 50), "MAKE MAP")) {	
-			displayLevel(makeWidth, makeHeight);
-			makeLevel = false;
-			editMode = true;
-			for (var ii = 0; ii < makeWidth; ii++) {
-				for (var j = 0; j < makeHeight; j++) {
-					tiles[ii][j].makeEditable();
-				}
-			}
-		}
-	} else if(editMode) {
-		if (GUI.Button (Rect (10, 0, buttonWidth, buttonHeight), "Wall")) {
-            makeType="x";
-     	} 
-      	if (GUI.Button (Rect (10, 50, buttonWidth, buttonHeight), "Pit")) {
-			makeType="o";
-		}
-     	if (GUI.Button (Rect (10, 100, buttonWidth, buttonHeight), "Red Char")) {
-     		makeType="2";
-     	}
-		if (GUI.Button (Rect (10, 150, buttonWidth, buttonHeight), "Red *")) {
-			makeType="a";
-     	} 
-      	if (GUI.Button (Rect (10, 200, buttonWidth, buttonHeight), "Red **")) {
-			makeType="b";
-		}
-     	if (GUI.Button (Rect (10, 250, buttonWidth, buttonHeight), "Red ***")) {
-			makeType="c";     		
-     	}
-		if (GUI.Button (Rect (10, 300, buttonWidth, buttonHeight), "Blue Char")) {
-     		makeType="1";
-     	}
-		if (GUI.Button (Rect (10, 350, buttonWidth, buttonHeight), "Blue *")) {
-			makeType="A";		
-     	} 
-      	if (GUI.Button (Rect (10, 400, buttonWidth, buttonHeight), "Blue **")) {
-			makeType="B";		
-		}
-     	if (GUI.Button (Rect (10, 450, buttonWidth, buttonHeight), "Blue ***")) {
-			makeType="C";     		
-     	}
-     	if (GUI.Button (Rect (10, 500, buttonWidth, buttonHeight), "Empty Tile")) {
-			makeType="_";     		
-     	}
-     	if (GUI.Button (Rect (10, 550, buttonWidth, buttonHeight), "Write Level")) {
-     		writeLevel();
-     		editMode=false;
-     	}  	
-    } else {
-    	if (GUI.Button (Rect (10, 0, buttonWidth, buttonHeight), "Main Menu")) {
-            mainMenu=true;
-     	} 
-     	
-      	if (GUI.Button (Rect (10, buttonHeight, buttonWidth, buttonHeight), "Reset")) {
-			reset(level);
-		}
-
-		if (GUI.Button (Rect (10, buttonHeight*2, buttonWidth, buttonHeight), "Help")) {
-			help=true;
-		}
-     	
-     	// if (GUI.Button (Rect (10, 2*buttonHeight, buttonWidth, buttonHeight), "Make Level")) {
-     	// 	makeLevel = true;
-     	// }
-    }
+    } 
 }
 
 
