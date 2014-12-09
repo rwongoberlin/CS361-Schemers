@@ -13,7 +13,7 @@ Level	opt	okay	designer 	difficulty
 9	15		
 10	45?
 11	10
-12	36/38		Devin
+12	36		Devin
 13					hard
 14					hard
 15					hard
@@ -30,7 +30,7 @@ Level	opt	okay	designer 	difficulty
 26
 27	16
 28	28?
-29	
+29	not real
 30		
 31
 32	
