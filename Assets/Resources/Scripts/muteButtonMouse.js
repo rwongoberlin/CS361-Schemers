@@ -14,26 +14,29 @@ function init(gM : gameManager) {
 function Update () {
 	if(Input.GetKeyDown("m")) {
 		if(muteOn) {
-		gM.audioSource1.mute = false;
-		gameObject.renderer.material.color = Color(1,1,1,1);
-		muteOn = false;
-	} else {
-		gM.audioSource1.mute = true;
-		gameObject.renderer.material.color = Color(1,1,1,0.25);
-		muteOn = true;
+			unmute();
+		} else {
+			mute();
+		}
 	}
-	}
-
 }
 
 function OnMouseDown() {
 	if(muteOn) {
-		gM.audioSource1.mute = false;
-		gameObject.renderer.material.color = Color(1,1,1,1);
-		muteOn = false;
+		unmute();
 	} else {
-		gM.audioSource1.mute = true;
-		gameObject.renderer.material.color = Color(1,1,1,0.25);
-		muteOn = true;
+		mute();
 	}
+}
+
+private function mute() {
+	gM.audioSource1.mute = true;
+	gameObject.renderer.material.color = Color(1,1,1,0.25);
+	muteOn = true;
+}
+
+private function unmute() {
+	gM.audioSource1.mute = false;
+	gameObject.renderer.material.color = Color(1,1,1,1);
+	muteOn = false;
 }
