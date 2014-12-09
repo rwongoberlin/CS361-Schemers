@@ -7,8 +7,6 @@ var numstars: int;
 //garbage colect
 
 function init(numstars:int) {
-	//numstars=this;
-//	numstars=1;
 	transform.localPosition = Vector3(numstars, 0, -1);
 	transform.localScale = Vector3(1.1, 1.1, 1.1);	
 	name = "StarModel";
@@ -19,6 +17,5 @@ function init(numstars:int) {
 }
 
 function setStars(numstars:int) {
-	//numstars=this;
 	renderer.material.mainTexture = Resources.Load("Textures/star"+numstars, Texture2D);	
 }
