@@ -1,0 +1,14 @@
+12
+12
+o o o o o o o o o o o o
+o _ _ _ _ 2 o o o o o o
+o _ x o x _ o o o o o o
+o _ o o o _ o o o o o o
+o _ x o x _ x x o o _ o
+o _ _ _ _ a B x o o _ o
+o _ o o x A _ _ _ _ _ o
+o _ o o x x _ o x o _ o
+o o o o o o _ x o x b o
+o o o o o o _ o x o _ o
+o o o o o o _ _ _ 1 x o
+o o o o o o o o o o o o
