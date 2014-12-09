@@ -5,8 +5,9 @@
       <File FileName="Assets/Resources/Scripts/clouds.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/character.js" Line="126" Column="42" />
       <File FileName="Assets/Resources/Scripts/stars.js" Line="19" Column="34" />
-      <File FileName="Assets/Resources/Scripts/gameManager.js" Line="612" Column="75" />
-      <File FileName="Assets/Resources/Scripts/turnCounter.js" Line="14" Column="1" />
+      <File FileName="Assets/Resources/Scripts/gameManager.js" Line="617" Column="55" />
+      <File FileName="Assets/Resources/Scripts/turnCounter.js" Line="12" Column="12" />
+      <File FileName="Assets/Resources/Scripts/levelDisplay.js" Line="25" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
