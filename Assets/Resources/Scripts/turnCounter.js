@@ -1,6 +1,8 @@
 ﻿/*
 class created by Devin
 */
+
+//currently covers part of the board sometimes
 var owner : gameManager;
 var turns : int;
 var counterText : TextMesh;

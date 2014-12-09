@@ -1,7 +1,7 @@
 9
 7
 10
-100
+15
 x x x x x x x x x 
 x _ _ 1 x _ c _ x
 x _ _ _ x _ b _ x

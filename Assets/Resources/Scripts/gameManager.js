@@ -104,7 +104,7 @@ function Start () {
 	var muteObject = GameObject.Find("muteButton");
 	var muteScript = muteObject.AddComponent(muteButtonMouse);
 	muteScript.init(this);
-	numLevels=40;
+	numLevels=52;
 	starCounts = new Array(numLevels);
 	for(var starsI=0; starsI<numLevels;starsI++) {
 		starCounts[starsI]=0;
@@ -457,15 +457,15 @@ function youWin() {
 	//setting the star amounts
 	if (turns.turns <= bestStar) {
 		//right now will reset to lower num stars if score lower later
-		print("three stars!!!");
+	//	print("three stars!!!");
 		starCounts[curLevel] = 3;
-		print(starCounts[curLevel]);
+	//	print(starCounts[curLevel]);
 	} else if (turns.turns <= okayStar) {
 		starCounts[curLevel] = 2;
-		print("two stars!!");
+	//	print("two stars!!");
 	} else {
 		starCounts[curLevel] = 1;
-		print("eh");
+//		print("eh");
 	}
 
 	var winObject = new GameObject();
@@ -558,6 +558,7 @@ function reset(map : String) {
 			Destroy(starFolder.transform.GetChild(i).gameObject);
 		}
 		showStars(); 
+		print(curLevel);
 }
 
 function reset() {
@@ -668,7 +669,7 @@ function OnGUI () {
     	var count: int;
     	for(county = 0; county<numLevels/numPerRow; county++) {
     		for(countx = 0; countx<numPerRow; countx++) {
-			   	if (GUI.Button (Rect (0+(buttonWidth*countx), 0+(buttonHeight*county), buttonWidth, buttonHeight), "Level "+ ((numPerRow*county)+countx))) {
+			   	if (GUI.Button (Rect (0+(buttonWidth*countx), 0+(buttonHeight*county), buttonWidth-numLevels/2, buttonHeight-numLevels/2), "Level "+ ((numPerRow*county)+countx))) {
 			            mainMenu=false;
 			            curLevel=numPerRow*county+countx;
 			            level = "Assets/Resources/Levels/level"+((numPerRow*county)+countx);
