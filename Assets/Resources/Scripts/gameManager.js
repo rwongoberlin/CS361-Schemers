@@ -25,6 +25,7 @@ var blueTargets: Array;  					//array for holding the tile objects of the blue t
 var blueInit : Array;						//initial x and y for blue's placement
 var redInit : Array;						//initial x and y for reds placement			
 var mainMenu : boolean;						//whether we're on the main menu screen
+
 //EDITOR SCHTUFF
 var makeWidth = 2;
 var makeHeight = 2;	
@@ -35,10 +36,11 @@ var allRedCollected:  boolean = false;		//keeps track of whether we've collected
 var reqBlueTargets : int = 0;				//number of targets require for the level, 
 var reqRedTargets : int = 0;				//number of targets require for the level, 
 
+var levelDis : levelDisplay;
 var turns : turnCounter;					//the number of moves we've made for this level
 var level : String = "Assets/Resources/Levels/level0";	//default starting level
-var levelSet: int=1; 							//for which set of levels we're on (1-5), currently in groups of 5
-var numLevelSets=5;								//5 sets of levels currently
+var levelSet: int = 1; 							//for which set of levels we're on (1-5), currently in groups of 5
+var numLevelSets = 5;								//5 sets of levels currently
 var curLevel: int = 0;							//the level we're currently on
 var audioSource1: AudioSource;				//controls the audio
 var numLevels : int; 					//number of levels we currently have
@@ -75,7 +77,7 @@ function Start () {
 
 	//print(level);
 	buildMap("Assets/Resources/Levels/level0");
-	//reset("level0");
+	levelDisplay();
 	addCounter();
 	addClouds();
 	
@@ -104,11 +106,11 @@ function Start () {
 	var muteObject = GameObject.Find("muteButton");
 	var muteScript = muteObject.AddComponent(muteButtonMouse);
 	muteScript.init(this);
-	numLevels=52;
+	numLevels = 52;
 
 	starCounts = new Array(numLevels);
-	for(var starsI=0; starsI<numLevels;starsI++) {
-		starCounts[starsI]=0;
+	for(var starsI = 0; starsI<numLevels;starsI++) {
+		starCounts[starsI] = 0;
 	}
 		showStars(); 
 
@@ -559,7 +561,7 @@ function reset(map : String) {
 			Destroy(starFolder.transform.GetChild(i).gameObject);
 		}
 		showStars(); 
-		print(curLevel);
+		levelDis.changeLevel(curLevel);
 }
 
 function reset() {
@@ -605,6 +607,19 @@ function displayLevel(makeWidth : int, makeHeight : int) {
 			tiles[ii].Add(makeTile(ii, makeHeight-j, "_"));
 		}
 	}
+}
+
+function levelDisplay() {
+	var levelDisplayObject = new GameObject();
+	var levelDisplayScript = levelDisplayObject.AddComponent("levelDisplay");
+	
+	levelDisplayScript.transform.parent = transform;
+	levelDisplayScript.transform.position = Vector3(-4, 0, -2);
+	
+	levelDisplayScript.init(this, curLevel);
+	
+	levelDis = levelDisplayScript;
+	levelDisplayScript.name = "levelDisplay";
 }
 
 function addCounter() {

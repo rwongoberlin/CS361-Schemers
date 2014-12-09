@@ -22,10 +22,7 @@ function init(o : gameManager) {
 	counterText.characterSize = 0.05;
 	var courier : Font =  Resources.Load("Fonts/TrashHand") as Font;
 	counterText.font = courier;
-	
-	//gameObject.renderer.material = Resources.Load("Scripts/textMat");
 	gameObject.renderer.material = courier.material;
-	//gameObject.renderer.material.color = Color(0,0,0, 0f);
 }
 
 function addTurn() {
