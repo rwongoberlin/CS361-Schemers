@@ -104,6 +104,8 @@ function Start () {
 	var muteObject = GameObject.Find("muteButton");
 	var muteScript = muteObject.AddComponent(muteButtonMouse);
 	muteScript.init(this);
+	
+
 	numLevels=40;
 	starCounts = new Array(numLevels);
 	for(var starsI=0; starsI<numLevels;starsI++) {
@@ -678,7 +680,7 @@ function OnGUI () {
 			    }
     		}
     	}
-    }else if(help) {
+    }/*else if(help) {
         var textHeight:int =30;
   		var textWidth:int = 300;
     	 // Make a group on the center of the screen
@@ -698,7 +700,7 @@ function OnGUI () {
 	    	}
     // End the group we started above. This is very important to remember!
     GUI.EndGroup ();
-    } 
+    }*/ 
 }
 
 

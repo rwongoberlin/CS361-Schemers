@@ -11,11 +11,21 @@ function init(gM : gameManager) {
 
 function Update () {
 	if (Input.GetKeyDown("escape")) {
+		Destroy(gameObject.Find("helpMenu"));
 		gM.help=false;
 	}
 
 }
 
 function OnMouseDown() {
-	gM.help = true;
+	if(gM.help == true) {
+		Destroy(gameObject.Find("helpMenu"));
+		gM.help = false;
+	} else {
+		var helpMenu = Instantiate(Resources.Load("Prefabs/helpMenu", GameObject));
+		helpMenu.transform.parent = transform;
+		helpMenu.GetComponent(helpButtonMouse).init(gM);
+		helpMenu.name = "helpMenu";
+		gM.help = true;
+	}
 }
