@@ -10,7 +10,9 @@ function init(gM : gameManager) {
 }
 
 function Update () {
-
+	if (Input.GetKeyDown("escape")) {
+		gM.mainMenu=false;
+	}
 }
 
 function OnMouseDown() {

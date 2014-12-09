@@ -2,6 +2,8 @@
 FALL BREAK GAME MANAGER
 */
 
+//TODO display current level number
+
 import System.IO;
 
 var tileFolder : GameObject;				//holds tiles for hierarchy pane
@@ -102,12 +104,12 @@ function Start () {
 	var muteObject = GameObject.Find("muteButton");
 	var muteScript = muteObject.AddComponent(muteButtonMouse);
 	muteScript.init(this);
-
+	numLevels=40;
 	starCounts = new Array(numLevels);
 	for(var starsI=0; starsI<numLevels;starsI++) {
-		starCounts[starsI]=2;
+		starCounts[starsI]=0;
 	}
-
+		showStars(); 
 
 }
 
@@ -165,14 +167,6 @@ function Start () {
         print(e.Message);
     }
 
-	//tutorial text 
- 	// if(map=="Assets/Resources/Levels/levelmenu") {
- 	// 	tutorialText(1); //normal
-	 // 	tutorialText(2); //reverse
-	 // } else if(curLevel>=0&&curLevel<3) {
-	 // 	tutorialText(3); //normal
-	 // 	tutorialText(4); //reverse
- 	// }
 }
 
 function Update () {
@@ -557,7 +551,13 @@ function reset(map : String) {
 		levelSet = curLevel/numLevelSets;
 		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
 		audioSource1.audio.Play();
-	//	showStars(); doesn't work yet
+		//clear out old stars
+				
+		var starsToDestroy : int = starFolder.transform.childCount;
+ 		for (i = starsToDestroy - 1; i >= 0; i--) {
+			Destroy(starFolder.transform.GetChild(i).gameObject);
+		}
+		showStars(); 
 }
 
 function reset() {
@@ -572,7 +572,7 @@ function makeTile (x : int, y : int, tileType : String) {
 	var tileScript = tileObject.AddComponent("tile");
 	
 	tileScript.transform.parent = tileFolder.transform;
-	tileScript.transform.position = Vector3(x,y,0);
+	tileScript.transform.position = Vector3(x,y,-1);
 
 	tileScript.init(x, y, tileType, charOn);
 	
@@ -628,12 +628,14 @@ function addClouds() {
 }
 
 function showStars() {
-print("level is "+curLevel);
-print("stars is "+starCounts[curLevel]);
+//print("level is "+curLevel);
+//print("stars is "+starCounts[curLevel]);
 	if(starCounts[curLevel]>0) {
 		for(var s=1;s<=starCounts[curLevel];s++) {
-			var starsObject = new GameObject();
+			var starsObject = new GameObject.CreatePrimitive(PrimitiveType.Quad);
+			starsObject.transform.position = Vector3(0,0,-1);
 			var starScript = starsObject.AddComponent("stars");
+
 			starScript.transform.parent = starFolder.transform;
 			starScript.transform.position = Vector3(0,0,-1);//Screen.width/4,Screen.height/4,-1);
 			starScript.init(s);

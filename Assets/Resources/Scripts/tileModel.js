@@ -34,7 +34,7 @@ function init(t : tile, ty : String) {
 	clock = 0;									
 	transform.parent = t.transform;				
 	transform.localPosition = Vector3(0, 0, 30);
-	transform.localScale = Vector3(1.1, 1.1, 1.1);	
+	transform.localScale = Vector3(.9, .9, .9);	
 	name = "Tile Model";
 	this.tile = t;	
 	this.type = ty;	

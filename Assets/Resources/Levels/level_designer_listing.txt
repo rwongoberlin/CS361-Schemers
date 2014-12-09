@@ -1,10 +1,10 @@
 Default is 100 to be nice
 
-Level	opt	okay	designer 
-0	8		
-1	10
-2	16
-3	26
+Level	opt	okay	designer 	difficulty 
+0	8				easy
+1	10				easy	
+2	16				easy	
+3	26				easy
 4	24?
 5	17
 6	10
