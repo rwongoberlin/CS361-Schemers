@@ -54,6 +54,10 @@ function addChar() {
 	charOn = true;
 }
 
+function moving() {
+	return model.moving;
+}
+
 //turn the current tile into a target
 //*Params: localTargetNum (target number ), curTar (the target we're supposed to collect)
 function makeTarget(localTargetNum : int, curTar: int) {

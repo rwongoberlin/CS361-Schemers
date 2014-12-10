@@ -174,8 +174,17 @@ function Start () {
 
 }
 
+function  loadingTiles() {
+	if (tiles[0][0]) {
+		return tiles[0][0].moving();
+	}
+	else {
+		return true;
+	}
+}
+
 function Update () {
-	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking || blueChar.bouncing || redChar.bouncing) {
+	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking || blueChar.bouncing || redChar.bouncing || loadingTiles()) {
 		return;
 	}
 	var bluedir : int = blueChar.setTile();
