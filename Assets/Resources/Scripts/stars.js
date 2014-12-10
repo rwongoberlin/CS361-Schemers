@@ -3,8 +3,9 @@ var owner : gameManager;
 var starNum : int;
 var fallen : boolean;
 var falling : boolean;
-var fallTime : float = 1;
-var fallDist : float = 13;
+var done: boolean;
+var fallTime : float = 2;	//seconds
+var fallDist : float = -Screen.height/64;
 var t0;
 var deltat;
 var tend;
@@ -28,7 +29,7 @@ function init(o : gameManager, numStar : int) {
 	x0 = starNum + 9;
 	y0 = 7;
 	z0 = -2;
-	transform.localPosition = Vector3(x0, y0, z0);
+	transform.position = Vector3(x0, y0, z0);
 	transform.localScale = Vector3(1.1, 1.1, 1.1);	
 	name = "Star Model";		
 	
@@ -38,14 +39,18 @@ function init(o : gameManager, numStar : int) {
 	renderer.material = Resources.Load("Materials/star" + starNum) as Material;
 }
 
-//animates the star falling & sets fallen to true
+//animates the star falling & sets fallen to true; fallen means it's no longer up in the cloud
 //I don't think this is being called ever.  It should work, though, once it gets called somewhere.
 function Drop() {
+	if(falling||done) {
+		return;
+	}
 	fallen = true;
-	falling = false;
+	falling = true;
 	t0  = clock;
 	tend = clock + fallTime;
 	deltat = 0;
+	//startFalling=true;
 }
 
 //puts star back in place & sets fallen to false
@@ -55,15 +60,21 @@ function Reset() {
 }
 
 function Update() {
+
+/*	if(startFalling) {
+		
+	}*/
 	if (falling)  {
-		transform.localPosition =  Vector3(x0, fallDist*deltat/fallTime, z0);
+		transform.position =  Vector3(x0, y0 + fallDist*deltat/fallTime, z0);
 		deltat = clock - t0;
 		if (clock >= tend) {
 			deltat = 0;
 			tend = 0;
 			t0 = 0;
-			transform.localPosition = Vector3(x0, y0, 100);
+			transform.position = Vector3(x0, 100, 100); //TODO should deactive the thing 
 			falling = false;
+			//fallen=true;
+			done=true;
 		}
 	}
 	clock = clock + Time.deltaTime;

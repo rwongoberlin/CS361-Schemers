@@ -236,7 +236,17 @@ function Update () {
 		Destroy(tutorialFolder.transform.GetChild(0).gameObject);
 		Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 	}
-
+//deigned to only happen once each. 0 is the left star 2 is the rightmost
+	if (turns.turns > bestStar) {
+//		if(!stars[2].startFalling) {
+			stars[2].Drop();
+//		}
+	} 
+	if (turns.turns > okayStar) {
+//		if(!stars[0].startFalling) {
+			stars[0].Drop();
+//		}
+	}
 } 
 
 //returns true if both characters are not moving into pits
@@ -420,7 +430,7 @@ function addTile (x : int, y : int, tileType : String) {
 function addStar(starNum : int) {
 	var starObject = new GameObject.CreatePrimitive(PrimitiveType.Quad);
 	var starScript = starObject.AddComponent("stars");
-	
+
 	starScript.transform.parent = starFolder.transform;
 	
 	starScript.init(this, starNum);
@@ -578,10 +588,14 @@ function reset(map : String) {
 		audioSource1.audio.Play();
 		//clear out old stars
 				
-//		var starsToDestroy : int = starFolder.transform.childCount;
-// 		for (i = starsToDestroy - 1; i >= 0; i--) {
-//			Destroy(starFolder.transform.GetChild(i).gameObject);
-//		}
+		var starsToDestroy : int = starFolder.transform.childCount;
+		for (i = starsToDestroy - 1; i >= 0; i--) {
+			Destroy(starFolder.transform.GetChild(i).gameObject);
+		}
+		addStar(1);
+		addStar(2);
+		addStar(3);
+
 		levelDis.changeLevel(curLevel);
 }
 
