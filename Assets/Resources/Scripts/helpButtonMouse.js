@@ -12,8 +12,10 @@ function init(gM : gameManager) {
 function Update () {
 	if (Input.GetKeyDown("escape")) {
 		helpOff();
-	} else if (Input.GetKeyDown(KeyCode.H)) {
+	} else if (Input.GetKeyDown(KeyCode.H)&&gM.help==false) {
 		helpOn();
+	} else if (Input.GetKeyDown(KeyCode.H)&&gM.help==true) {
+		helpOff();
 	}
 
 }

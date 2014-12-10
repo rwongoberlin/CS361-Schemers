@@ -8,10 +8,11 @@ import System.IO;
 
 var tileFolder : GameObject;				//holds tiles for hierarchy pane
 var tiles : Array;							//2D array of tiles
+var starFolder : GameObject;
+var stars : Array;
 
 var characterFolder : GameObject;			//holds characters for hierarchy pane
 var tutorialFolder : GameObject;
-var starFolder : GameObject;
 var winFolder: GameObject;					//for easy deleting
 var blueChar : character;					//blue character
 var redChar : character;					//red character
@@ -68,7 +69,7 @@ function Start () {
 	
 	starFolder = new GameObject();
 	starFolder.name = "starFolder";
-
+	stars = new Array(3);
 	
 	blueTargets = new Array(3);
 	redTargets = new Array(3);
@@ -77,6 +78,9 @@ function Start () {
 
 	//print(level);
 	buildMap("Assets/Resources/Levels/level0");
+	addStar(1);
+	addStar(2);
+	addStar(3);
 	levelDisplay();
 	addCounter();
 	addClouds();
@@ -112,8 +116,6 @@ function Start () {
 	for(var starsI = 0; starsI<numLevels;starsI++) {
 		starCounts[starsI] = 0;
 	}
-		showStars(); 
-
 }
 
 /* takes in a string, pulls in corresponding text file, and reads in a map
@@ -172,8 +174,17 @@ function Start () {
 
 }
 
+function  loadingTiles() {
+	if (tiles[0][0]) {
+		return tiles[0][0].moving();
+	}
+	else {
+		return true;
+	}
+}
+
 function Update () {
-	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking || blueChar.bouncing || redChar.bouncing) {
+	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking || blueChar.bouncing || redChar.bouncing || loadingTiles()) {
 		return;
 	}
 	var bluedir : int = blueChar.setTile();
@@ -217,11 +228,11 @@ function Update () {
 			}
 		}
 	}
-	if(Input.GetKeyDown("space")||Input.GetKeyDown("h")) {
+	if(Input.GetKeyDown("space")) {
 		tutorialText(1);
   		tutorialText(2);
 	}
-	if (Input.GetKeyUp("space")||Input.GetKeyUp("h")) {
+	if (Input.GetKeyUp("space")) {
 		Destroy(tutorialFolder.transform.GetChild(0).gameObject);
 		Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 	}
@@ -406,6 +417,17 @@ function addTile (x : int, y : int, tileType : String) {
 	return tileScript;
 }
 
+function addStar(starNum : int) {
+	var starObject = new GameObject.CreatePrimitive(PrimitiveType.Quad);
+	var starScript = starObject.AddComponent("stars");
+	
+	starScript.transform.parent = starFolder.transform;
+	
+	starScript.init(this, starNum);
+	starScript.name = "Star " + starNum;
+	stars[starNum - 1] = starScript;
+}
+
 //collects blue targets and sets the next one up
 function collectBlue() {
 	//Starts the spinnnnnniiiiiinnnnnnngggggggg
@@ -556,11 +578,10 @@ function reset(map : String) {
 		audioSource1.audio.Play();
 		//clear out old stars
 				
-		var starsToDestroy : int = starFolder.transform.childCount;
- 		for (i = starsToDestroy - 1; i >= 0; i--) {
-			Destroy(starFolder.transform.GetChild(i).gameObject);
-		}
-		showStars(); 
+//		var starsToDestroy : int = starFolder.transform.childCount;
+// 		for (i = starsToDestroy - 1; i >= 0; i--) {
+//			Destroy(starFolder.transform.GetChild(i).gameObject);
+//		}
 		levelDis.changeLevel(curLevel);
 }
 
@@ -642,23 +663,6 @@ function addClouds() {
 	cloudScript.transform.parent = transform;
 	cloudScript.init();
 	cloudScript.name = "clouds";
-}
-
-function showStars() {
-//print("level is "+curLevel);
-//print("stars is "+starCounts[curLevel]);
-	if(starCounts[curLevel]>0) {
-		for(var s=1;s<=starCounts[curLevel];s++) {
-			var starsObject = new GameObject.CreatePrimitive(PrimitiveType.Quad);
-			starsObject.transform.position = Vector3(0,0,-1);
-			var starScript = starsObject.AddComponent("stars");
-
-			starScript.transform.parent = starFolder.transform;
-			starScript.transform.position = Vector3(0,0,-1);//Screen.width/4,Screen.height/4,-1);
-			starScript.init(s);
-			starScript.name =  "Stars";
-		}
-	}
 }
 
 //Level select

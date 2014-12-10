@@ -6,8 +6,10 @@ var type : String;
 
 var moving : boolean = false;
 
+var y0 : float;
+var x0 : float;
 var clock : float = 0;
-var moveTime : float = 0.5;
+var moveTime : float = 1;
 var t0 : float = 0;
 var tend : float = 0;
 var deltat : float = 0;
@@ -16,7 +18,7 @@ var deltat : float = 0;
 function Update() {
 	if (moving) {
 //		print("asdfasdfasdf");
-		transform.localPosition = Vector3(0, 0, (30 - (30 * deltat/moveTime)));
+		transform.localPosition = Vector3(x0 - x0 *(deltat/moveTime), y0 - y0*(deltat/moveTime), 0);
 		deltat = clock - t0;
 		if (clock >= tend) {
 			moving = false;
@@ -32,8 +34,10 @@ function Update() {
 //
 function init(t : tile, ty : String) {
 	clock = 0;									
-	transform.parent = t.transform;				
-	transform.localPosition = Vector3(0, 0, 30);
+	transform.parent = t.transform;
+	x0 = Random.value*5*(1+Random.value*(-2));
+	y0 = Random.value*(5)*(1 + Random.value*(-2));
+	transform.localPosition = Vector3(0, y0, 0);
 	transform.localScale = Vector3(.9, .9, .9);	
 	name = "Tile Model";
 	this.tile = t;	
@@ -131,7 +135,7 @@ function makeWall() {
 	renderer.material.mainTexture = Resources.Load("Textures/wall", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
-	transform.localScale = Vector3(1.15, 1.15, 1.15);
+	transform.localScale = Vector3(.9, .9, .9);
 }
 
 function makePit() {

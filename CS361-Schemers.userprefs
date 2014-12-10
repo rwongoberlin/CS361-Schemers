@@ -1,13 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/gameManager.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/stars.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/clouds.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/cloudMovement.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/clouds.js" Line="10" Column="19" />
       <File FileName="Assets/Resources/Scripts/character.js" Line="126" Column="42" />
-      <File FileName="Assets/Resources/Scripts/stars.js" Line="19" Column="34" />
-      <File FileName="Assets/Resources/Scripts/gameManager.js" Line="617" Column="55" />
+      <File FileName="Assets/Resources/Scripts/stars.js" Line="29" Column="49" />
+      <File FileName="Assets/Resources/Scripts/gameManager.js" Line="413" Column="42" />
       <File FileName="Assets/Resources/Scripts/turnCounter.js" Line="12" Column="12" />
-      <File FileName="Assets/Resources/Scripts/levelDisplay.js" Line="25" Column="37" />
+      <File FileName="Assets/Resources/Scripts/levelDisplay.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
