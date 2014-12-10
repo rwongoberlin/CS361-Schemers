@@ -614,7 +614,7 @@ function levelDisplay() {
 	var levelDisplayScript = levelDisplayObject.AddComponent("levelDisplay");
 	
 	levelDisplayScript.transform.parent = transform;
-	levelDisplayScript.transform.position = Vector3(-4, 0, -2);
+	levelDisplayScript.transform.position = Vector3(Screen.width/4, Screen.height*7/8, -2);
 	
 	levelDisplayScript.init(this, curLevel);
 	
