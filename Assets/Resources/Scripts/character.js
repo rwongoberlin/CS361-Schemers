@@ -10,6 +10,7 @@ var shaking : boolean = false;
 var spinning : boolean = false;
 var winning : boolean = false;
 var bouncing : boolean = false;
+var idling : boolean = false;
 
 //variables needed for smooth movement calculation (the "t" variables are used in all animations except for spinning which has its own set)
 var clock : float;
@@ -42,7 +43,9 @@ var bounceTime : float = 0.23;
 var bouncexDist : float = 0.15;
 var bounceyDist : float = 0.2;
 
-//TO DO: remove rotation (?)
+//variables for idle animation calculation
+var cycleTime : float = 1;
+var cycleLimit : float = .05;
 
 //var tiles : Array;
 //var characters : Array;
@@ -75,6 +78,7 @@ function init(rotation : int, t : tile, type : int) {
 	}	
 
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");	
+	idling = true;
 }
 
 //allows the character to get information on its next tile based on what key the user presses.
@@ -158,6 +162,7 @@ function spinny() {
 	spint0 = clock;
 	spintend = clock + spinTime;
 	spinning = true;
+	idling  = false;
 }
 
 function smoothMove(dir : int) {
@@ -178,6 +183,7 @@ function smoothMove(dir : int) {
 		deltay = -1;
 	}
 	moving  = true;
+	idling = false;
 }
 
 //is called when the character CANNOT move to its next tile
@@ -190,6 +196,7 @@ function pitShake() {
 	t0 = clock;
 	tend = clock + shakeTime;
 	shaking = true;
+	idling = false;
 }
 
 function wallBounce(dir : int) {
@@ -210,10 +217,14 @@ function wallBounce(dir : int) {
 		deltay = -1;
 	}
 	bouncing = true;
+	idling = false;
 }
 
 function Update() {
 	//If we're supposed to be moving between tiles, the following if clause helps to set the character's position.
+	if (idling) {
+		transform.localScale = Vector3(1 + cycleLimit*Mathf.Sin(2.0*Mathf.PI*clock/(cycleTime)), 1 + cycleLimit*Mathf.Sin(2.0*Mathf.PI*clock/(cycleTime)), 0);
+	}
 	if (moving) {
 		deltat = clock - t0;																						//updates the time since start of movement
 		//DO NOT CHANGE THE FOLLOWING LINE
@@ -231,6 +242,7 @@ function Update() {
 			transform.position.y = currentTile.y;
 			xinit = transform.position.x;
 			yinit = transform.position.y;
+			idling = true;
 		}
 	}
 	//If we're supposed to be shaking, this handles how that works.
@@ -245,6 +257,7 @@ function Update() {
 			tend = 0;
 			deltat = 0;
 			transform.eulerAngles = Vector3(0, 0, 0);																//This is just to reset back to normal rotation in case something weird happens with the updates.
+			idling = true;
 		}
 	}
 	//If we're supposed to be spinning, this handles how that works.
@@ -260,6 +273,7 @@ function Update() {
 				spintend = 0;
 				spindeltat = 0;
 				transform.eulerAngles = Vector3(0, 0, 0);
+				idling = true;
 			}
 		}
 	}
@@ -277,6 +291,7 @@ function Update() {
 			transform.position.y = currentTile.y;
 			xinit = transform.position.x;
 			yinit = transform.position.y;
+			idling = true;
 		}
 	}
 	clock = clock + Time.deltaTime;																					//Updates the clock.  Super important.

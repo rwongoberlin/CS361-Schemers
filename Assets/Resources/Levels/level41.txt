@@ -1,16 +1,15 @@
-12
-12
+8
+11
 100
 100
-o o o o o o o o o o o o
-o _ _ _ _ 2 o o o o o o
-o _ x o x _ o o o o o o
-o _ o o o _ o o o o o o
-o _ x o x _ x x o o _ o
-o _ _ _ _ a B x o o _ o
-o _ o o x A _ _ _ _ _ o
-o _ o o x x _ o x o _ o
-o o o o o o _ x o x b o
-o o o o o o _ o x o _ o
-o o o o o o _ _ _ 1 x o
-o o o o o o o o o o o o
+o o o o o o o o
+o _ _ _ _ _ _ o
+o _ _ 2 _ o _ o
+o _ _ _ o C o o
+o _ _ _ _ b _ o
+o _ _ _ _ _ _ o
+o _ _ _ x _ _ o
+o _ _ a 1 B _ o
+o _ _ _ c _ _ o
+o _ A _ _ _ _ o
+o x x o o o o o
