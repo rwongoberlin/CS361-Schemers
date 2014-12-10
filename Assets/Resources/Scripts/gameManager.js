@@ -239,11 +239,11 @@ function Update () {
 			}
 		}
 	}
-	if(Input.GetKeyDown("space")||Input.GetKeyDown("h")) {
+	if(Input.GetKeyDown("space")) {
 		tutorialText(1);
   		tutorialText(2);
 	}
-	if (Input.GetKeyUp("space")||Input.GetKeyUp("h")) {
+	if (Input.GetKeyUp("space")) {
 		Destroy(tutorialFolder.transform.GetChild(0).gameObject);
 		Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 	}
@@ -646,7 +646,7 @@ function levelDisplay() {
 	var levelDisplayScript = levelDisplayObject.AddComponent("levelDisplay");
 	
 	levelDisplayScript.transform.parent = transform;
-	levelDisplayScript.transform.position = Vector3(-4, 0, -2);
+	levelDisplayScript.transform.position = Vector3(Screen.width/4, Screen.height*7/8, -2);
 	
 	levelDisplayScript.init(this, curLevel);
 	

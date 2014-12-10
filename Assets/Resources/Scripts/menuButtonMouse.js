@@ -10,8 +10,11 @@ function init(gM : gameManager) {
 }
 
 function Update () {
-	if (Input.GetKeyDown("escape")) {
+	if ((Input.GetKeyDown("escape")||(Input.GetKeyDown("l")))&&(gM.mainMenu==true)) {
 		gM.mainMenu=false;
+	}
+	else if ((Input.GetKeyDown("escape")||(Input.GetKeyDown("l")))&&(gM.mainMenu==false)) {
+		gM.mainMenu=true;
 	}
 }
 

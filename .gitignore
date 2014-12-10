@@ -54,4 +54,10 @@ Library/metadata/95/95e9b2718754442d0931dc05e267798d
 Library/metadata/e1/e1261ff0752ef4645a335f145c8f5a28
 
 Temp/__EditModeScene
+# ===================== #
+# scripts we don't need #
+# ===================== #
+
+Assets/Resources/Scripts/gameManager.js~
+Assets/Resources/Scripts/help.js
 
