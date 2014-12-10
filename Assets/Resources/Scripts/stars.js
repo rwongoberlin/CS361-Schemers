@@ -56,6 +56,7 @@ function Drop() {
 //puts star back in place & sets fallen to false
 function Reset() {
 	fallen = false;
+	falling = false;
 	transform.localPosition = Vector3(x0, y0, z0);
 }
 
