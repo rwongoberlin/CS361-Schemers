@@ -42,7 +42,7 @@ function init(o : gameManager, numStar : int) {
 //I don't think this is being called ever.  It should work, though, once it gets called somewhere.
 function Drop() {
 	fallen = true;
-	falling = false;
+	falling = true;
 	t0  = clock;
 	tend = clock + fallTime;
 	deltat = 0;
@@ -51,6 +51,7 @@ function Drop() {
 //puts star back in place & sets fallen to false
 function Reset() {
 	fallen = false;
+	falling = false;
 	transform.localPosition = Vector3(x0, y0, z0);
 }
 

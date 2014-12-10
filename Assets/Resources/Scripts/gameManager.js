@@ -184,6 +184,17 @@ function  loadingTiles() {
 }
 
 function Update () {
+	if (turns.turns > bestStar && turns.turns < okayStar) { //if greater than best # but less than okay
+		print("hi");
+		if (!stars[2].falling || !stars[2].fallen) {
+			stars[2].Drop();
+		}
+	} else if (turns.turns > okayStar) { //if greater than okay
+		if (!stars[1].falling || !stars[1].fallen) {
+			stars[1].Drop();
+		}
+	}
+	
 	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking || blueChar.bouncing || redChar.bouncing || loadingTiles()) {
 		return;
 	}
