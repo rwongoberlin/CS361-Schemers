@@ -55,6 +55,14 @@ var cameraObject: GameObject;
 
 // Called once when the script is created.
 function Start () {
+	// if there is not already a currentLevel object, make one (only applies when not running form build)
+	var cL = GameObject.Find("currentLevel");
+	if(cL == null) {
+		makeCurLevel();
+		level = "Assets/Resources/Levels/level0";
+	} else {
+		level = "Assets/Resources/Levels/level"+cL.GetComponent("currentLevel").curLevel;
+	}
  	 //cameraObject.=GameObject.createPrimitive(Camera);
 	 //cameraObject.orthographicSize = Screen.height / 2;
  //reinitialize both tile and character folders, arrays for tracking targets, set current targets to be 1	
@@ -101,6 +109,13 @@ function Start () {
 	for(var starsI = 0; starsI<numLevels;starsI++) {
 		starCounts[starsI] = 0;
 	}
+}
+
+private function makeCurLevel() {
+	var levelObject = GameObject();
+	var levelScript = levelObject.AddComponent("currentLevel");
+
+	levelScript.name = "currentLevel";
 }
 
 /* takes in a string, pulls in corresponding text file, and reads in a map
