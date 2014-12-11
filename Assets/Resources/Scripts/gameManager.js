@@ -282,10 +282,10 @@ function makeButtons() {
 	muteScript.init(this);
 
 	var tempheight: int =Screen.height/500;
-		menuObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*1, 0);
-		resetObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*2, 0);
-		muteObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*3, 0);
-		helpObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*4, 0);
+		menuObject.transform.position = Vector3(-2, 7, 0);
+		resetObject.transform.position = Vector3(-2, 6, 0);
+		muteObject.transform.position = Vector3(-2, 5, 0);
+		helpObject.transform.position = Vector3(-2, 4, 0);
 
 	
 
