@@ -17,14 +17,15 @@ function init(gM : gameManager) {
 }
 
 function Update () {
-	if ((Input.GetKeyDown("escape")||(Input.GetKeyDown("l")))&&(gM.mainMenu==true)) {
+	/*if ((Input.GetKeyDown("escape")||(Input.GetKeyDown("l")))&&(gM.mainMenu==true)) {
 		gM.mainMenu=false;
 	}
 	else if ((Input.GetKeyDown("escape")||(Input.GetKeyDown("l")))&&(gM.mainMenu==false)) {
 		gM.mainMenu=true;
-	}
+	}*/
 }
 
 function OnMouseDown() {
-	gM.mainMenu = true;
+	Application.LoadLevel("levelBrowser");
+	//gM.mainMenu = true;
 }
