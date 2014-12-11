@@ -11,11 +11,11 @@ function init(gM : gameManager) {
 	muteOn = false;
 
 	name="mute button";
-	transform.localScale = Vector3(1.5, 1, 1);		
+	transform.localScale = Vector3(1.433, 0.733, 1);	
 	renderer.material.mainTexture = Resources.Load("Textures/mute", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
-	renderer.material = Resources.Load("Materials/mute") as Material;
+	//renderer.material = Resources.Load("Materials/mute") as Material;
 }
 
 function Update () {
