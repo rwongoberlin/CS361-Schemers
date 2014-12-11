@@ -88,7 +88,7 @@ function Start () {
 	levelOver = false;
 
 	//print(level);
-	buildMap("Assets/Resources/Levels/level0");
+	buildMap(level);
 	addStar(1);
 	addStar(2);
 	addStar(3);
