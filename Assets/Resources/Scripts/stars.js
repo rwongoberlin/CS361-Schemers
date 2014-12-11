@@ -26,7 +26,7 @@ function init(o : gameManager, numStar : int) {
 	falling = false;
 	clock = 0;
 	
-	x0 = starNum + 9;
+	x0 = starNum + 10;
 	y0 = 7;
 	z0 = -2;
 	transform.position = Vector3(x0, y0, z0);
