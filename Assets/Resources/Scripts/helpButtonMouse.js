@@ -8,11 +8,11 @@ function Start () {
 function init(gM : gameManager) {
 	this.gM = gM;
 	name= "help button";
-	transform.localScale = Vector3(1.2, 1, 1);		
+	transform.localScale = Vector3(1.5, 1, 1);		
 	renderer.material.mainTexture = Resources.Load("Textures/help", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
-	renderer.material = Resources.Load("Materials/helpScreen") as Material;
+	renderer.material = Resources.Load("Materials/help") as Material;
 }
 
 function Update () {
