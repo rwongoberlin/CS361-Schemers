@@ -38,7 +38,7 @@ function init(t : tile, ty : String) {
 	x0 = Random.value*5*(1+Random.value*(-2));
 	y0 = Random.value*(5)*(1 + Random.value*(-2));
 	transform.localPosition = Vector3(0, y0, 0);
-	transform.localScale = Vector3(.9, .9, .9);	
+	transform.localScale = Vector3(1, 1, 1);	
 	name = "Tile Model";
 	this.tile = t;	
 	this.type = ty;	
@@ -49,7 +49,7 @@ function init(t : tile, ty : String) {
 	t0 = clock;
 	tend = clock + moveTime;
 
-	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);	
+	renderer.material.mainTexture = Resources.Load("Textures/tile2", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 	//renderer.material = Resources.Load("Materials/tile") as Material;
@@ -112,11 +112,11 @@ function OnMouseDown() {
 			makeTarget( 23, 1 );
 			tile.targetNum = 23;
 		} else if ( type == "1") {
-			renderer.material.mainTexture = Resources.Load("Textures/bluePlane", Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/greenPlane", Texture2D);
 			renderer.material.color = Color(1,1,1);										
 			renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 		} else if ( type == "2") {
-			renderer.material.mainTexture = Resources.Load("Textures/purplePlane", Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/purplePlane2", Texture2D);
 			renderer.material.color = Color(1,1,1);										
 			renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 		}
@@ -125,17 +125,16 @@ function OnMouseDown() {
 
 function makeEmpty() {
 	//tileType = 0;
-	renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);
+	renderer.material.mainTexture = Resources.Load("Textures/tile2", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
 }
 
 function makeWall() {
 	//tileType = 1;
-	renderer.material.mainTexture = Resources.Load("Textures/wall", Texture2D);
+	renderer.material.mainTexture = Resources.Load("Textures/wall2", Texture2D);
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
-	transform.localScale = Vector3(.9, .9, .9);
 }
 
 function makePit() {
@@ -154,11 +153,11 @@ function makeTarget(localTargetNum: int, curTar: int) {
 	//blue
 	if(targetType==1) {
 		if (localTargetNum%10==curTar) {
-			renderer.material.mainTexture = Resources.Load("Textures/blueTarget" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/green" + localTargetNum%10, Texture2D);
 			makeCollectable();
 		}
 		else {
-			renderer.material.mainTexture = Resources.Load("Textures/blueTargetPit" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/greenPit" + localTargetNum%10, Texture2D);
 		
 		}
 		renderer.material.color = Color(1,1,1);										
@@ -167,11 +166,11 @@ function makeTarget(localTargetNum: int, curTar: int) {
 	//red
 	else {
 		if (localTargetNum%10==curTar) {
-			renderer.material.mainTexture = Resources.Load("Textures/purpleTarget" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/purple" + localTargetNum%10, Texture2D);
 			makeCollectable();
 		}
 		else {
-			renderer.material.mainTexture = Resources.Load("Textures/purpleTargetPit" + localTargetNum%10, Texture2D);
+			renderer.material.mainTexture = Resources.Load("Textures/purplePit" + localTargetNum%10, Texture2D);
 		}
 		renderer.material.color = Color(1,1,1);										
 		renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");	
@@ -180,7 +179,7 @@ function makeTarget(localTargetNum: int, curTar: int) {
 
 //collects the current target reverting the tile to a blank tile
 function collect() {
-		renderer.material.mainTexture = Resources.Load("Textures/tile", Texture2D);	
+		renderer.material.mainTexture = Resources.Load("Textures/tile2", Texture2D);	
 		collectable=false;
 }
 
