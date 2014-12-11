@@ -185,13 +185,12 @@ function  loadingTiles() {
 
 function Update () {
 	if (turns.turns > bestStar && turns.turns < okayStar) { //if greater than best # but less than okay
-		print("hi");
 		if (!stars[2].falling || !stars[2].fallen) {
 			stars[2].Drop();
 		}
 	} else if (turns.turns > okayStar) { //if greater than okay
-		if (!stars[1].falling || !stars[1].fallen) {
-			stars[1].Drop();
+		if (!stars[0].falling || !stars[0].fallen) {
+			stars[0].Drop();
 		}
 	}
 	
@@ -248,16 +247,16 @@ function Update () {
 		Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 	}
 //deigned to only happen once each. 0 is the left star 2 is the rightmost
-	if (turns.turns > bestStar) {
-//		if(!stars[2].startFalling) {
-			stars[2].Drop();
-//		}
-	} 
-	if (turns.turns > okayStar) {
-//		if(!stars[0].startFalling) {
-			stars[0].Drop();
-//		}
-	}
+//	if (turns.turns > bestStar) {
+////		if(!stars[2].startFalling) {
+//			stars[2].Drop();
+////		}
+//	} 
+//	if (turns.turns > okayStar) {
+////		if(!stars[0].startFalling) {
+//			stars[0].Drop();
+////		}
+//	}
 } 
 
 //returns true if both characters are not moving into pits
