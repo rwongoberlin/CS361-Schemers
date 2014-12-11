@@ -51,9 +51,12 @@ var bestStar : int;						//when level read in, set to best possible score
 var okayStar : int;						//when level read in, set to medium score
 var starCounts : Array;					//keeps track of players best number of stars for each level
 var help: boolean;						//displays help text when true
+var cameraObject: GameObject;
 
 // Called once when the script is created.
 function Start () {
+ 	 //cameraObject.=GameObject.createPrimitive(Camera);
+	 //cameraObject.orthographicSize = Screen.height / 2;
  //reinitialize both tile and character folders, arrays for tracking targets, set current targets to be 1	
     tileFolder = new GameObject();
 	tileFolder.name = "TileFolder";
@@ -85,31 +88,13 @@ function Start () {
 	addCounter();
 	addClouds();
 	
+	makeButtons();
 	audioSource1 = gameObject.AddComponent("AudioSource");
 
 	audioSource1.audio.loop = true; 
 	audioSource1.audio.clip = Resources.Load("Sounds/loop_0");
 	audioSource1.audio.Play();
 
-	// attach script to reset button
-	var resetObject = GameObject.Find("resetButton");
-	var resetScript = resetObject.AddComponent(resetButtonMouse);
-	resetScript.init(this);
-	
-	// attach script to menu button
-	var menuObject = GameObject.Find("menuButton");
-	var menuScript = menuObject.AddComponent(menuButtonMouse);
-	menuScript.init(this);
-	
-	// attach script to help button
-	var helpObject = GameObject.Find("helpButton");
-	var helpScript = helpObject.AddComponent(helpButtonMouse);
-	helpScript.init(this);
-
-	// attach script to mute button
-	var muteObject = GameObject.Find("muteButton");
-	var muteScript = muteObject.AddComponent(muteButtonMouse);
-	muteScript.init(this);
 	numLevels = 52;
 
 	starCounts = new Array(numLevels);
@@ -240,8 +225,8 @@ function Update () {
 		}
 	}
 	if(Input.GetKeyDown("space")) {
-		tutorialText(1);
-  		tutorialText(2);
+		showMoveText(1);
+  		showMoveText(2);
 	}
 	if (Input.GetKeyUp("space")) {
 		Destroy(tutorialFolder.transform.GetChild(0).gameObject);
@@ -259,6 +244,38 @@ function Update () {
 //		}
 	}
 } 
+
+//an attempt to get buttons to show up upon loading
+function makeButtons() {
+		// attach script to reset button
+	var resetObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+	var resetScript = resetObject.AddComponent(resetButtonMouse);
+	resetScript.init(this);
+	
+	// attach script to menu button
+	var menuObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+	var menuScript = menuObject.AddComponent(menuButtonMouse);
+	menuScript.init(this);
+	
+	// attach script to help button
+	var helpObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+	var helpScript = helpObject.AddComponent(helpButtonMouse);
+	helpScript.init(this);
+
+	// attach script to mute button
+	var muteObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+	var muteScript = muteObject.AddComponent(muteButtonMouse);
+	muteScript.init(this);
+
+	var tempheight: int =Screen.height/500;
+		menuObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*1, 0);
+		resetObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*2, 0);
+		muteObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*3, 0);
+		helpObject.transform.position = Vector3(tempheight-Screen.height/100, Screen.height/100-tempheight*4, 0);
+
+	
+
+}
 
 //returns true if both characters are not moving into pits
 function pitCheck() {
@@ -537,7 +554,7 @@ function youWin() {
 
 //diaplys tutorial info in the bottom corner 1 is non-inverted 2 is inverted
 //TODO: switch out map for a boolean that tells us whether or not we're on the main menu screen
-function tutorialText(inversion: int) {
+function showMoveText(inversion: int) {
 	var tutorialObject = new GameObject();
 	var tutorialScript = tutorialObject.AddComponent("tutorial");
 	tutorialScript.transform.parent = tutorialFolder.transform;
