@@ -13,18 +13,24 @@ var stars : Array;
 
 var characterFolder : GameObject;			//holds characters for hierarchy pane
 var tutorialFolder : GameObject;
+
+var invalidSound 	   : GameObject;				//for holding invalid sounds
+var collectSoundPurple : GameObject;						//for holding Purple collection sound
+var	collectSoundGreen  : GameObject;						//for holding Green collection sound 
+var winSound 		   : GameObject;
+
 var winFolder: GameObject;					//for easy deleting
-var blueChar : character;					//blue character
-var redChar : character;					//red character
+var GreenChar : character;					//Green character
+var PurpleChar : character;					//Purple character
 
 var levelOver : boolean;					//determines whether the level is over (used to keep TurnCounter from incrementing after level completion)
 		
-var curTarBlue : int = 1; 					//default starting target number is one
-var curTarRed : int = 1; 					//default starting target number is one
-var redTargets: Array; 						//array for holding the tile objects of redTargets
-var blueTargets: Array;  					//array for holding the tile objects of the blue targets
-var blueInit : Array;						//initial x and y for blue's placement
-var redInit : Array;						//initial x and y for reds placement			
+var curTarGreen : int = 1; 					//default starting target number is one
+var curTarPurple : int = 1; 					//default starting target number is one
+var PurpleTargets: Array; 						//array for holding the tile objects of PurpleTargets
+var GreenTargets: Array;  					//array for holding the tile objects of the Green targets
+var GreenInit : Array;						//initial x and y for Green's placement
+var PurpleInit : Array;						//initial x and y for Purples placement			
 var mainMenu : boolean;						//whether we're on the main menu screen
 
 //EDITOR SCHTUFF
@@ -32,18 +38,19 @@ var makeWidth = 2;
 var makeHeight = 2;	
 var editMode : boolean = false;
 var makeType : String;
-var allBlueCollected: boolean = false;		//keeps track of whether we've collected all the blue targets
-var allRedCollected:  boolean = false;		//keeps track of whether we've collected all the red targets
-var reqBlueTargets : int = 0;				//number of targets require for the level, 
-var reqRedTargets : int = 0;				//number of targets require for the level, 
+var allGreenCollected: boolean = false;		//keeps track of whether we've collected all the Green targets
+var allPurpleCollected:  boolean = false;		//keeps track of whether we've collected all the Purple targets
+var reqGreenTargets : int = 0;				//number of targets require for the level, 
+var reqPurpleTargets : int = 0;				//number of targets require for the level, 
 
 var levelDis : levelDisplay;
 var turns : turnCounter;					//the number of moves we've made for this level
 var level : String = "Assets/Resources/Levels/level0";	//default starting level
 var levelSet: int = 1; 							//for which set of levels we're on (1-5), currently in groups of 5
-var numLevelSets = 5;								//5 sets of levels currently
+var numLevelSets = 10;								//5 sets of levels currently
 var curLevel: int = 0;							//the level we're currently on
-var audioSource1: AudioSource;				//controls the audio
+var audioSource1: AudioSource;				//controls the audio or songs
+var audioSourceInvalid: AudioSource;		//controls invalid moves
 var numLevels : int; 					//number of levels we currently have
 var theStart: boolean = true;
 var mainMenuCount : int = 0;
@@ -66,25 +73,15 @@ function Start () {
  	 //cameraObject.=GameObject.createPrimitive(Camera);
 	 //cameraObject.orthographicSize = Screen.height / 2;
  //reinitialize both tile and character folders, arrays for tracking targets, set current targets to be 1	
-    tileFolder = new GameObject();
-	tileFolder.name = "TileFolder";
-	
-	characterFolder = new GameObject();
-	characterFolder.name = "CharacterFolder";	
-
-	tutorialFolder = new GameObject();
-	tutorialFolder.name = "tutorialFolder";	
-
-	winFolder = new GameObject();
-	winFolder.name = "winFolder";
-	
-	starFolder = new GameObject();
-	starFolder.name = "starFolder";
+ 
 	stars = new Array(3);
 	
-	blueTargets = new Array(3);
-	redTargets = new Array(3);
+	GreenTargets = new Array(3);
+	PurpleTargets = new Array(3);
 	
+	initializeFolders();
+	initializeSoundEffects();
+
 	levelOver = false;
 
 	//print(level);
@@ -111,6 +108,40 @@ function Start () {
 	}
 }
 
+function initializeFolders() {
+  	tileFolder = new GameObject();
+	tileFolder.name = "TileFolder";
+	
+	characterFolder = new GameObject();
+	characterFolder.name = "CharacterFolder";	
+
+	tutorialFolder = new GameObject();
+	tutorialFolder.name = "tutorialFolder";	
+
+	winFolder = new GameObject();
+	winFolder.name = "winFolder";
+	
+	starFolder = new GameObject();
+	starFolder.name = "starFolder";
+
+//	SoundFolder = new GameObject();
+//	SoundFolder.name = "SoundEffectsFolder";
+}
+
+
+function initializeSoundEffects() {
+
+	invalidSound = new GameObject();
+	invalidSound.name = "invalidSound";
+	collectSoundPurple = new GameObject();
+	collectSoundPurple.name = "collectPurpleSound";
+	collectSoundGreen = new GameObject();
+	collectSoundGreen.name = "collectGreenSound";
+	winSound = new GameObject();
+	winSound.name = "winsound";
+
+}
+
 private function makeCurLevel() {
 	var levelObject = GameObject();
 	var levelScript = levelObject.AddComponent("currentLevel");
@@ -122,8 +153,8 @@ private function makeCurLevel() {
  * params: map (the name of the text file for the level without .txt)
  */
  function buildMap(mapName : String) {	
-	curTarBlue = 1;
-	curTarRed = 1;
+	curTarGreen = 1;
+	curTarPurple = 1;
 	levelSet = curLevel/numLevelSets;
 	//print(levelSet);
 
@@ -162,8 +193,8 @@ private function makeCurLevel() {
         sr.Close();
         
         //after tiles are set up, add characters and set their neighbors
-        blueChar = addCharacter(blueInit[0], blueInit[1], 0, 1);
-		redChar = addCharacter(redInit[0], redInit[1], 0, 2);
+        GreenChar = addCharacter(GreenInit[0], GreenInit[1], 0, 1);
+		PurpleChar = addCharacter(PurpleInit[0], PurpleInit[1], 0, 2);
 		setNeighbors();
     }
     catch (e) {
@@ -194,16 +225,16 @@ function Update () {
 		}
 	}
 	
-	if (blueChar.moving || blueChar.shaking || redChar.moving || redChar.shaking || blueChar.bouncing || redChar.bouncing || loadingTiles()) {
+	if (GreenChar.moving || GreenChar.shaking || PurpleChar.moving || PurpleChar.shaking || GreenChar.bouncing || PurpleChar.bouncing || loadingTiles()) {
 		return;
 	}
-	var bluedir : int = blueChar.setTile();
-	var reddir :  int = redChar.setTile();
+	var Greendir : int = GreenChar.setTile();
+	var Purpledir :  int = PurpleChar.setTile();
 	
 	//check to see if the move is legal
 	if (pitCheck() && sameSpaceCheck() && targetBlockedCheck()) {
-		var bTrue = blueChar.move(bluedir);
-		var rTrue = redChar.move(reddir);
+		var bTrue = GreenChar.move(Greendir);
+		var rTrue = PurpleChar.move(Purpledir);
 		
 		if(bTrue || rTrue) {
 			if (!levelOver) {
@@ -212,23 +243,23 @@ function Update () {
 		}
 
 		//check to see if the target we're moving onto is collectable
-		if(blueChar.currentTile.model.collectable&&curTarBlue<=reqBlueTargets) {
-			collectBlue();
-			if(curTarBlue==curTarRed) {
+		if(GreenChar.currentTile.model.collectable&&curTarGreen<=reqGreenTargets) {
+			collectGreen();
+			if(curTarGreen==curTarPurple) {
 				playNextLoop();			
 			}
 		}
-		if(redChar.currentTile.model.collectable&&curTarRed<=reqRedTargets) {
-			collectRed();
-			if(curTarBlue==curTarRed) {
+		if(PurpleChar.currentTile.model.collectable&&curTarPurple<=reqPurpleTargets) {
+			collectPurple();
+			if(curTarGreen==curTarPurple) {
 				playNextLoop();
 			}
 		}
 	}
 	//if the move wasn't legal, do not move.
 	else {
-		blueChar.pitReset();
-		redChar.pitReset();
+		GreenChar.pitReset();
+		PurpleChar.pitReset();
 	}
 	
 	if (editMode) {
@@ -293,29 +324,38 @@ function makeButtons() {
 
 //returns true if both characters are not moving into pits
 function pitCheck() {
-	if (blueChar.currentTile.isPit()) {
-		blueChar.pitShake();
+	if (GreenChar.currentTile.isPit()) {
+		GreenChar.pitShake();
+		audioSourceInvalid = invalidSound.AddComponent("AudioSource");
+		audioSourceInvalid.audio.clip = Resources.Load("Sounds/invalid_move_2");
+		audioSourceInvalid.audio.PlayOneShot(audioSourceInvalid.audio.clip ,.9);
 	}
-	if (redChar.currentTile.isPit()) {
-		redChar.pitShake();
+	if (PurpleChar.currentTile.isPit()) {
+		PurpleChar.pitShake();
+		audioSourceInvalid = invalidSound.AddComponent("AudioSource");
+		audioSourceInvalid.audio.clip = Resources.Load("Sounds/invalid_move_2");
+		audioSourceInvalid.audio.PlayOneShot(audioSourceInvalid.audio.clip ,.9);
 	}
-	return (!blueChar.currentTile.isPit() && !redChar.currentTile.isPit());
+	return (!GreenChar.currentTile.isPit() && !PurpleChar.currentTile.isPit());
 }
 
 //returns true if both characters are not moving into the same space
 function sameSpaceCheck() {
-	if(blueChar.currentTile==redChar.currentTile) {
-		redChar.pitShake();
-		blueChar.pitShake();
+	if(GreenChar.currentTile==PurpleChar.currentTile) {
+		PurpleChar.pitShake();
+		GreenChar.pitShake();
+		audioSourceInvalid = invalidSound.AddComponent("AudioSource");
+		audioSourceInvalid.audio.clip = Resources.Load("Sounds/invalid_move_2");
+		audioSourceInvalid.audio.PlayOneShot(audioSourceInvalid.audio.clip ,.9);
 	}
-	return blueChar.currentTile!=redChar.currentTile;
+	return GreenChar.currentTile!=PurpleChar.currentTile;
 }
 
 //returns false if either character tries to move into a target they are not allowed to collect
 //just cases to make it false
 function targetBlockedCheck() {
-		curTar1 = blueChar.currentTile.getTargetNum();
-		curTar2 = redChar.currentTile.getTargetNum();
+		curTar1 = GreenChar.currentTile.getTargetNum();
+		curTar2 = PurpleChar.currentTile.getTargetNum();
 		var wrongTarget: boolean =true; 
 
 		if ((curTar1==0) && (curTar2==0)) {
@@ -324,35 +364,42 @@ function targetBlockedCheck() {
 
 //checking to see if going for wrong character's target
 
-//if blue tries to collect red's targer, blue shakes 
+//if Green tries to collect Purple's targer, Green shakes 
 	if(curTar1/10 == 2) {
-		blueChar.pitShake();
+		GreenChar.pitShake();
 		wrongTarget = false;
 	}
 
-///if red tries to collect blues's target, red
+///if Purple tries to collect Greens's target, Purple
 	if(curTar2/10 == 1) {
-		redChar.pitShake();
+		PurpleChar.pitShake();
 		wrongTarget = false; 
  	}
 
 //checking to see if going for wrong number target
-	if (!(curTar1%10 == curTarBlue) && curTar1!=0) {
-		blueChar.pitShake();
+	if (!(curTar1%10 == curTarGreen) && curTar1!=0) {
+		GreenChar.pitShake();
 		wrongTarget = false;
 	}
-	if (!(curTar2%10 == curTarRed) && curTar2!=0) {
-		redChar.pitShake();
+	if (!(curTar2%10 == curTarPurple) && curTar2!=0) {
+		PurpleChar.pitShake();
 		wrongTarget = false;
 	}
+//play sound if false
+	if(wrongTarget==false) {
+		audioSourceInvalid = invalidSound.AddComponent("AudioSource");
+		audioSourceInvalid.audio.clip = Resources.Load("Sounds/invalid_move_2");
+		audioSourceInvalid.audio.PlayOneShot(audioSourceInvalid.audio.clip ,.9);
+	}
+
 		return wrongTarget;
 	
 }
 
 //synchs up the loop so that the current one stops and the next one plays
 function playNextLoop() {
-	audioSource1.clip = Resources.Load("Sounds/loop_"+(levelSet*10+(curTarRed-1)));
-	//print("loading audio:"+(levelSet*10+(curTarRed-1)));
+	audioSource1.clip = Resources.Load("Sounds/loop_"+(levelSet*10+(curTarPurple-1)));
+	//print("loading audio:"+(levelSet*10+(curTarPurple-1)));
 	audioSource1.audio.Stop();
 	audioSource1.audio.Play(); 
 }
@@ -394,7 +441,7 @@ function addCharacter(x : int, y : int, rotation : int, type : int) {
 /*
 addTile (float, float, String) method by Devin
 added to support tile creation w/ different types of tiles
-also changes  the required number of targets
+also changes  the requiPurple number of targets
 
 character 1 = 1
 character 2 = 2
@@ -411,16 +458,16 @@ function addTile (x : int, y : int, tileType : String) {
 	var character = 0;
 	// check to see if this tile has a character or a target on it
 	// if so, add that AND a blank tile
-	if( tileType == "1" ) {				// if it is the blue characer
+	if( tileType == "1" ) {				// if it is the Green characer
 		tileType == "_";
 		character = 1;
 		charOn = true;
-		blueInit = [x,y];
-	} else if( tileType == "2" ) { 		// if it is the red character
+		GreenInit = [x,y];
+	} else if( tileType == "2" ) { 		// if it is the Purple character
 		tileType == "_";
 		character = 2;
 		charOn = true;
-		redInit = [x,y];
+		PurpleInit = [x,y];
 	}
 	
 	var tileScript = tileObject.AddComponent("tile");
@@ -435,34 +482,34 @@ function addTile (x : int, y : int, tileType : String) {
 
 	
 	if( tileType == "A" ) {
-		blueTargets[0] = tileScript;
-		if(reqBlueTargets<1) {
-			reqBlueTargets=1;
+		GreenTargets[0] = tileScript;
+		if(reqGreenTargets<1) {
+			reqGreenTargets=1;
 		}
 	} else if( tileType == "B" ) {
-		blueTargets[1] = tileScript;
-		if(reqBlueTargets<2) {
-			reqBlueTargets=2;
+		GreenTargets[1] = tileScript;
+		if(reqGreenTargets<2) {
+			reqGreenTargets=2;
 		}
 	} else if( tileType == "C" ) {
-		blueTargets[2] = tileScript;
-		if(reqBlueTargets<3) {
-			reqBlueTargets=3;
+		GreenTargets[2] = tileScript;
+		if(reqGreenTargets<3) {
+			reqGreenTargets=3;
 		}
 	} else if( tileType == "a" ) {
-		redTargets[0] = tileScript;
-		if(reqRedTargets<1) {
-			reqRedTargets=1;
+		PurpleTargets[0] = tileScript;
+		if(reqPurpleTargets<1) {
+			reqPurpleTargets=1;
 		}
 	} else if( tileType == "b" ) {
-		redTargets[1] = tileScript;
-		if(reqRedTargets<2) {
-			reqRedTargets=2;
+		PurpleTargets[1] = tileScript;
+		if(reqPurpleTargets<2) {
+			reqPurpleTargets=2;
 		}
 	} else if( tileType == "c" ) {
-		redTargets[2] = tileScript;
-		if(reqRedTargets<3) {
-			reqRedTargets=3;
+		PurpleTargets[2] = tileScript;
+		if(reqPurpleTargets<3) {
+			reqPurpleTargets=3;
 		}
 	}
 	
@@ -480,56 +527,63 @@ function addStar(starNum : int) {
 	stars[starNum - 1] = starScript;
 }
 
-//collects blue targets and sets the next one up
-function collectBlue() {
+//collects Green targets and sets the next one up
+function collectGreen() {
 	//Starts the spinnnnnniiiiiinnnnnnngggggggg
-	blueChar.spinny();
+	GreenChar.spinny();
 	//sets type to be wall, reverts model to blank, set collectable to be false
-	blueChar.currentTile.collect(); 
-	curTarBlue++;
+	GreenChar.currentTile.collect(); 
+	curTarGreen++;
 	//check to see if there are still targets left
-	if(curTarBlue <= reqBlueTargets) {
+	if(curTarGreen <= reqGreenTargets) {
 		//make it into a collectable model
-		blueTargets[curTarBlue-1].makeTarget(blueTargets[curTarBlue-1].targetNum, curTarBlue); 
+		GreenTargets[curTarGreen-1].makeTarget(GreenTargets[curTarGreen-1].targetNum, curTarGreen); 
 	}
 	else {
-		//completed blue targets
-		allBlueCollected=true;
-			if(allRedCollected) {
+		//completed Green targets
+		allGreenCollected=true;
+			if(allPurpleCollected) {
 				youWin();
 		}
 	}
+		audioSourceGreen= collectSoundGreen.AddComponent("AudioSource");
+		audioSourceGreen.audio.clip = Resources.Load("Sounds/octave_2");
+		audioSourceGreen.audio.PlayOneShot(audioSourceGreen.audio.clip ,.9);
 }
 
 
-//collects red targets and sets the next one up
-function collectRed() {
+//collects Purple targets and sets the next one up
+function collectPurple() {
 	//Starts the spinnnnnniiiiiinnnnnnngggggggg
-	redChar.spinny();
-	redChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
-	curTarRed++;
+	PurpleChar.spinny();
+	PurpleChar.currentTile.collect(); //sets type to be wall, reverts model to blank, set collectable to be false
+	curTarPurple++;
 	//check to see if there are still targets left
-	if(curTarRed <= reqRedTargets) { 
-	//redTargets.length+1) {
+	if(curTarPurple <= reqPurpleTargets) { 
+	//PurpleTargets.length+1) {
 		//make it into a collectable model
-		redTargets[curTarRed-1].makeTarget(redTargets[curTarRed-1].targetNum, curTarRed); 
+		PurpleTargets[curTarPurple-1].makeTarget(PurpleTargets[curTarPurple-1].targetNum, curTarPurple); 
 	}
 	else {
-		allRedCollected=true;
-		if(allBlueCollected) {
+		allPurpleCollected=true;
+		if(allGreenCollected) {
 			//beat level
 				youWin();
 		}
 	}
+		audioSourcePurple= collectSoundPurple.AddComponent("AudioSource");
+		audioSourcePurple.audio.clip = Resources.Load("Sounds/octave_2");
+		audioSourcePurple.audio.PlayOneShot(audioSourcePurple.audio.clip ,.9);
+	
 }
 
 //displays winning text
 function youWin() {
 	levelOver = true;
-	blueChar.spinny();
-	blueChar.winning = true;
-	redChar.spinny();
-	redChar.winning = true;
+	GreenChar.spinny();
+	GreenChar.winning = true;
+	PurpleChar.spinny();
+	PurpleChar.winning = true;
 	
 	//setting the star amounts
 	if (turns.turns <= bestStar) {
@@ -553,13 +607,13 @@ function youWin() {
 	winScript.transform.position = Vector3(4, 4, -2);
 
 //winning sound 
-	audioSource2 = gameObject.AddComponent("AudioSource");
-	audioSource2.audio.loop = true; 
-	audioSource2.audio.clip = Resources.Load("Sounds/winsound");
-	audioSource2.mute = audioSource1.mute;
-	audioSource2.audio.PlayOneShot(audioSource2.audio.clip ,.9);
+	audioSourceWin = winSound.AddComponent("AudioSource");
+//	audioSource2.audio.loop = true; 
+	audioSourceWin.audio.clip = Resources.Load("Sounds/winsound");
+	//audioSourceWin.mute = audioSource1.mute;
+	audioSourceWin.audio.PlayOneShot(audioSourceWin.audio.clip ,.9);
 	
-		yield WaitForSeconds(audioSource2.audio.clip.length-2);				//so the next level doesn't auto load [took wayyy too long to figure out]
+		yield WaitForSeconds(audioSourceWin.audio.clip.length);				//so the next level doesn't auto load [took wayyy too long to figure out]
 			curLevel++;
     		level = "Assets/Resources/Levels/level"+curLevel;
 			reset(level);
@@ -577,15 +631,15 @@ function showMoveText(inversion: int) {
 	
 	//else {
 		if(inversion==1) {
-			var blueButtons = Instantiate(Resources.Load("Prefabs/blueDirections", GameObject)) as GameObject;
-			blueButtons.transform.parent = tutorialScript.gameObject.transform;
-			blueButtons.transform.position = Vector3(blueChar.transform.position.x,blueChar.transform.position.y,-.001);//, characterFolder[1], -0.001);
+			var GreenButtons = Instantiate(Resources.Load("Prefabs/greenDirections", GameObject)) as GameObject;
+			GreenButtons.transform.parent = tutorialScript.gameObject.transform;
+			GreenButtons.transform.position = Vector3(GreenChar.transform.position.x,GreenChar.transform.position.y,-.001);//, characterFolder[1], -0.001);
 			//tutorialScript.transform.position = Vector3(-1, 4, -2);
 		}
 		else if(inversion==2) {
-			var purpleButtons = Instantiate(Resources.Load("Prefabs/purpleDirections", GameObject)) as GameObject;
-			purpleButtons.transform.parent = tutorialScript.gameObject.transform;
-			purpleButtons.transform.position = Vector3(redChar.transform.position.x,redChar.transform.position.y,-.001);
+			var PurpleButtons = Instantiate(Resources.Load("Prefabs/purpleDirections", GameObject)) as GameObject;
+			PurpleButtons.transform.parent = tutorialScript.gameObject.transform;
+			PurpleButtons.transform.position = Vector3(PurpleChar.transform.position.x,PurpleChar.transform.position.y,-.001);
 			//tutorialScript.transform.position = Vector3(7.5, 4, -2);
 
 		}
@@ -600,30 +654,30 @@ function reset(map : String) {
  		for (var i = children - 1; i >= 0; i--) {
    			Destroy(tileFolder.transform.GetChild(i).gameObject);
 		}
-		Destroy(blueChar.gameObject);
-		Destroy(redChar.gameObject);
+		Destroy(GreenChar.gameObject);
+		Destroy(PurpleChar.gameObject);
 
 
 		tiles.Clear();
 
-		reqBlueTargets=0;
-		reqRedTargets=0;
+		reqGreenTargets=0;
+		reqPurpleTargets=0;
 		buildMap(map);
 		turns.reset();
-		if(allRedCollected&&allBlueCollected) {
+		if(allPurpleCollected&&allGreenCollected) {
 			Destroy(winFolder.transform.GetChild(0).gameObject);
 		}
-		if(reqRedTargets==0) {
-			allRedCollected=true;
+		if(reqPurpleTargets==0) {
+			allPurpleCollected=true;
 		}
 		else {
-		allRedCollected=false;
+		allPurpleCollected=false;
 		}
-		if(reqBlueTargets==0) {
-			allBlueCollected=true;
+		if(reqGreenTargets==0) {
+			allGreenCollected=true;
 		}
 		else {
-			allBlueCollected=false;
+			allGreenCollected=false;
 		}
 		levelSet = curLevel/numLevelSets;
 		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
@@ -671,8 +725,8 @@ function displayLevel(makeWidth : int, makeHeight : int) {
  	for (var i = children - 1; i >= 0; i--) {
    		Destroy(tileFolder.transform.GetChild(i).gameObject);
 	}
-	Destroy(blueChar.gameObject);
-	Destroy(redChar.gameObject);
+	Destroy(GreenChar.gameObject);
+	Destroy(PurpleChar.gameObject);
 	tiles.Clear();
 	
 	tiles = new Array();
@@ -691,7 +745,7 @@ function levelDisplay() {
 	var levelDisplayScript = levelDisplayObject.AddComponent("levelDisplay");
 	
 	levelDisplayScript.transform.parent = transform;
-	levelDisplayScript.transform.position = Vector3(Screen.width/4, Screen.height*7/8, -2);
+	levelDisplayScript.transform.position = Vector3(-3, 0, -2);
 	
 	levelDisplayScript.init(this, curLevel);
 	
@@ -764,7 +818,7 @@ function OnGUI () {
 
 	    // We'll make a box so you can see where the group is on-screen.
 	    GUI.Box(new Rect(10,textHeight,textWidth,textHeight), "Characters move opposite each other");
-		GUI.Box(new Rect(10,textHeight*2,textWidth,textHeight), "You control purple");
+		GUI.Box(new Rect(10,textHeight*2,textWidth,textHeight), "You control Purple");
 		GUI.Box(new Rect(10,textHeight*3,textWidth,textHeight), "Arrow Keys or wasd");
 		GUI.Box(new Rect(10,textHeight*4,textWidth,textHeight), "Don't fall into the clouds");
 		GUI.Box(new Rect(10,textHeight*5,textWidth,textHeight), "Press space to dispaly next move");

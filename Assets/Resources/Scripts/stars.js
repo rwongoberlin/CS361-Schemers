@@ -10,6 +10,7 @@ var t0;
 var deltat;
 var tend;
 var clock : float;
+var audioSourceFall: AudioSource;	
 
 var x0;
 var y0;
@@ -42,6 +43,7 @@ function init(o : gameManager, numStar : int) {
 //animates the star falling & sets fallen to true; fallen means it's no longer up in the cloud
 //I don't think this is being called ever.  It should work, though, once it gets called somewhere.
 function Drop() {
+
 	if(falling||done) {
 		return;
 	}
@@ -50,7 +52,22 @@ function Drop() {
 	t0  = clock;
 	tend = clock + fallTime;
 	deltat = 0;
+//play drop sound
+	audioSourceFall = gameObject.AddComponent("AudioSource");
+	//audioSourceFall.audio.loop = true; 
+	audioSourceFall.audio.clip = Resources.Load("Sounds/falling_sound_1");
+	audioSourceFall.audio.PlayOneShot(audioSourceFall.audio.clip ,.4);
+
+	audioSourceFall.audio.Play();
 	//startFalling=true;
+
+	// audioSource2 = gameObject.AddComponent("AudioSource");
+	// audioSource2.audio.loop = true; 
+	// audioSource2.audio.clip = Resources.Load("Sounds/winsound");
+	// audioSource2.mute = audioSource1.mute;
+	
+
+
 }
 
 //puts star back in place & sets fallen to false
