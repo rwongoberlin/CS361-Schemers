@@ -6,6 +6,7 @@ function Start () {
 
 	// if there is not already a currentLevel object, make one (only applies when not running form build)
 	var cL = GameObject.Find("currentLevel");
+	//print(currentLevel);
 	if(cL == null) {
 		makeCurLevel();
 	}

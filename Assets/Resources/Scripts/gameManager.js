@@ -809,27 +809,7 @@ function OnGUI () {
 			    }
     		}
     	}
-    }/*else if(help) {
-        var textHeight:int =30;
-  		var textWidth:int = 300;
-    	 // Make a group on the center of the screen
-    GUI.BeginGroup (Rect (Screen.width / 2 -textWidth/2, Screen.height / 2 -textHeight/2, buttonWidth*5, buttonHeight*5));
-    // All rectangles are now adjusted to the group. (0,0) is the topleft corner of the group.
-
-	    // We'll make a box so you can see where the group is on-screen.
-	    GUI.Box(new Rect(10,textHeight,textWidth,textHeight), "Characters move opposite each other");
-		GUI.Box(new Rect(10,textHeight*2,textWidth,textHeight), "You control Purple");
-		GUI.Box(new Rect(10,textHeight*3,textWidth,textHeight), "Arrow Keys or wasd");
-		GUI.Box(new Rect(10,textHeight*4,textWidth,textHeight), "Don't fall into the clouds");
-		GUI.Box(new Rect(10,textHeight*5,textWidth,textHeight), "Press space to dispaly next move");
-		GUI.Box(new Rect(10,textHeight*6,textWidth,textHeight), "Collect targets in order, but don't be greedy");
-	    
-	    	if(GUI.Button (Rect (10+textWidth/4, textHeight*7, textWidth/2, buttonHeight),"Close")) {
-	    		help=false;
-	    	}
-    // End the group we started above. This is very important to remember!
-    GUI.EndGroup ();
-    }*/ 
+    }
 }
 
 
