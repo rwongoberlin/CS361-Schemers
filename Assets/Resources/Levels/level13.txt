@@ -1,7 +1,7 @@
 10
 9
-100
-100
+55
+65
 o o o o o o o o o o
 o _ _ o o o o x x o
 o o o _ _ _ _ B x o

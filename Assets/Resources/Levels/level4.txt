@@ -1,6 +1,6 @@
 8
 9
-24
+22
 26
 o o o o o o o o
 o x x _ _ _ 1 o

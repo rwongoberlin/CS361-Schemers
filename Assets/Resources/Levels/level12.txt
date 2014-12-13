@@ -1,7 +1,7 @@
 13
 11
-38
-100
+36
+40
 o o o o o o o o o o o o o
 o o o o o o _ o o o o o o
 o o o o o _ _ _ o o o o o

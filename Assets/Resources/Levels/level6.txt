@@ -1,7 +1,7 @@
 9
 6
 10
-100
+13
 x x x x x x x x x
 x b _ _ B _ _ _ x
 x a _ _ A _ _ _ x

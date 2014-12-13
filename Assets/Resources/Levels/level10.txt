@@ -1,7 +1,7 @@
 9
 10
 45
-100
+50
 o x x x x x x x x
 o _ _ x _ x _ _ o
 o _ x x _ C x _ o
