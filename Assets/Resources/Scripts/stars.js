@@ -4,12 +4,24 @@ var starNum : int;
 var fallen : boolean;
 var falling : boolean;
 var done: boolean;
+
 var fallTime : float = 2;	//seconds
 var fallDist : float = -Screen.height/64;
 var t0;
 var deltat;
 var tend;
+
+var numShakes : float = 2.0;
+var shakeTime : float = 0.25;
+var shakeAngle : int = 10;
+var shaket0 : float;
+var shakedeltat : float;
+var shaketend : float;
+
+var shaking : boolean = false;
+
 var clock : float;
+
 var audioSourceFall: AudioSource;	
 
 var x0;
@@ -49,6 +61,7 @@ function Drop() {
 	}
 	fallen = true;
 	falling = true;
+	shaking = false;
 	t0  = clock;
 	tend = clock + fallTime;
 	deltat = 0;
@@ -68,6 +81,12 @@ function Drop() {
 	
 
 
+}
+
+function wiggle() {
+	shaket0 = clock;
+	shaketend = clock + shakeTime;
+	shaking = true;
 }
 
 //puts star back in place & sets fallen to false
@@ -94,6 +113,12 @@ function Update() {
 			//fallen=true;
 			done=true;
 		}
+	}
+	if (shaking) {
+		shakedeltat = clock - shaket0;																						//updates times since start of animation
+		//DO NOT CHANGE THE FOLLOWING LINE
+		transform.eulerAngles = Vector3(0, 0, (shakeAngle * Mathf.Sin(2.0*Mathf.PI*shakedeltat/(shakeTime/numShakes))));	//Sets the current rotation based on the animation variables.  Change the variables up top to tweak this, don't change the function here.
+		//If it's time to stop shaking, clean everything up and set shaking status to false
 	}
 	clock = clock + Time.deltaTime;
 }
