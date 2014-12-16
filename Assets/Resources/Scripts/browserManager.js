@@ -16,7 +16,7 @@ function Start () {
 	
 	var levelPrefab = Resources.Load("Prefabs/level", GameObject);
 	
-	for(var i=0; i<51; i++) {
+	for(var i=0; i<47; i++) {
 		
 		var levelI = Instantiate(levelPrefab) as GameObject;
 		levelI.transform.parent = levelFolder.transform;

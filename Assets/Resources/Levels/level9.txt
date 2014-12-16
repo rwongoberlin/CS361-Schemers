@@ -1,7 +1,7 @@
 7
 7
 15
-100
+17
 o x o o o o o
 o _ _ _ 2 x o
 o o o o 1 x o

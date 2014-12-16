@@ -1,9 +1,14 @@
-6
-5
-100
-100
-o o o o o o
-o 2 x _ x o
-o _ A _ o o
-o _ a 1 _ o
-o o o o o o
+7
+10
+34
+40
+o o o x o o o
+o c _ _ x o o
+o _ 1 _ o o o
+o o x _ o o o
+o o b A x o o
+o o x a B o o
+o o o _ x o o
+o o o _ 2 x o
+o o o C _ _ o
+o o o o o o o

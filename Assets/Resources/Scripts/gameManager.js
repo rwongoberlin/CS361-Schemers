@@ -215,7 +215,12 @@ function  loadingTiles() {
 }
 
 function Update () {
-	if (turns.turns > bestStar && turns.turns < okayStar) { //if greater than best # but less than okay
+	if (turns.turns == bestStar - 3) {
+		print("ASDFASDFASDFAS");
+		stars[2].wiggle();
+	} else if (turns.turns == okayStar - 3) {
+		stars[0].wiggle();
+	} else if (turns.turns > bestStar && turns.turns < okayStar) { //if greater than best # but less than okay
 		if (!stars[2].falling || !stars[2].fallen) {
 			stars[2].Drop();
 		}

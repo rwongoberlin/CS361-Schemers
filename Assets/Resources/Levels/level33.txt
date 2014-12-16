@@ -1,13 +1,13 @@
+8
 9
-9
-100
-100
-o o o o o o o o o
-o 2 _ _ o _ _ _ o
-o _ x _ o _ _ _ o
-o _ _ a A _ _ 1 o
-o o o B x _ o x o
-o _ _ b C c _ _ o
-o _ _ _ o _ _ _ o
-o _ _ _ o _ _ _ o
-o o o o o o o o o
+29
+37
+o o o o o o o o
+o c _ _ _ o o o
+o _ _ _ _ o o o
+o _ o o _ o o o
+o _ x o a o o o
+o _ 2 x 1 b x o
+o x _ A _ B _ o
+o o _ _ _ o o o
+o o x x o o o o
