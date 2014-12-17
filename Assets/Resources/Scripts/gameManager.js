@@ -69,6 +69,7 @@ function Start () {
 		level = "Assets/Resources/Levels/level0";
 	} else {
 		level = "Assets/Resources/Levels/level"+cL.GetComponent("currentLevel").curLevel;
+		curLevel=cL.GetComponent("currentLevel").curLevel;
 	}
  	 //cameraObject.=GameObject.createPrimitive(Camera);
 	 //cameraObject.orthographicSize = Screen.height / 2;
