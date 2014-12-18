@@ -745,7 +745,6 @@ function OnGUI () {
 			            level = "Assets/Resources/Levels/level"+((numPerRow*county)+countx);
 			            levelSet=curLevel/numLevelSets;
 			            reset(level);
-
 			    }
     		}
     	}

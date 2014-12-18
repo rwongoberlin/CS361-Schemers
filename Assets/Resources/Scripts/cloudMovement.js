@@ -1,11 +1,6 @@
-﻿#pragma strict
-
-var speed : float;
+﻿var speed : float;
 var coef :float;
 var loop : boolean;
-function Start () {
-	
-}
 
 function init() {
 	speed = Random.Range(0.2,1);
@@ -24,7 +19,6 @@ function Update () {
 }
 
 function OnBecameInvisible() {
-//	print("!!!");
 	if(transform.position.x>coef){
 		loop=true;
 	}

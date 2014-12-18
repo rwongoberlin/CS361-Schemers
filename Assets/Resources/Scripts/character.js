@@ -47,21 +47,12 @@ var bounceyDist : float = 0.2;
 var cycleTime : float = 1;
 var cycleLimit : float = .05;
 
-//var tiles : Array;
-//var characters : Array;
-/*
-init function takes the:
-	current rotation (int)
-	underlying tile object (tile)
-	character type (int)
-*/
 function init(rotation : int, t : tile, type : int) {
 	clock = 0;
 	this.type = type;
 	if (this.type == 1) {
 		spindir = 1;
-	}
-	else {
+	} else {
 		spindir = -1;
 	}
 	this.rotation = rotation;
@@ -71,12 +62,10 @@ function init(rotation : int, t : tile, type : int) {
 	if (type == 1) {
 		renderer.material.mainTexture = Resources.Load("Textures/greenPlane", Texture2D);		
 		renderer.material.color = Color(1,1,1,0.4);										
-	} 
-	else {
+	} else {
 		renderer.material.mainTexture = Resources.Load("Textures/purplePlane2", Texture2D);		
 		renderer.material.color = Color(1,1,1);										
 	}	
-
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");	
 	idling = true;
 }
@@ -107,7 +96,6 @@ function setTile() {
 			dir = 3;
 			transform.eulerAngles = Vector3(0, 0, -90);
 		}
-		
 	} else {
 		if (Input.GetKeyDown("left")||Input.GetKeyDown("a")) {
 			currentTile = currentTile.neighborsList[0];
@@ -129,33 +117,26 @@ function setTile() {
 			dir = 3;
 			transform.eulerAngles = Vector3(0, 0, 90);
 		}
-		
 	}
 	return dir;
 }
 
 //allows the character to move to a new tile after performing checks
 function move(dir : int) {
-	//TODO move check into gameManager
 	if (currentTile.charOn == false && currentTile.isWall() == false) {
 		prevTile.remChar();
 		currentTile.addChar();
 		smoothMove(dir);
-		//transform.position.x = currentTile.x;
-		//transform.position.y = currentTile.y;
 		moved = true;
 		return true;
-	}
-	else if (currentTile.isWall() == true) {
+	} else if (currentTile.isWall() == true) {
 		currentTile = prevTile;
 		wallBounce(dir);
 		return false;
-	}
-	else {
+	} else {
 		currentTile = prevTile;
 		return false;
 	}
-
 }
 
 function spinny() {

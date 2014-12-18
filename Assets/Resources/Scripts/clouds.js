@@ -7,9 +7,6 @@ var numClouds = 12;
 var cloud1 : GameObject;
 var cloudPrefabs : Array;
 
-function Start() {
-}
-
 function init() {
 	cloudFolder = new GameObject();
 	cloudFolder.name = "cloudFolder";
@@ -47,7 +44,4 @@ function init() {
 		var movement = cloudObject.GetComponent(cloudMovement);
 		movement.init();
 	}
-}
-
-function Update() {
 }
