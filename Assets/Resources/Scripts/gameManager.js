@@ -217,7 +217,7 @@ function  loadingTiles() {
 
 function Update () {
 	if (turns.turns == bestStar - 3) {
-		print("ASDFASDFASDFAS");
+		//print("ASDFASDFASDFAS");
 		stars[2].wiggle();
 	} else if (turns.turns == okayStar - 3) {
 		stars[0].wiggle();
@@ -670,14 +670,11 @@ function reset(map : String) {
 		reqPurpleTargets=0;
 		buildMap(map);
 		turns.reset();
-		if(allPurpleCollected&&allGreenCollected) {
-			Destroy(winFolder.transform.GetChild(0).gameObject);
-		}
 		if(reqPurpleTargets==0) {
 			allPurpleCollected=true;
 		}
 		else {
-		allPurpleCollected=false;
+			allPurpleCollected=false;
 		}
 		if(reqGreenTargets==0) {
 			allGreenCollected=true;
@@ -688,8 +685,15 @@ function reset(map : String) {
 		levelSet = curLevel/numLevelSets;
 		audioSource1.audio.clip = Resources.Load("Sounds/loop_"+levelSet*10);
 		audioSource1.audio.Play();
-		//clear out old stars
-				
+
+		//clears out winning display
+		var winObjectsToDestroy : int = winFolder.transform.childCount;
+		for (i = winObjectsToDestroy - 1; i >= 0; i--) {
+			Destroy(winFolder.transform.GetChild(i).gameObject);
+		}
+
+
+		//clear out old stars	
 		var starsToDestroy : int = starFolder.transform.childCount;
 		for (i = starsToDestroy - 1; i >= 0; i--) {
 			Destroy(starFolder.transform.GetChild(i).gameObject);

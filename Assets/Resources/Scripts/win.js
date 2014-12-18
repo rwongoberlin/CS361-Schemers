@@ -24,17 +24,17 @@ function init(o : gameManager) {
 	
 	gameObject.renderer.material = courier.material;
 
-		for(var i=1;i<4;i++) {
+	for(var i=1;i<4;i++) {
 		if(o.starCounts[o.curLevel]>=i) {
 			var starObject = new GameObject.CreatePrimitive(PrimitiveType.Quad);
 			var starScript = starObject.AddComponent("stars");
-		//	starScript.transform.parent = starFolder.transform;
+			starScript.transform.parent = owner.winFolder.transform;
 			
 			starScript.init(o, i);
 
 
 			starScript.name = "Star " + i;
-			starObject.transform.localPosition=Vector3(i,0,-1);
+			starObject.transform.localPosition=Vector3(winText.transform.position.x+2+i,winText.transform.position.y+3,-1);
 
 			//stars[i - 1] = starScript;
 		}
