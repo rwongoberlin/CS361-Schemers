@@ -12,7 +12,6 @@ function init (o : gameManager, levelNum : int) {
 	levelText.anchor = TextAnchor.MiddleCenter;
 	levelText.text = "Level " + level.ToString();
 	levelText.color = Color(0,0,0,1);
-	//levelText.offsetZ = -1;
 	levelText.fontSize = 256; 
 	levelText.characterSize = 0.05;
 	var courier : Font =  Resources.Load("Fonts/TrashHand") as Font;

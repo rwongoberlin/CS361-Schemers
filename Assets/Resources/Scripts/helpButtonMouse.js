@@ -1,9 +1,4 @@
-﻿#pragma strict
-
-var gM : gameManager;
-function Start () {
-
-}
+﻿var gM : gameManager;
 
 function init(gM : gameManager) {
 	this.gM = gM;
@@ -23,7 +18,6 @@ function Update () {
 	} else if (Input.GetKeyDown(KeyCode.H)&&gM.help==true) {
 		helpOff();
 	}
-
 }
 
 function OnMouseDown() {

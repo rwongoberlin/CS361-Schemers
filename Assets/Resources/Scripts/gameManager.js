@@ -1,10 +1,4 @@
-﻿/*
-FALL BREAK GAME MANAGER
-*/
-
-//TODO display current level number
-
-import System.IO;
+﻿import System.IO;
 
 var tileFolder : GameObject;				//holds tiles for hierarchy pane
 var tiles : Array;							//2D array of tiles
@@ -71,9 +65,6 @@ function Start () {
 		level = "Assets/Resources/Levels/level"+cL.GetComponent("currentLevel").curLevel;
 		curLevel=cL.GetComponent("currentLevel").curLevel;
 	}
- 	 //cameraObject.=GameObject.createPrimitive(Camera);
-	 //cameraObject.orthographicSize = Screen.height / 2;
- //reinitialize both tile and character folders, arrays for tracking targets, set current targets to be 1	
  
 	stars = new Array(3);
 	
@@ -84,8 +75,6 @@ function Start () {
 	initializeSoundEffects();
 
 	levelOver = false;
-
-	//print(level);
 	buildMap(level);
 	addStar(1);
 	addStar(2);
@@ -124,14 +113,10 @@ function initializeFolders() {
 	
 	starFolder = new GameObject();
 	starFolder.name = "starFolder";
-
-//	SoundFolder = new GameObject();
-//	SoundFolder.name = "SoundEffectsFolder";
 }
 
 
 function initializeSoundEffects() {
-
 	invalidSound = new GameObject();
 	invalidSound.name = "invalidSound";
 	collectSoundPurple = new GameObject();
@@ -140,7 +125,6 @@ function initializeSoundEffects() {
 	collectSoundGreen.name = "collectGreenSound";
 	winSound = new GameObject();
 	winSound.name = "winsound";
-
 }
 
 private function makeCurLevel() {
@@ -157,8 +141,6 @@ private function makeCurLevel() {
 	curTarGreen = 1;
 	curTarPurple = 1;
 	levelSet = curLevel/numLevelSets;
-	//print(levelSet);
-
 	try {
         // Create an instance of StreamReader to read from a file.
         sr = new StreamReader(mapName+".txt");
@@ -174,7 +156,6 @@ private function makeCurLevel() {
         okayStar = parseInt(line);
         var map = new Array(height);
         
-
         tiles = new Array(height);
         for(i=0; i<height; i++) {
         	tiles[i] = new Array(width);
@@ -203,21 +184,18 @@ private function makeCurLevel() {
         print("The level text file could not be read:");
         print(e.Message);
     }
-
 }
 
 function  loadingTiles() {
 	if (tiles[0][0]) {
 		return tiles[0][0].moving();
-	}
-	else {
+	} else {
 		return true;
 	}
 }
 
 function Update () {
 	if (turns.turns == bestStar - 3) {
-		//print("ASDFASDFASDFAS");
 		stars[2].wiggle();
 	} else if (turns.turns == okayStar - 3) {
 		stars[0].wiggle();
@@ -283,22 +261,11 @@ function Update () {
 		Destroy(tutorialFolder.transform.GetChild(0).gameObject);
 		Destroy(tutorialFolder.transform.GetChild(1).gameObject);
 	}
-//deigned to only happen once each. 0 is the left star 2 is the rightmost
-//	if (turns.turns > bestStar) {
-////		if(!stars[2].startFalling) {
-//			stars[2].Drop();
-////		}
-//	} 
-//	if (turns.turns > okayStar) {
-////		if(!stars[0].startFalling) {
-//			stars[0].Drop();
-////		}
-//	}
 } 
 
 //an attempt to get buttons to show up upon loading
 function makeButtons() {
-		// attach script to reset button
+	// attach script to reset button
 	var resetObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 	var resetScript = resetObject.AddComponent(resetButtonMouse);
 	resetScript.init(this);
@@ -323,9 +290,6 @@ function makeButtons() {
 		resetObject.transform.position = Vector3(-2, 6, 0);
 		muteObject.transform.position = Vector3(-2, 5, 0);
 		helpObject.transform.position = Vector3(-2, 4, 0);
-
-	
-
 }
 
 //returns true if both characters are not moving into pits
@@ -397,15 +361,12 @@ function targetBlockedCheck() {
 		audioSourceInvalid.audio.clip = Resources.Load("Sounds/invalid_move_2");
 		audioSourceInvalid.audio.PlayOneShot(audioSourceInvalid.audio.clip ,.9);
 	}
-
-		return wrongTarget;
-	
+	return wrongTarget;	
 }
 
 //synchs up the loop so that the current one stops and the next one plays
 function playNextLoop() {
 	audioSource1.clip = Resources.Load("Sounds/loop_"+(levelSet*10+(curTarPurple-1)));
-	//print("loading audio:"+(levelSet*10+(curTarPurple-1)));
 	audioSource1.audio.Stop();
 	audioSource1.audio.Play(); 
 }
@@ -518,7 +479,6 @@ function addTile (x : int, y : int, tileType : String) {
 			reqPurpleTargets=3;
 		}
 	}
-	
 	return tileScript;
 }
 
@@ -548,13 +508,13 @@ function collectGreen() {
 	else {
 		//completed Green targets
 		allGreenCollected=true;
-			if(allPurpleCollected) {
-				youWin();
+		if(allPurpleCollected) {
+			youWin();
 		}
 	}
-		audioSourceGreen= collectSoundGreen.AddComponent("AudioSource");
-		audioSourceGreen.audio.clip = Resources.Load("Sounds/octave_2");
-		audioSourceGreen.audio.PlayOneShot(audioSourceGreen.audio.clip ,.9);
+	audioSourceGreen= collectSoundGreen.AddComponent("AudioSource");
+	audioSourceGreen.audio.clip = Resources.Load("Sounds/octave_2");
+	audioSourceGreen.audio.PlayOneShot(audioSourceGreen.audio.clip ,.9);
 }
 
 
@@ -566,21 +526,18 @@ function collectPurple() {
 	curTarPurple++;
 	//check to see if there are still targets left
 	if(curTarPurple <= reqPurpleTargets) { 
-	//PurpleTargets.length+1) {
 		//make it into a collectable model
 		PurpleTargets[curTarPurple-1].makeTarget(PurpleTargets[curTarPurple-1].targetNum, curTarPurple); 
-	}
-	else {
+	} else {
 		allPurpleCollected=true;
 		if(allGreenCollected) {
 			//beat level
-				youWin();
+			youWin();
 		}
 	}
-		audioSourcePurple= collectSoundPurple.AddComponent("AudioSource");
-		audioSourcePurple.audio.clip = Resources.Load("Sounds/octave_2");
-		audioSourcePurple.audio.PlayOneShot(audioSourcePurple.audio.clip ,.9);
-	
+	audioSourcePurple= collectSoundPurple.AddComponent("AudioSource");
+	audioSourcePurple.audio.clip = Resources.Load("Sounds/octave_2");
+	audioSourcePurple.audio.PlayOneShot(audioSourcePurple.audio.clip ,.9);
 }
 
 //displays winning text
@@ -593,16 +550,11 @@ function youWin() {
 	
 	//setting the star amounts
 	if (turns.turns <= bestStar) {
-		//right now will reset to lower num stars if score lower later
-	//	print("three stars!!!");
 		starCounts[curLevel] = 3;
-	//	print(starCounts[curLevel]);
 	} else if (turns.turns <= okayStar) {
 		starCounts[curLevel] = 2;
-	//	print("two stars!!");
 	} else {
 		starCounts[curLevel] = 1;
-//		print("eh");
 	}
 
 	var winObject = new GameObject();
@@ -612,44 +564,35 @@ function youWin() {
 	winScript.name = "win";
 	winScript.transform.position = Vector3(4, 4, -2);
 
-//winning sound 
+	//winning sound 
 	audioSourceWin = winSound.AddComponent("AudioSource");
-//	audioSource2.audio.loop = true; 
+	//audioSource2.audio.loop = true; 
 	audioSourceWin.audio.clip = Resources.Load("Sounds/winsound");
 	//audioSourceWin.mute = audioSource1.mute;
 	audioSourceWin.audio.PlayOneShot(audioSourceWin.audio.clip ,.9);
 	
-		yield WaitForSeconds(audioSourceWin.audio.clip.length);				//so the next level doesn't auto load [took wayyy too long to figure out]
-			curLevel++;
-    		level = "Assets/Resources/Levels/level"+curLevel;
-			reset(level);
-
+	yield WaitForSeconds(audioSourceWin.audio.clip.length);				//so the next level doesn't auto load [took wayyy too long to figure out]
+	curLevel++;
+   	level = "Assets/Resources/Levels/level"+curLevel;
+	reset(level);
 }
 
 //diaplys tutorial info in the bottom corner 1 is non-inverted 2 is inverted
-//TODO: switch out map for a boolean that tells us whether or not we're on the main menu screen
 function showMoveText(inversion: int) {
 	var tutorialObject = new GameObject();
 	var tutorialScript = tutorialObject.AddComponent("tutorial");
 	tutorialScript.transform.parent = tutorialFolder.transform;
-	//tutorialScript.init(this,inversion);
 	tutorialScript.name = "tutorial";
 	
-	//else {
-		if(inversion==1) {
-			var GreenButtons = Instantiate(Resources.Load("Prefabs/greenDirections", GameObject)) as GameObject;
-			GreenButtons.transform.parent = tutorialScript.gameObject.transform;
-			GreenButtons.transform.position = Vector3(GreenChar.transform.position.x,GreenChar.transform.position.y,-.001);//, characterFolder[1], -0.001);
-			//tutorialScript.transform.position = Vector3(-1, 4, -2);
-		}
-		else if(inversion==2) {
-			var PurpleButtons = Instantiate(Resources.Load("Prefabs/purpleDirections", GameObject)) as GameObject;
-			PurpleButtons.transform.parent = tutorialScript.gameObject.transform;
-			PurpleButtons.transform.position = Vector3(PurpleChar.transform.position.x,PurpleChar.transform.position.y,-.001);
-			//tutorialScript.transform.position = Vector3(7.5, 4, -2);
-
-		}
-	//}
+	if(inversion==1) {
+		var GreenButtons = Instantiate(Resources.Load("Prefabs/greenDirections", GameObject)) as GameObject;
+		GreenButtons.transform.parent = tutorialScript.gameObject.transform;
+		GreenButtons.transform.position = Vector3(GreenChar.transform.position.x,GreenChar.transform.position.y,-.001);
+	} else if(inversion==2) {
+		var PurpleButtons = Instantiate(Resources.Load("Prefabs/purpleDirections", GameObject)) as GameObject;
+		PurpleButtons.transform.parent = tutorialScript.gameObject.transform;
+		PurpleButtons.transform.position = Vector3(PurpleChar.transform.position.x,PurpleChar.transform.position.y,-.001);
+	}
 }
 
 
@@ -663,7 +606,6 @@ function reset(map : String) {
 		Destroy(GreenChar.gameObject);
 		Destroy(PurpleChar.gameObject);
 
-
 		tiles.Clear();
 
 		reqGreenTargets=0;
@@ -672,14 +614,12 @@ function reset(map : String) {
 		turns.reset();
 		if(reqPurpleTargets==0) {
 			allPurpleCollected=true;
-		}
-		else {
+		} else {
 			allPurpleCollected=false;
 		}
 		if(reqGreenTargets==0) {
 			allGreenCollected=true;
-		}
-		else {
+		} else {
 			allGreenCollected=false;
 		}
 		levelSet = curLevel/numLevelSets;
@@ -691,7 +631,6 @@ function reset(map : String) {
 		for (i = winObjectsToDestroy - 1; i >= 0; i--) {
 			Destroy(winFolder.transform.GetChild(i).gameObject);
 		}
-
 
 		//clear out old stars	
 		var starsToDestroy : int = starFolder.transform.childCount;
@@ -786,21 +725,12 @@ function addClouds() {
 }
 
 //Level select
-//TODO: set up main menu SCREEN
-//TODO streamline level loading based on name
 function OnGUI () {
     var buttonHeight: int= Screen.width/20;
     var buttonWidth: int =Screen.width/14;
     numLevels = 52; 	//number of levels we currently have (0 indexed)
     var numPerRow: int = 5;
-  	//var numButtons: int=5;
 
-    //x, y, width, height
- /*
-(0,0) (0,1) (0,2) (0,3)
-(1,0) (1,1) (1,2) (1,3)
-(2,0) (2,1) (2,2) (2,3)
- */
     if(mainMenu) {
     	if (mainMenuCount == 0) {
     		theStart = false;
@@ -821,7 +751,3 @@ function OnGUI () {
     	}
     }
 }
-
-
-
-

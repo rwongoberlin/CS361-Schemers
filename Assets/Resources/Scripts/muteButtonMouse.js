@@ -1,10 +1,5 @@
-﻿#pragma strict
-
-var gM : gameManager;
+﻿var gM : gameManager;
 var muteOn : boolean;
-function Start () {
-
-}
 
 function init(gM : gameManager) {
 	this.gM = gM;
@@ -15,7 +10,6 @@ function init(gM : gameManager) {
 	renderer.material.mainTexture = Resources.Load("Textures/mute", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
-	//renderer.material = Resources.Load("Materials/mute") as Material;
 }
 
 function Update () {

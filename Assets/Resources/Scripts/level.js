@@ -1,19 +1,8 @@
-﻿#pragma strict
-
-var levelNum : int;
-
-function Start () {
-
-}
+﻿var levelNum : int;
 
 function init(num : int) {
 	levelNum = num;
-	(transform.GetComponentInChildren(TextMesh) as TextMesh).text = ""+num;
-	
-}
-
-function Update () {
-
+	(transform.GetComponentInChildren(TextMesh) as TextMesh).text = "" + num;
 }
 
 function OnMouseDown() {

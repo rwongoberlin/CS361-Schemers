@@ -13,7 +13,6 @@ var moveTime : float = 1;
 var t0 : float = 0;
 var tend : float = 0;
 var deltat : float = 0;
-//var scaling : float = 0;
 
 function Update() {
 	if (moving) {
@@ -30,7 +29,6 @@ function Update() {
 	clock = clock + Time.deltaTime;
 }
 
-//
 function init(t : tile, ty : String) {
 	clock = 0;									
 	transform.parent = t.transform;
@@ -51,7 +49,6 @@ function init(t : tile, ty : String) {
 	renderer.material.mainTexture = Resources.Load("Textures/tile2", Texture2D);	
 	renderer.material.color = Color(1,1,1);										
 	renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");
-	//renderer.material = Resources.Load("Materials/tile") as Material;
 	
 	if( type == "_" ) {
 		makeEmpty();
@@ -80,8 +77,6 @@ function init(t : tile, ty : String) {
 	}
 	return tile.targetNum;
 } 	
-
-//TO DO: should we remove tileType?
 
 function OnMouseDown() {
 	this.type = tempType;
@@ -154,10 +149,8 @@ function makeTarget(localTargetNum: int, curTar: int) {
 		if (localTargetNum%10==curTar) {
 			renderer.material.mainTexture = Resources.Load("Textures/green" + localTargetNum%10, Texture2D);
 			makeCollectable();
-		}
-		else {
+		} else {
 			renderer.material.mainTexture = Resources.Load("Textures/greenPit" + localTargetNum%10, Texture2D);
-		
 		}
 		renderer.material.color = Color(1,1,1);										
 		renderer.material.shader = Shader.Find ("Transparent/Cutout/Soft Edge Unlit");	
@@ -167,8 +160,7 @@ function makeTarget(localTargetNum: int, curTar: int) {
 		if (localTargetNum%10==curTar) {
 			renderer.material.mainTexture = Resources.Load("Textures/purple" + localTargetNum%10, Texture2D);
 			makeCollectable();
-		}
-		else {
+		} else {
 			renderer.material.mainTexture = Resources.Load("Textures/purplePit" + localTargetNum%10, Texture2D);
 		}
 		renderer.material.color = Color(1,1,1);										
@@ -197,5 +189,3 @@ function changeColor() {
 	// Set red specular highlights
 	renderer.material.SetColor ("_SpecColor", Color.red);
 }
-
-

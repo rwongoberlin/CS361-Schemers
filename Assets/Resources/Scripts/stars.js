@@ -52,35 +52,22 @@ function init(o : gameManager, numStar : int) {
 	renderer.material = Resources.Load("Materials/star" + starNum) as Material;
 }
 
-//animates the star falling & sets fallen to true; fallen means it's no longer up in the cloud
-//I don't think this is being called ever.  It should work, though, once it gets called somewhere.
 function Drop() {
-
 	if(falling||done) {
 		return;
 	}
+	
 	fallen = true;
 	falling = true;
 	shaking = false;
 	t0  = clock;
 	tend = clock + fallTime;
 	deltat = 0;
-//play drop sound
+	//play drop sound
 	audioSourceFall = gameObject.AddComponent("AudioSource");
-	//audioSourceFall.audio.loop = true; 
 	audioSourceFall.audio.clip = Resources.Load("Sounds/falling_sound_1");
 	audioSourceFall.audio.PlayOneShot(audioSourceFall.audio.clip ,.4);
-
 	audioSourceFall.audio.Play();
-	//startFalling=true;
-
-	// audioSource2 = gameObject.AddComponent("AudioSource");
-	// audioSource2.audio.loop = true; 
-	// audioSource2.audio.clip = Resources.Load("Sounds/winsound");
-	// audioSource2.mute = audioSource1.mute;
-	
-
-
 }
 
 function wiggle() {
@@ -97,10 +84,6 @@ function Reset() {
 }
 
 function Update() {
-
-/*	if(startFalling) {
-		
-	}*/
 	if (falling)  {
 		transform.position =  Vector3(x0, y0 + fallDist*deltat/fallTime, z0);
 		deltat = clock - t0;
@@ -108,9 +91,8 @@ function Update() {
 			deltat = 0;
 			tend = 0;
 			t0 = 0;
-			transform.position = Vector3(x0, 100, 100); //TODO should deactive the thing 
+			transform.position = Vector3(x0, 100, 100); 
 			falling = false;
-			//fallen=true;
 			done=true;
 		}
 	}

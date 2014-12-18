@@ -3,7 +3,6 @@ class created by Robin (based off of turn counter)
 For now just displays text
 */
 
-//TODO: clear upon loading a new level
 var owner : gameManager;
 var winText : TextMesh;
 
@@ -32,11 +31,8 @@ function init(o : gameManager) {
 			
 			starScript.init(o, i);
 
-
 			starScript.name = "Star " + i;
 			starObject.transform.localPosition=Vector3(winText.transform.position.x+2+i,winText.transform.position.y+3,-1);
-
-			//stars[i - 1] = starScript;
 		}
 	}
 }

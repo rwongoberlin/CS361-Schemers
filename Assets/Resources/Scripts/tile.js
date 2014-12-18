@@ -70,7 +70,6 @@ function remChar() {
 	charOn = false;
 }
 
-
 function getX() {
 	return x;
 }
@@ -94,5 +93,3 @@ function collect() {
 	targetNum=0;
 	model.collect();
 }
-
-
