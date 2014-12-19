@@ -13,7 +13,7 @@ function init(gM : gameManager) {
 }
 
 function Update () {
-	if(Input.GetKeyDown("m")) {
+	if(Input.GetKeyDown("e")) {
 		if(muteOn) {
 			unmute();
 		} else {

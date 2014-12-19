@@ -12,3 +12,9 @@ function init(gM : gameManager) {
 function OnMouseDown() {
 	Application.LoadLevel("levelBrowser");
 }
+
+function Update () {
+	if(Input.GetKeyDown("m")) {
+		Application.LoadLevel("levelBrowser");
+	}
+}
